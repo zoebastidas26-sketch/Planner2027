@@ -157,9 +157,9 @@
   }
 
   .page-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1.8rem;
     position: relative;
-    padding-bottom: 1.1rem;
+    padding-bottom: 0.9rem;
   }
   .page-header::after {
     content: "";
@@ -178,12 +178,6 @@
     align-items: center;
     gap: 0.65rem;
     text-shadow: 0 0 18px rgba(201,160,232,0.25);
-  }
-  .page-header p {
-    color: var(--text-muted);
-    margin-top: 0.35rem;
-    font-family: var(--font-elegant);
-    font-size: 1.1rem;
   }
 
   /* Enhanced gothic cards */
@@ -252,7 +246,7 @@
   }
   [contenteditable="true"]:empty::before {
     content: attr(data-placeholder);
-    color: rgba(168, 152, 184, 0.4);
+    color: rgba(168, 152, 184, 0.35);
     font-style: italic;
   }
   .note-area {
@@ -512,14 +506,6 @@
     display: inline-block;
     margin-bottom: 1.3rem;
   }
-  .cover-tagline {
-    font-size: 0.98rem;
-    color: var(--text-muted);
-    font-style: italic;
-    font-family: var(--font-elegant);
-    max-width: 440px;
-    margin: 0 auto 1.6rem;
-  }
   .cover-deco {
     display: flex;
     justify-content: center;
@@ -548,10 +534,6 @@
     font-size: 1.45rem;
     color: var(--lilac);
     text-transform: capitalize;
-  }
-  .dash-greeting {
-    font-size: 0.98rem;
-    color: var(--text-muted);
   }
   .quick-nav {
     display: flex;
@@ -640,7 +622,8 @@
   }
   .subject-hero .meta {
     font-size: 0.88rem;
-    color: var(--text-muted);
+    color: var(--pink-soft);
+    margin-top: 0.25rem;
   }
   .sub-section { margin-bottom: 1.3rem; }
   .sub-section h4 {
@@ -749,7 +732,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.65rem;
-    margin-bottom: 1.3rem;
   }
   .mood-btn {
     padding: 0.48rem 0.9rem;
@@ -785,7 +767,7 @@
   .mood-day .num { color: var(--text-muted); margin-bottom: 2px; }
   .mood-day .emoji { font-size: 1.15rem; }
 
-  /* ===== WISHLIST / LISTS ===== */
+  /* ===== DESEOS / LISTS ===== */
   .list-item {
     display: flex;
     align-items: center;
@@ -802,7 +784,7 @@
   /* ===== WIDGETS & KUROMI IA BOT ===== */
   .clock-widget {
     text-align: center;
-    padding: 1.8rem 1rem;
+    padding: 2.1rem 1rem;
     background: radial-gradient(circle at center, rgba(80,35,120,0.4), rgba(12,9,18,0.95));
     border-radius: 16px;
     border: 1px solid rgba(201,160,232,0.32);
@@ -826,7 +808,7 @@
     font-size: 2.4rem;
     color: var(--pink-soft);
     text-align: center;
-    margin: 0.9rem 0;
+    margin: 1.1rem 0;
     text-shadow: 0 0 16px rgba(240,184,208,0.35);
   }
   .pomo-controls {
@@ -863,10 +845,6 @@
     font-size: 0.95rem;
     color: var(--lilac);
     letter-spacing: 0.04em;
-  }
-  .bot-header-text span {
-    font-size: 0.72rem;
-    color: var(--text-muted);
   }
   .bot-messages {
     flex: 1;
@@ -927,15 +905,6 @@
     transition: background 0.2s;
   }
   .bot-chip:hover { background: rgba(201,160,232,0.25); }
-
-  /* ===== FOOTER TINY ===== */
-  .app-footer {
-    text-align: center;
-    padding: 1.6rem;
-    font-size: 0.76rem;
-    color: var(--text-muted);
-    opacity: 0.6;
-  }
 
   /* Utility */
   .spacer { height: 1rem; }
@@ -1105,7 +1074,6 @@
 </style>
 </head>
 <body>
-<!-- Stickers decorativos de Kuromi (libreta aesthetic) -->
 <img src="https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png" alt="" class="kuromi-sticker s1" onerror="this.style.display='none'">
 <img src="https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png" alt="" class="kuromi-sticker s2" onerror="this.style.display='none'">
 <img src="https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png" alt="" class="kuromi-sticker s3" onerror="this.style.display='none'">
@@ -1117,9 +1085,9 @@
       <img src="https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png" alt="Kuromi" class="kuromi-img" onerror="this.style.display='none'">
       <h1>KUROMI DARK</h1>
       <div class="name">Zoe V. Bastidas E.</div>
-      <div class="sync-badge" id="syncStatus">☁️ Conectando nube...</div>
-      <button class="btn btn-ghost btn-sm" id="enablePushBtn" style="margin-top:0.55rem;width:100%;">🔔 Activar alertas</button>
-      <div id="pushTokenStatus" style="font-size:0.66rem;color:var(--text-muted);margin-top:0.35rem;word-break:break-all;">Alertas: sin activar</div>
+      <div class="sync-badge" id="syncStatus">☁️ Conectando...</div>
+      <button class="btn btn-ghost btn-sm" id="enablePushBtn" style="margin-top:0.55rem;width:100%;">🔔 Alertas</button>
+      <div id="pushTokenStatus" style="font-size:0.66rem;color:var(--text-muted);margin-top:0.35rem;word-break:break-all;">Sin activar</div>
     </div>
 
     <div class="nav-group">
@@ -1149,7 +1117,7 @@
       <a href="#habitos" class="nav-link" data-section="habitos"><span class="icon">💜</span> Hábitos</a>
       <a href="#mood" class="nav-link" data-section="mood"><span class="icon">🌙</span> Mood Tracker</a>
       <a href="#ahorro" class="nav-link" data-section="ahorro"><span class="icon">💰</span> Ahorro</a>
-      <a href="#wishlist" class="nav-link" data-section="wishlist"><span class="icon">🛍️</span> Wishlist</a>
+      <a href="#wishlist" class="nav-link" data-section="wishlist"><span class="icon">🛍️</span> Deseos</a>
     </div>
   </aside>
 
@@ -1163,31 +1131,24 @@
         <div class="cover-title">KUROMI DARK PLANNER</div>
         <div class="cover-year">2 0 2 7</div>
         <div class="cover-name">ZOE VALENTINA BASTIDAS ENRÍQUEZ</div>
-        <p class="cover-tagline">
-          Agenda académica · Bullet journal · Organizador de vida<br>
-          Dark · Kawaii · Gótico · Elegante
-        </p>
         <div class="cover-deco">
           <span>🌙</span><span>✨</span><span>🖤</span><span>✨</span><span>💜</span><span>✨</span><span>⭐</span>
         </div>
         <div style="margin-top:1.9rem;">
-          <button class="btn" onclick="showSection('dashboard')">Entrar al Dashboard →</button>
+          <button class="btn" onclick="showSection('dashboard')">Entrar →</button>
         </div>
       </div>
-      <p class="app-footer" style="margin-top:2.6rem;">Hecho con 🖤 para Zoe · Sincronizado en la nube entre PC y Celular</p>
     </section>
 
     <!-- ========== DASHBOARD ========== -->
     <section id="dashboard" class="section">
       <div class="page-header">
         <h2>✨ Dashboard</h2>
-        <p>Resumen del día y accesos rápidos</p>
       </div>
 
       <div class="dash-banner">
         <div>
           <div class="dash-date" id="currentDate">—</div>
-          <div class="dash-greeting">Hola Zoe, ¿lista para conquistar el día? 💜</div>
         </div>
         <div class="quick-nav">
           <a href="#" onclick="showSection('materias');return false;">Materias</a>
@@ -1202,27 +1163,27 @@
         <div class="card">
           <div class="card-title">⚡ Prioridades del día</div>
           <ul class="priority-list" id="dashPriorities">
-            <li><div class="check-circle" data-check="prio-1"></div><span contenteditable="true" data-key="prio-text-1" data-placeholder="Escribe una prioridad..."></span></li>
-            <li><div class="check-circle" data-check="prio-2"></div><span contenteditable="true" data-key="prio-text-2" data-placeholder="Escribe una prioridad..."></span></li>
-            <li><div class="check-circle" data-check="prio-3"></div><span contenteditable="true" data-key="prio-text-3" data-placeholder="Escribe una prioridad..."></span></li>
-            <li><div class="check-circle" data-check="prio-4"></div><span contenteditable="true" data-key="prio-text-4" data-placeholder="Escribe una prioridad..."></span></li>
+            <li><div class="check-circle" data-check="prio-1"></div><span contenteditable="true" data-key="prio-text-1"></span></li>
+            <li><div class="check-circle" data-check="prio-2"></div><span contenteditable="true" data-key="prio-text-2"></span></li>
+            <li><div class="check-circle" data-check="prio-3"></div><span contenteditable="true" data-key="prio-text-3"></span></li>
+            <li><div class="check-circle" data-check="prio-4"></div><span contenteditable="true" data-key="prio-text-4"></span></li>
           </ul>
         </div>
         <div class="card">
           <div class="card-title">🎯 Objetivos semanales</div>
           <ul class="priority-list">
-            <li><div class="check-circle" data-check="obj-1"></div><span contenteditable="true" data-key="obj-text-1" data-placeholder="Escribe un objetivo semanal..."></span></li>
-            <li><div class="check-circle" data-check="obj-2"></div><span contenteditable="true" data-key="obj-text-2" data-placeholder="Escribe un objetivo semanal..."></span></li>
-            <li><div class="check-circle" data-check="obj-3"></div><span contenteditable="true" data-key="obj-text-3" data-placeholder="Escribe un objetivo semanal..."></span></li>
-            <li><div class="check-circle" data-check="obj-4"></div><span contenteditable="true" data-key="obj-text-4" data-placeholder="Escribe un objetivo semanal..."></span></li>
+            <li><div class="check-circle" data-check="obj-1"></div><span contenteditable="true" data-key="obj-text-1"></span></li>
+            <li><div class="check-circle" data-check="obj-2"></div><span contenteditable="true" data-key="obj-text-2"></span></li>
+            <li><div class="check-circle" data-check="obj-3"></div><span contenteditable="true" data-key="obj-text-3"></span></li>
+            <li><div class="check-circle" data-check="obj-4"></div><span contenteditable="true" data-key="obj-text-4"></span></li>
           </ul>
         </div>
       </div>
 
       <div class="card mb-2">
         <div class="flex-between mb-1">
-          <div class="card-title" style="margin:0;">✅ Tareas por Fecha</div>
-          <button class="btn btn-ghost" style="padding:0.3rem 0.7rem;font-size:0.78rem;" onclick="showSection('tareas')">+ Gestionar todas</button>
+          <div class="card-title" style="margin:0;">✅ Tareas</div>
+          <button class="btn btn-ghost" style="padding:0.3rem 0.7rem;font-size:0.78rem;" onclick="showSection('tareas')">+ Ver todas</button>
         </div>
         <div class="filter-tabs" id="dashTaskTabs">
           <button class="filter-tab active" data-filter="all">Todas</button>
@@ -1235,18 +1196,18 @@
 
       <div class="grid-2 mb-2">
         <div class="card">
-          <div class="card-title">📝 Próximos exámenes</div>
+          <div class="card-title">📝 Exámenes</div>
           <div id="dashExamsPreview" class="text-sm"></div>
         </div>
         <div class="card">
           <div class="card-title">🌟 Objetivos del semestre</div>
-          <div contenteditable="true" data-key="dash-semester" data-placeholder="Escribe tus metas del semestre aquí..." style="min-height:70px;"></div>
+          <div contenteditable="true" data-key="dash-semester" style="min-height:70px;"></div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">📌 Notas rápidas del día</div>
-        <div class="note-area" contenteditable="true" data-key="dash-notes" data-placeholder="Escribe aquí recordatorios, ideas o pendientes sueltos…"></div>
+        <div class="card-title">📌 Notas rápidas</div>
+        <div class="note-area" contenteditable="true" data-key="dash-notes"></div>
       </div>
     </section>
 
@@ -1254,22 +1215,19 @@
     <section id="widgets" class="section">
       <div class="page-header">
         <h2>🔮 Widgets & Kuromi IA</h2>
-        <p>Reloj en vivo · Temporizador de enfoque · Asistente IA con acceso a tu agenda</p>
       </div>
 
       <div class="grid-2 mb-2">
         <div class="card">
-          <div class="card-title">🕰️ Reloj Dark Aesthetic</div>
+          <div class="card-title">🕰️ Reloj</div>
           <div class="clock-widget">
             <div class="clock-time" id="liveClock">00:00:00</div>
             <div class="clock-sub" id="liveClockDate">—</div>
-            <div style="margin-top:0.9rem;font-size:0.87rem;color:var(--lilac-soft);">🖤 Modo enfoque activo · Quito, EC</div>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-title">⏳ Temporizador de Estudio (Pomodoro)</div>
-          <p class="text-sm text-muted">25 minutos de estudio profundo · 5 minutos de descanso</p>
+          <div class="card-title">⏳ Pomodoro</div>
           <div class="pomo-display" id="pomoDisplay">25:00</div>
           <div class="pomo-controls">
             <button class="btn" id="pomoStartBtn">▶ Iniciar</button>
@@ -1282,29 +1240,27 @@
 
       <!-- Kuromi IA Bot -->
       <div class="card">
-        <div class="card-title">🖤 Kuromi IA — Tu Asistente Inteligente</div>
-        <p class="text-sm text-muted mb-1">Entiende tus preguntas, revisa tus tareas/exámenes reales, te ayuda a estudiar y te organiza con personalidad gótica-kawaii.</p>
+        <div class="card-title">🖤 Kuromi IA</div>
         <div class="bot-container">
           <div class="bot-header">
             <img src="https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png" alt="Kuromi" onerror="this.style.display='none'">
             <div class="bot-header-text">
               <h4>Kuromi IA</h4>
-              <span>En línea · Acceso a tu planner</span>
             </div>
           </div>
           <div class="bot-chips">
-            <button class="bot-chip" data-prompt="Analiza mi agenda de hoy y dime qué priorizar">📋 Analizar mi agenda</button>
+            <button class="bot-chip" data-prompt="Analiza mi agenda de hoy y dime qué priorizar">📋 Agenda</button>
             <button class="bot-chip" data-prompt="Ayúdame a armar un plan de estudio para mis exámenes">📚 Plan de estudio</button>
-            <button class="bot-chip" data-prompt="Explícame derivadas o cinemática de forma fácil">🧠 Explicar tema</button>
-            <button class="bot-chip" data-prompt="Me siento cansada y estresada, necesito ánimo">🌙 Necesito ánimo</button>
-            <button class="bot-chip" data-prompt="¿Qué consejos tienes para organizar mejor mi semana?">🗓️ Organización</button>
+            <button class="bot-chip" data-prompt="Explícame derivadas o cinemática">🧠 Explicar tema</button>
+            <button class="bot-chip" data-prompt="Me siento cansada y estresada">🌙 Ánimo</button>
+            <button class="bot-chip" data-prompt="¿Cómo organizo mejor mi semana?">🗓️ Semana</button>
           </div>
           <div class="bot-messages" id="botMessages">
-            <div class="bot-msg kuromi">¡Hola Zoe! 🖤 Soy Kuromi IA, tu asistente gótica-kawaii. Tengo acceso en tiempo real a tus tareas, exámenes, hábitos y notas. Pregúntame lo que necesites: priorizar el día, planes de estudio, explicaciones de materias o simplemente desahogarte. ¿Por dónde empezamos? 💜</div>
+            <div class="bot-msg kuromi">Hola Zoe 🖤 ¿Qué revisamos hoy?</div>
           </div>
-          <div class="bot-typing" id="botTyping">✨ Kuromi IA está pensando...</div>
+          <div class="bot-typing" id="botTyping">Pensando...</div>
           <div class="bot-input-row">
-            <input type="text" id="botInput" placeholder="Pregúntale algo a Kuromi IA (ej: '¿Qué exámenes tengo?', 'Explícame vectores', 'Estoy agobiada')...">
+            <input type="text" id="botInput" placeholder="Escribe aquí...">
             <button class="btn" id="botSendBtn">Enviar</button>
           </div>
         </div>
@@ -1315,7 +1271,6 @@
     <section id="materias" class="section">
       <div class="page-header">
         <h2>📚 Materias</h2>
-        <p>Apuntes, resúmenes y fórmulas separados por fechas navegables · Vista general abajo</p>
       </div>
 
       <div class="subject-tabs">
@@ -1327,13 +1282,13 @@
 
       <div class="subj-date-bar">
         <div style="display:flex;align-items:center;gap:0.5rem;">
-          <span style="color:var(--pink-soft);font-weight:600;font-size:0.9rem;">📅 Fecha de clase:</span>
+          <span style="color:var(--pink-soft);font-weight:600;font-size:0.9rem;">📅 Fecha:</span>
           <input type="date" id="subjectDatePicker" style="max-width:165px;">
         </div>
         <div class="subj-date-controls">
-          <button class="btn btn-ghost btn-sm" id="subjPrevDayBtn">← Día anterior</button>
+          <button class="btn btn-ghost btn-sm" id="subjPrevDayBtn">← Anterior</button>
           <button class="btn btn-ghost btn-sm" id="subjTodayBtn">Hoy</button>
-          <button class="btn btn-ghost btn-sm" id="subjNextDayBtn">Día siguiente →</button>
+          <button class="btn btn-ghost btn-sm" id="subjNextDayBtn">Siguiente →</button>
         </div>
       </div>
 
@@ -1342,48 +1297,48 @@
         <div class="subject-hero">
           <div>
             <h3>⚡ Física</h3>
-            <div class="meta">Cinemática · Dinámica · Energía · Ondas · <span class="subj-date-badge" style="color:var(--pink-soft);"></span></div>
+            <div class="meta"><span class="subj-date-badge"></span></div>
           </div>
           <span style="font-size:2.1rem;">🖤</span>
         </div>
 
         <div class="grid-2">
           <div class="sub-section">
-            <h4>📝 Apuntes (por fecha)</h4>
-            <div class="note-area tall" contenteditable="true" data-subj-dated="fisica-apuntes" data-placeholder="Escribe los apuntes de Física de esta fecha..."></div>
+            <h4>📝 Apuntes</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="fisica-apuntes"></div>
           </div>
           <div class="sub-section">
-            <h4>📋 Resúmenes (por fecha)</h4>
-            <div class="note-area tall" contenteditable="true" data-subj-dated="fisica-resumenes" data-placeholder="Resume lo visto en esta fecha..."></div>
+            <h4>📋 Resúmenes</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="fisica-resumenes"></div>
           </div>
         </div>
         <div class="sub-section">
-          <h4>🔑 Fórmulas & conceptos clave (por fecha)</h4>
-          <div class="note-area" contenteditable="true" data-subj-dated="fisica-formulas" data-placeholder="Fórmulas y conceptos vistos en esta fecha..."></div>
+          <h4>🔑 Fórmulas & conceptos</h4>
+          <div class="note-area" contenteditable="true" data-subj-dated="fisica-formulas"></div>
         </div>
 
         <div class="subj-divider">
-          <h4>📌 Vista General de Física (Permanente)</h4>
-          <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('fisica-tareas')">+ Insertar fecha de hoy en notas</button>
+          <h4>📌 General</h4>
+          <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('fisica-tareas')">+ Fecha de hoy</button>
         </div>
         <div class="grid-2">
           <div class="sub-section">
-            <h4>❓ Preguntas pendientes</h4>
-            <div class="note-area" contenteditable="true" data-key="fisica-preguntas" data-placeholder="Dudas generales para clase o tutoría..."></div>
+            <h4>❓ Preguntas</h4>
+            <div class="note-area" contenteditable="true" data-key="fisica-preguntas"></div>
           </div>
           <div class="sub-section">
-            <h4>✅ Tareas de Física</h4>
-            <div class="note-area" contenteditable="true" data-key="fisica-tareas" data-placeholder="Lista general de tareas (puedes anotar fechas aquí)..."></div>
+            <h4>✅ Tareas</h4>
+            <div class="note-area" contenteditable="true" data-key="fisica-tareas"></div>
           </div>
         </div>
         <div class="grid-2">
           <div class="sub-section">
             <h4>📚 Recursos</h4>
-            <div class="note-area" contenteditable="true" data-key="fisica-recursos" data-placeholder="Videos, PDFs, enlaces, libros..."></div>
+            <div class="note-area" contenteditable="true" data-key="fisica-recursos"></div>
           </div>
           <div class="sub-section">
             <h4>🧪 Exámenes & Proyectos</h4>
-            <div class="note-area" contenteditable="true" data-key="fisica-examenes" data-placeholder="Temas de parciales, fechas y proyectos..."></div>
+            <div class="note-area" contenteditable="true" data-key="fisica-examenes"></div>
           </div>
         </div>
       </div>
@@ -1393,48 +1348,48 @@
         <div class="subject-hero">
           <div>
             <h3>📐 Matemáticas</h3>
-            <div class="meta">Álgebra · Cálculo · Funciones · Derivadas · <span class="subj-date-badge" style="color:var(--pink-soft);"></span></div>
+            <div class="meta"><span class="subj-date-badge"></span></div>
           </div>
           <span style="font-size:2.1rem;">💜</span>
         </div>
 
         <div class="grid-2">
           <div class="sub-section">
-            <h4>📝 Apuntes (por fecha)</h4>
-            <div class="note-area tall" contenteditable="true" data-subj-dated="mates-apuntes" data-placeholder="Apuntes de Matemáticas de esta fecha..."></div>
+            <h4>📝 Apuntes</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="mates-apuntes"></div>
           </div>
           <div class="sub-section">
-            <h4>📋 Resúmenes (por fecha)</h4>
-            <div class="note-area tall" contenteditable="true" data-subj-dated="mates-resumenes" data-placeholder="Resúmenes de esta fecha..."></div>
+            <h4>📋 Resúmenes</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="mates-resumenes"></div>
           </div>
         </div>
         <div class="sub-section">
-          <h4>🔑 Fórmulas & conceptos clave (por fecha)</h4>
-          <div class="note-area" contenteditable="true" data-subj-dated="mates-formulas" data-placeholder="Reglas, derivadas o propiedades vistas en esta fecha..."></div>
+          <h4>🔑 Fórmulas & conceptos</h4>
+          <div class="note-area" contenteditable="true" data-subj-dated="mates-formulas"></div>
         </div>
 
         <div class="subj-divider">
-          <h4>📌 Vista General de Matemáticas (Permanente)</h4>
-          <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('mates-tareas')">+ Insertar fecha de hoy en notas</button>
+          <h4>📌 General</h4>
+          <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('mates-tareas')">+ Fecha de hoy</button>
         </div>
         <div class="grid-2">
           <div class="sub-section">
-            <h4>❓ Preguntas pendientes</h4>
-            <div class="note-area" contenteditable="true" data-key="mates-preguntas" data-placeholder="Dudas generales..."></div>
+            <h4>❓ Preguntas</h4>
+            <div class="note-area" contenteditable="true" data-key="mates-preguntas"></div>
           </div>
           <div class="sub-section">
             <h4>✅ Tareas</h4>
-            <div class="note-area" contenteditable="true" data-key="mates-tareas" data-placeholder="Tareas y ejercicios..."></div>
+            <div class="note-area" contenteditable="true" data-key="mates-tareas"></div>
           </div>
         </div>
         <div class="grid-2">
           <div class="sub-section">
             <h4>📚 Recursos</h4>
-            <div class="note-area" contenteditable="true" data-key="mates-recursos" data-placeholder="Recursos de apoyo..."></div>
+            <div class="note-area" contenteditable="true" data-key="mates-recursos"></div>
           </div>
           <div class="sub-section">
             <h4>🧪 Exámenes & Proyectos</h4>
-            <div class="note-area" contenteditable="true" data-key="mates-examenes" data-placeholder="Registro de evaluaciones..."></div>
+            <div class="note-area" contenteditable="true" data-key="mates-examenes"></div>
           </div>
         </div>
       </div>
@@ -1444,48 +1399,48 @@
         <div class="subject-hero">
           <div>
             <h3>💻 Introducción a Sistemas de la Información</h3>
-            <div class="meta">Sistemas · Datos · Procesos · Tecnología · <span class="subj-date-badge" style="color:var(--pink-soft);"></span></div>
+            <div class="meta"><span class="subj-date-badge"></span></div>
           </div>
           <span style="font-size:2.1rem;">⭐</span>
         </div>
 
         <div class="grid-2">
           <div class="sub-section">
-            <h4>📝 Apuntes (por fecha)</h4>
-            <div class="note-area tall" contenteditable="true" data-subj-dated="sistemas-apuntes" data-placeholder="Apuntes de Sistemas de esta fecha..."></div>
+            <h4>📝 Apuntes</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="sistemas-apuntes"></div>
           </div>
           <div class="sub-section">
-            <h4>📋 Resúmenes (por fecha)</h4>
-            <div class="note-area tall" contenteditable="true" data-subj-dated="sistemas-resumenes" data-placeholder="Resúmenes de esta fecha..."></div>
+            <h4>📋 Resúmenes</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="sistemas-resumenes"></div>
           </div>
         </div>
         <div class="sub-section">
-          <h4>🔑 Fórmulas & conceptos clave (por fecha)</h4>
-          <div class="note-area" contenteditable="true" data-subj-dated="sistemas-formulas" data-placeholder="Definiciones, diagramas o conceptos clave de esta fecha..."></div>
+          <h4>🔑 Conceptos clave</h4>
+          <div class="note-area" contenteditable="true" data-subj-dated="sistemas-formulas"></div>
         </div>
 
         <div class="subj-divider">
-          <h4>📌 Vista General de Sistemas (Permanente)</h4>
-          <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('sistemas-tareas')">+ Insertar fecha de hoy en notas</button>
+          <h4>📌 General</h4>
+          <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('sistemas-tareas')">+ Fecha de hoy</button>
         </div>
         <div class="grid-2">
           <div class="sub-section">
-            <h4>❓ Preguntas pendientes</h4>
-            <div class="note-area" contenteditable="true" data-key="sistemas-preguntas" data-placeholder="Dudas generales..."></div>
+            <h4>❓ Preguntas</h4>
+            <div class="note-area" contenteditable="true" data-key="sistemas-preguntas"></div>
           </div>
           <div class="sub-section">
             <h4>✅ Tareas & Proyectos</h4>
-            <div class="note-area" contenteditable="true" data-key="sistemas-tareas" data-placeholder="Trabajos y proyectos..."></div>
+            <div class="note-area" contenteditable="true" data-key="sistemas-tareas"></div>
           </div>
         </div>
         <div class="grid-2">
           <div class="sub-section">
             <h4>📚 Recursos</h4>
-            <div class="note-area" contenteditable="true" data-key="sistemas-recursos" data-placeholder="Lecturas, videos, herramientas..."></div>
+            <div class="note-area" contenteditable="true" data-key="sistemas-recursos"></div>
           </div>
           <div class="sub-section">
             <h4>🧪 Exámenes & Proyectos</h4>
-            <div class="note-area" contenteditable="true" data-key="sistemas-examenes" data-placeholder="Evaluaciones..."></div>
+            <div class="note-area" contenteditable="true" data-key="sistemas-examenes"></div>
           </div>
         </div>
       </div>
@@ -1495,48 +1450,48 @@
         <div class="subject-hero">
           <div>
             <h3>⚖️ EPUS</h3>
-            <div class="meta">Ética · Profesionalismo · Universidad · Sociedad · <span class="subj-date-badge" style="color:var(--pink-soft);"></span></div>
+            <div class="meta"><span class="subj-date-badge"></span></div>
           </div>
           <span style="font-size:2.1rem;">🌙</span>
         </div>
 
         <div class="grid-2">
           <div class="sub-section">
-            <h4>📝 Apuntes (por fecha)</h4>
-            <div class="note-area tall" contenteditable="true" data-subj-dated="etica-apuntes" data-placeholder="Apuntes de EPUS de esta fecha..."></div>
+            <h4>📝 Apuntes</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="etica-apuntes"></div>
           </div>
           <div class="sub-section">
-            <h4>📋 Resúmenes (por fecha)</h4>
-            <div class="note-area tall" contenteditable="true" data-subj-dated="etica-resumenes" data-placeholder="Resúmenes y reflexiones de esta fecha..."></div>
+            <h4>📋 Resúmenes</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="etica-resumenes"></div>
           </div>
         </div>
         <div class="sub-section">
-          <h4>🔑 Conceptos clave (por fecha)</h4>
-          <div class="note-area" contenteditable="true" data-subj-dated="etica-formulas" data-placeholder="Autores, teorías o dilemas de EPUS de esta fecha..."></div>
+          <h4>🔑 Conceptos clave</h4>
+          <div class="note-area" contenteditable="true" data-subj-dated="etica-formulas"></div>
         </div>
 
         <div class="subj-divider">
-          <h4>📌 Vista General de EPUS (Permanente)</h4>
-          <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('etica-tareas')">+ Insertar fecha de hoy en notas</button>
+          <h4>📌 General</h4>
+          <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('etica-tareas')">+ Fecha de hoy</button>
         </div>
         <div class="grid-2">
           <div class="sub-section">
-            <h4>❓ Preguntas pendientes</h4>
-            <div class="note-area" contenteditable="true" data-key="etica-preguntas" data-placeholder="Dudas o temas para profundizar..."></div>
+            <h4>❓ Preguntas</h4>
+            <div class="note-area" contenteditable="true" data-key="etica-preguntas"></div>
           </div>
           <div class="sub-section">
             <h4>✅ Tareas & Ensayos</h4>
-            <div class="note-area" contenteditable="true" data-key="etica-tareas" data-placeholder="Trabajos escritos..."></div>
+            <div class="note-area" contenteditable="true" data-key="etica-tareas"></div>
           </div>
         </div>
         <div class="grid-2">
           <div class="sub-section">
             <h4>📚 Recursos</h4>
-            <div class="note-area" contenteditable="true" data-key="etica-recursos" data-placeholder="Lecturas recomendadas..."></div>
+            <div class="note-area" contenteditable="true" data-key="etica-recursos"></div>
           </div>
           <div class="sub-section">
             <h4>🧪 Exámenes & Proyectos</h4>
-            <div class="note-area" contenteditable="true" data-key="etica-examenes" data-placeholder="Exámenes y participaciones..."></div>
+            <div class="note-area" contenteditable="true" data-key="etica-examenes"></div>
           </div>
         </div>
       </div>
@@ -1546,7 +1501,6 @@
     <section id="horario" class="section">
       <div class="page-header">
         <h2>🕒 Horario Semanal</h2>
-        <p>Paralelo 1FAC-ING-SIS-03 · Jornada Matutina/Vespertina · Clases pre-cargadas</p>
       </div>
       <div class="card schedule-table">
         <table>
@@ -1565,14 +1519,12 @@
           <tbody id="scheduleBody"></tbody>
         </table>
       </div>
-      <p class="text-sm text-muted" style="margin-top:0.85rem;">Horario oficial cargado (EPUS, Física, Matemáticas, Intro. Sistemas). Puedes editar cualquier celda. Los cambios se sincronizan en la nube automáticamente.</p>
     </section>
 
     <!-- ========== PLANNER MENSUAL ========== -->
     <section id="mensual" class="section">
       <div class="page-header">
         <h2>📅 Planner Mensual</h2>
-        <p>Vista de mes · Objetivos · Fechas importantes</p>
       </div>
 
       <div class="month-nav">
@@ -1588,11 +1540,11 @@
       <div class="grid-2">
         <div class="card">
           <div class="card-title">🎯 Objetivos del mes</div>
-          <div class="note-area" contenteditable="true" data-key="month-goals" data-placeholder="Escribe tus objetivos mensuales aquí…"></div>
+          <div class="note-area" contenteditable="true" data-key="month-goals"></div>
         </div>
         <div class="card">
           <div class="card-title">📌 Fechas importantes</div>
-          <div class="note-area" contenteditable="true" data-key="month-dates" data-placeholder="Exámenes, entregas, eventos, cumpleaños…"></div>
+          <div class="note-area" contenteditable="true" data-key="month-dates"></div>
         </div>
       </div>
     </section>
@@ -1601,7 +1553,6 @@
     <section id="semanal" class="section">
       <div class="page-header">
         <h2>🗓️ Planner Semanal</h2>
-        <p>Vista amplia de la semana · Objetivos · Prioridades</p>
       </div>
 
       <div class="card mb-2">
@@ -1656,8 +1607,8 @@
       </div>
 
       <div class="card">
-        <div class="card-title">📊 Seguimiento de progreso</div>
-        <div class="note-area" contenteditable="true" data-key="week-progress" data-placeholder="Qué logré esta semana / qué mejorar…"></div>
+        <div class="card-title">📊 Progreso</div>
+        <div class="note-area" contenteditable="true" data-key="week-progress"></div>
       </div>
     </section>
 
@@ -1665,16 +1616,12 @@
     <section id="diario" class="section">
       <div class="page-header">
         <h2>📖 Planner Diario</h2>
-        <p>Un día a la vez · Tareas · Prioridades · Logros</p>
       </div>
 
       <div class="card mb-2">
-        <div class="flex-between">
-          <div>
-            <label class="text-sm text-muted">Fecha</label>
-            <input type="date" id="dailyDate" style="max-width:180px;margin-top:0.25rem;">
-          </div>
-          <span class="text-sm text-muted">Cada fecha guarda sus propias notas automáticamente</span>
+        <div>
+          <label class="text-sm text-muted">Fecha</label>
+          <input type="date" id="dailyDate" style="max-width:180px;margin-top:0.25rem;display:block;">
         </div>
       </div>
 
@@ -1684,18 +1631,18 @@
           <div class="note-area" contenteditable="true" id="dailyTasks" style="min-height:160px;"></div>
         </div>
         <div class="card">
-          <div class="card-title">⚡ Prioridades (máx 3)</div>
+          <div class="card-title">⚡ Prioridades</div>
           <div class="note-area" contenteditable="true" id="dailyPriorities" style="min-height:160px;"></div>
         </div>
       </div>
 
       <div class="grid-2">
         <div class="card">
-          <div class="card-title">📝 Apuntes rápidos</div>
+          <div class="card-title">📝 Apuntes</div>
           <div class="note-area" contenteditable="true" id="dailyNotes" style="min-height:140px;"></div>
         </div>
         <div class="card">
-          <div class="card-title">🌟 Logros del día</div>
+          <div class="card-title">🌟 Logros</div>
           <div class="note-area" contenteditable="true" id="dailyWins" style="min-height:140px;"></div>
         </div>
       </div>
@@ -1704,8 +1651,7 @@
     <!-- ========== HÁBITOS ========== -->
     <section id="habitos" class="section">
       <div class="page-header">
-        <h2>💜 Tracker de Hábitos</h2>
-        <p>Constancia diaria · Marca con un clic</p>
+        <h2>💜 Hábitos</h2>
       </div>
 
       <div class="card habit-grid">
@@ -1754,11 +1700,10 @@
           </tbody>
         </table>
       </div>
-      <p class="text-sm text-muted" style="margin-top:0.85rem;">Haz clic en los cuadrados para marcar o edita el nombre de cualquier hábito.</p>
       <div class="spacer"></div>
       <div class="card">
-        <div class="card-title">Notas de hábitos</div>
-        <div class="note-area" contenteditable="true" data-key="habits-notes" data-placeholder="Observaciones, rachas, obstáculos…"></div>
+        <div class="card-title">Notas</div>
+        <div class="note-area" contenteditable="true" data-key="habits-notes"></div>
       </div>
     </section>
 
@@ -1766,11 +1711,10 @@
     <section id="mood" class="section">
       <div class="page-header">
         <h2>🌙 Mood Tracker</h2>
-        <p>Registra cómo te sientes cada día</p>
       </div>
 
       <div class="card mb-2">
-        <div class="card-title">Estados disponibles</div>
+        <div class="card-title">Estados</div>
         <div class="mood-options">
           <button class="mood-btn" data-mood="excelente">🖤 Excelente</button>
           <button class="mood-btn" data-mood="feliz">💜 Feliz</button>
@@ -1779,7 +1723,6 @@
           <button class="mood-btn" data-mood="cansada">☁️ Cansada</button>
           <button class="mood-btn" data-mood="descansar">🌧️ Necesito descansar</button>
         </div>
-        <p class="text-sm text-muted">Selecciona un estado y luego haz clic en el día del calendario para registrarlo.</p>
       </div>
 
       <div class="card">
@@ -1788,21 +1731,20 @@
       </div>
       <div class="spacer"></div>
       <div class="card">
-        <div class="card-title">Notas de estado de ánimo</div>
-        <div class="note-area" contenteditable="true" data-key="mood-notes" data-placeholder="Patrones, triggers, cosas que te ayudan…"></div>
+        <div class="card-title">Notas</div>
+        <div class="note-area" contenteditable="true" data-key="mood-notes"></div>
       </div>
     </section>
 
     <!-- ========== EXÁMENES ========== -->
     <section id="examenes" class="section">
       <div class="page-header">
-        <h2>📝 Sección de Exámenes</h2>
-        <p>Elige materia, prioridad, fecha y hora directamente desde el calendario</p>
+        <h2>📝 Exámenes</h2>
       </div>
 
       <div class="card">
         <div class="add-bar">
-          <input type="text" id="newExamTopic" placeholder="Tema o tipo (ej. Parcial 1 - Cinemática)">
+          <input type="text" id="newExamTopic" placeholder="Tema">
           <select id="newExamSubject">
             <option value="Física">Física</option>
             <option value="Matemáticas">Matemáticas</option>
@@ -1812,9 +1754,9 @@
           <input type="date" id="newExamDate">
           <input type="time" id="newExamTime" value="08:00">
           <select id="newExamPriority">
-            <option value="Alta">Prioridad: Alta</option>
-            <option value="Media" selected>Prioridad: Media</option>
-            <option value="Baja">Prioridad: Baja</option>
+            <option value="Alta">Alta</option>
+            <option value="Media" selected>Media</option>
+            <option value="Baja">Baja</option>
           </select>
           <button class="btn" id="addExamBtn">+ Agregar</button>
         </div>
@@ -1824,7 +1766,7 @@
             <thead>
               <tr>
                 <th>Materia</th>
-                <th>Tema / Tipo</th>
+                <th>Tema</th>
                 <th>Fecha</th>
                 <th>Hora</th>
                 <th>Prioridad</th>
@@ -1842,12 +1784,11 @@
     <section id="tareas" class="section">
       <div class="page-header">
         <h2>✅ Tareas & Entregas</h2>
-        <p>Organizadas por fechas · Elige materia, prioridad, fecha y hora</p>
       </div>
 
       <div class="card">
         <div class="add-bar">
-          <input type="text" id="newTaskTitle" placeholder="Nombre de la tarea o entrega...">
+          <input type="text" id="newTaskTitle" placeholder="Actividad">
           <select id="newTaskSubject">
             <option value="Física">Física</option>
             <option value="Matemáticas">Matemáticas</option>
@@ -1857,9 +1798,9 @@
           <input type="date" id="newTaskDate">
           <input type="time" id="newTaskTime" value="09:00">
           <select id="newTaskPriority">
-            <option value="Alta">Prioridad: Alta</option>
-            <option value="Media" selected>Prioridad: Media</option>
-            <option value="Baja">Prioridad: Baja</option>
+            <option value="Alta">Alta</option>
+            <option value="Media" selected>Media</option>
+            <option value="Baja">Baja</option>
           </select>
           <button class="btn" id="addTaskBtn">+ Agregar</button>
         </div>
@@ -1878,7 +1819,7 @@
                 <th style="width:40px;">✓</th>
                 <th>Actividad</th>
                 <th>Materia</th>
-                <th>Fecha límite</th>
+                <th>Fecha</th>
                 <th>Hora</th>
                 <th>Prioridad</th>
                 <th></th>
@@ -1893,69 +1834,67 @@
     <!-- ========== AHORRO ========== -->
     <section id="ahorro" class="section">
       <div class="page-header">
-        <h2>💰 Sección de Ahorro</h2>
-        <p>Metas financieras personales</p>
+        <h2>💰 Ahorro</h2>
       </div>
       <div class="grid-2 mb-2">
         <div class="card">
-          <div class="card-title">🎯 Meta de ahorro</div>
+          <div class="card-title">🎯 Meta</div>
           <div class="mb-1">
-            <label class="text-sm text-muted">¿Para qué ahorras?</label>
-            <input type="text" id="saveGoal" placeholder="Ej: Audífonos / Viaje / Fondo" data-key="save-goal">
+            <label class="text-sm text-muted">Meta</label>
+            <input type="text" id="saveGoal" data-key="save-goal">
           </div>
           <div class="mb-1">
-            <label class="text-sm text-muted">Cantidad objetivo</label>
+            <label class="text-sm text-muted">Objetivo</label>
             <input type="number" id="saveTarget" placeholder="0" data-key="save-target">
           </div>
           <div class="mb-1">
-            <label class="text-sm text-muted">Cantidad actual</label>
+            <label class="text-sm text-muted">Actual</label>
             <input type="number" id="saveCurrent" placeholder="0" data-key="save-current">
           </div>
           <div class="progress-bar mt-2">
             <div class="progress-fill" id="saveProgress" style="width:0%"></div>
           </div>
-          <p class="text-sm text-muted" style="margin-top:0.45rem;"><span id="savePercent">0</span>% completado</p>
+          <p class="text-sm text-muted" style="margin-top:0.45rem;"><span id="savePercent">0</span>%</p>
         </div>
         <div class="card">
           <div class="card-title">📊 Resumen</div>
           <div class="mb-1">
-            <label class="text-sm text-muted">Ingresos del mes</label>
+            <label class="text-sm text-muted">Ingresos</label>
             <input type="number" data-key="save-income" placeholder="0">
           </div>
           <div class="mb-1">
-            <label class="text-sm text-muted">Gastos del mes</label>
+            <label class="text-sm text-muted">Gastos</label>
             <input type="number" data-key="save-expenses" placeholder="0">
           </div>
-          <div class="note-area" contenteditable="true" data-key="save-notes" data-placeholder="Notas de gastos o ingresos extra…" style="min-height:90px;margin-top:0.85rem;"></div>
+          <div class="note-area" contenteditable="true" data-key="save-notes" style="min-height:90px;margin-top:0.85rem;"></div>
         </div>
       </div>
     </section>
 
-    <!-- ========== WISHLIST ========== -->
+    <!-- ========== DESEOS ========== -->
     <section id="wishlist" class="section">
       <div class="page-header">
-        <h2>🛍️ Wishlist</h2>
-        <p>Cosas que deseas · Compras · Accesorios · Tecnología</p>
+        <h2>🛍️ Deseos</h2>
       </div>
       <div class="card">
         <div class="list-item">
-          <input type="checkbox" data-wish-check="0"> <span contenteditable="true" data-key="wish-text-0" data-placeholder="Deseo #1..." style="flex:1;"></span>
+          <input type="checkbox" data-wish-check="0"> <span contenteditable="true" data-key="wish-text-0" style="flex:1;"></span>
           <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-0" data-placeholder="Prioridad"></span>
         </div>
         <div class="list-item">
-          <input type="checkbox" data-wish-check="1"> <span contenteditable="true" data-key="wish-text-1" data-placeholder="Deseo #2..." style="flex:1;"></span>
+          <input type="checkbox" data-wish-check="1"> <span contenteditable="true" data-key="wish-text-1" style="flex:1;"></span>
           <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-1" data-placeholder="Prioridad"></span>
         </div>
         <div class="list-item">
-          <input type="checkbox" data-wish-check="2"> <span contenteditable="true" data-key="wish-text-2" data-placeholder="Deseo #3..." style="flex:1;"></span>
+          <input type="checkbox" data-wish-check="2"> <span contenteditable="true" data-key="wish-text-2" style="flex:1;"></span>
           <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-2" data-placeholder="Prioridad"></span>
         </div>
         <div class="list-item">
-          <input type="checkbox" data-wish-check="3"> <span contenteditable="true" data-key="wish-text-3" data-placeholder="Deseo #4..." style="flex:1;"></span>
+          <input type="checkbox" data-wish-check="3"> <span contenteditable="true" data-key="wish-text-3" style="flex:1;"></span>
           <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-3" data-placeholder="Prioridad"></span>
         </div>
         <div class="list-item">
-          <input type="checkbox" data-wish-check="4"> <span contenteditable="true" data-key="wish-text-4" data-placeholder="Deseo #5..." style="flex:1;"></span>
+          <input type="checkbox" data-wish-check="4"> <span contenteditable="true" data-key="wish-text-4" style="flex:1;"></span>
           <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-4" data-placeholder="Prioridad"></span>
         </div>
       </div>
@@ -2051,7 +1990,7 @@
   function renderSubjectDatedFields() {
     const dateVal = subjDatePicker?.value || getTodayISO();
     document.querySelectorAll('.subj-date-badge').forEach(badge => {
-      badge.textContent = `Fecha seleccionada: ${formatDateDisplay(dateVal)}`;
+      badge.textContent = formatDateDisplay(dateVal);
     });
 
     document.querySelectorAll('[data-subj-dated]').forEach(el => {
@@ -2193,13 +2132,13 @@
   async function activarNotificacionesPush() {
     try {
       if (!("Notification" in window) || !("serviceWorker" in navigator)) {
-        if (pushTokenStatus) pushTokenStatus.textContent = "Este navegador no soporta alertas push.";
+        if (pushTokenStatus) pushTokenStatus.textContent = "No compatible.";
         return;
       }
 
       const permission = await Notification.requestPermission();
       if (permission !== "granted") {
-        if (pushTokenStatus) pushTokenStatus.textContent = "Permiso denegado en el navegador.";
+        if (pushTokenStatus) pushTokenStatus.textContent = "Permiso denegado.";
         return;
       }
 
@@ -2218,13 +2157,13 @@
           platform: navigator.userAgent.slice(0, 80)
         };
         pushToFirebase();
-        if (pushTokenStatus) pushTokenStatus.textContent = "✅ Alertas activadas y token guardado";
+        if (pushTokenStatus) pushTokenStatus.textContent = "✅ Alertas activas";
       } else {
-        if (pushTokenStatus) pushTokenStatus.textContent = "No se pudo generar el token.";
+        if (pushTokenStatus) pushTokenStatus.textContent = "Error de token.";
       }
     } catch (err) {
       console.error(err);
-      if (pushTokenStatus) pushTokenStatus.textContent = "Error al activar alertas.";
+      if (pushTokenStatus) pushTokenStatus.textContent = "Error al activar.";
     }
   }
 
@@ -2232,7 +2171,7 @@
 
   onMessage(messaging, (payload) => {
     const title = payload.notification?.title || "🖤 Kuromi Planner";
-    const body = payload.notification?.body || "Tienes un recordatorio en tu agenda.";
+    const body = payload.notification?.body || "";
     if (Notification.permission === "granted") {
       new Notification(title, {
         body,
@@ -2264,7 +2203,7 @@
     if (tasksBody) {
       const filtered = filterTasksByTab(tasks, activeTaskFilter);
       tasksBody.innerHTML = filtered.length === 0
-        ? `<tr><td colspan="7" class="text-muted text-sm" style="text-align:center;padding:1.2rem;">No hay tareas en esta pestaña.</td></tr>`
+        ? `<tr><td colspan="7" class="text-muted text-sm" style="text-align:center;padding:1.2rem;">Sin tareas.</td></tr>`
         : filtered.map(t => `
           <tr>
             <td><input type="checkbox" ${t.done ? 'checked' : ''} onchange="window.toggleTaskDone('${t.id}')"></td>
@@ -2288,7 +2227,7 @@
     if (dashTaskList) {
       const filteredDash = filterTasksByTab(tasks, activeTaskFilter);
       dashTaskList.innerHTML = filteredDash.length === 0
-        ? `<p class="text-sm text-muted" style="padding:0.6rem 0;">No hay tareas registradas para esta vista.</p>`
+        ? `<p class="text-sm text-muted" style="padding:0.6rem 0;">Sin tareas.</p>`
         : filteredDash.map(t => `
           <div class="list-item">
             <input type="checkbox" ${t.done ? 'checked' : ''} onchange="window.toggleTaskDone('${t.id}')">
@@ -2303,7 +2242,7 @@
     const examsBody = document.getElementById('examsTableBody');
     if (examsBody) {
       examsBody.innerHTML = exams.length === 0
-        ? `<tr><td colspan="7" class="text-muted text-sm" style="text-align:center;padding:1.2rem;">Aún no has agregado exámenes.</td></tr>`
+        ? `<tr><td colspan="7" class="text-muted text-sm" style="text-align:center;padding:1.2rem;">Sin exámenes.</td></tr>`
         : exams.map(ex => `
           <tr>
             <td>
@@ -2333,7 +2272,7 @@
     const dashExams = document.getElementById('dashExamsPreview');
     if (dashExams) {
       dashExams.innerHTML = exams.length === 0
-        ? `<p class="text-muted">Sin exámenes programados.</p>`
+        ? `<p class="text-muted">Sin exámenes.</p>`
         : exams.slice(0, 4).map(ex => `
           <div style="padding:0.35rem 0;border-bottom:1px solid rgba(80,35,120,0.15);display:flex;justify-content:space-between;align-items:center;">
             <span><strong>${ex.subject}:</strong> ${ex.topic}</span>
@@ -2459,7 +2398,7 @@
     });
 
     if (pushTokenStatus && cloudState.fcmTokens && Object.keys(cloudState.fcmTokens).length > 0) {
-      pushTokenStatus.textContent = "✅ Alertas activadas y token guardado";
+      pushTokenStatus.textContent = "✅ Alertas activas";
     }
 
     renderSubjectDatedFields();
@@ -2702,7 +2641,7 @@
       } else {
         clearInterval(pomoInterval);
         pomoInterval = null;
-        alert('🖤 ¡Tiempo completado, Zoe! Tómate un respiro.');
+        alert('🖤 Tiempo completado.');
       }
     }, 1000);
   });
@@ -2741,30 +2680,28 @@
     const todayTasks = tasks.filter(t => t.date === today);
 
     if (q.includes("agenda") || q.includes("tarea") || q.includes("pendiente") || q.includes("priorizar") || q.includes("que tengo") || q.includes("que debo hacer") || q.includes("que hay")) {
-      let resp = "🖤 Revisé tu base de datos en tiempo real, Zoe:\n\n";
       if (tasks.length === 0 && exams.length === 0) {
-        resp += "✨ ¡Tienes el camino despejado! No hay tareas pendientes ni exámenes registrados. Es un buen momento para adelantar apuntes, repasar o simplemente descansar sin culpa.";
-        return resp;
+        return "No tienes tareas pendientes ni exámenes registrados ahora mismo.";
       }
+      let resp = "";
       if (tasks.length > 0) {
-        resp += `✅ Tienes **${tasks.length} tarea(s)** pendiente(s).\n`;
+        resp += `Tareas pendientes (${tasks.length}):\n`;
         if (todayTasks.length > 0) {
-          resp += `• Para HOY (${todayTasks.length}): ${todayTasks.map(t => `"${t.title}" (${t.subject})`).join(", ")}.\n`;
+          resp += `• Hoy (${todayTasks.length}): ${todayTasks.map(t => `${t.title} (${t.subject})`).join(", ")}.\n`;
         }
         if (highTasks.length > 0) {
-          resp += `• Prioridad ALTA: ${highTasks.map(t => `"${t.title}" [${t.subject}]`).join(", ")}.\n`;
-        } else if (tasks.length > 0) {
-          resp += `• Te sugiero empezar con: "${tasks[0].title}" de ${tasks[0].subject}.\n`;
+          resp += `• Prioridad alta: ${highTasks.map(t => `${t.title} [${t.subject}]`).join(", ")}.\n`;
+        } else {
+          resp += `• Siguiente: ${tasks[0].title} (${tasks[0].subject}).\n`;
         }
       }
       if (exams.length > 0) {
-        resp += `\n📝 Exámenes en radar (${exams.length}):\n`;
+        resp += `\nExámenes (${exams.length}):\n`;
         exams.slice(0, 4).forEach(ex => {
-          resp += `• ${ex.subject}: ${ex.topic} → ${formatDateDisplay(ex.date)} [${ex.priority}]\n`;
+          resp += `• ${ex.subject}: ${ex.topic} — ${formatDateDisplay(ex.date)} [${ex.priority}]\n`;
         });
       }
-      resp += "\n💡 Consejo Kuromi: Pon el Pomodoro en 25 minutos y ataca solo la primera tarea de prioridad alta. Una cosa a la vez, reina.";
-      return resp;
+      return resp.trim();
     }
 
     if (q.includes("plan de estudio") || q.includes("estudiar") || q.includes("examen") || q.includes("parcial") || q.includes("repasar")) {
@@ -2775,31 +2712,31 @@
       else if (q.includes("etica") || q.includes("epus")) targetSubj = "EPUS";
       else if (exams.length > 0) targetSubj = `${exams[0].subject} (${exams[0].topic})`;
 
-      return `📚 Plan de ataque Kuromi para **${targetSubj}**:\n\n1️⃣ **Bloque 1 (25 min)**: Lee tus apuntes por fecha y saca las fórmulas/conceptos clave en un resumen limpio.\n2️⃣ **Descanso (5 min)**: Agua + estiramiento lejos de pantallas. No toques el celular.\n3️⃣ **Bloque 2 (25 min)**: Resuelve 3-5 ejercicios prácticos sin mirar la solución. Si te trabas, anótalo.\n4️⃣ **Cierre (10 min)**: Escribe en "Preguntas pendientes" cualquier duda puntual para clase o tutoría.\n\n💜 Si tienes un examen cercano, prioriza los temas que más se repiten. Yo estoy aquí para cuando necesites que te explique algo.`;
+      return `Plan para ${targetSubj}:\n\n1. 25 min: revisa apuntes y extrae fórmulas o conceptos clave.\n2. 5 min: descanso sin pantalla.\n3. 25 min: resuelve ejercicios sin ver la solución.\n4. 10 min: anota dudas pendientes para clase.`;
     }
 
     if (q.includes("derivad") || q.includes("cinematic") || q.includes("vector") || q.includes("sistema") || q.includes("etica") || q.includes("epus") || q.includes("explica") || q.includes("que es") || q.includes("como funciona")) {
       if (q.includes("derivad")) {
-        return "📐 **Derivadas en modo fácil**:\nUna derivada mide qué tan rápido cambia una función en un punto exacto (la pendiente de la recta tangente).\n\n• Regla de la potencia: si f(x) = xⁿ → f'(x) = n·xⁿ⁻¹\n• Derivada de una constante siempre es 0\n• Suma/resta: (f+g)' = f' + g'\n• Producto: (f·g)' = f'g + fg'\n\nSi necesitas practicar, anota los ejercicios en tu bloque de Matemáticas por fecha y los vamos desglosando juntos. 💜";
+        return "Derivadas:\nMiden la tasa de cambio instantánea de una función (pendiente de la recta tangente).\n\n• Potencia: si f(x) = xⁿ → f'(x) = n·xⁿ⁻¹\n• Constante: 0\n• Suma/resta: (f+g)' = f' + g'\n• Producto: (f·g)' = f'g + fg'";
       }
       if (q.includes("cinematic") || q.includes("vector") || q.includes("velocidad") || q.includes("aceleracion")) {
-        return "⚡ **Física clave – Cinemática y Vectores**:\n• Cinemática estudia el movimiento sin importar qué fuerza lo causa (posición x, velocidad v, aceleración a).\n• MRUV (aceleración constante):\n  v = v₀ + a·t\n  x = x₀ + v₀·t + ½·a·t²\n• Vectores: siempre descompón en ejes X (coseno) y Y (seno) antes de sumar.\n• Recuerda: la velocidad es vector, la rapidez es escalar.\n\n¿Quieres que te arme un ejemplo numérico? Solo dime el problema. 🖤";
+        return "Cinemática y Vectores:\n• MRUV: v = v₀ + a·t | x = x₀ + v₀·t + ½·a·t²\n• Vectores: descompón en X (coseno) y Y (seno) antes de sumar.\n• Velocidad es vector, rapidez es escalar.";
       }
       if (q.includes("sistema") || q.includes("informacion")) {
-        return "💻 **Introducción a Sistemas de la Información**:\nUn sistema de información es un conjunto de componentes interrelacionados (datos, hardware, software, personas y procesos) que recolectan, procesan, almacenan y distribuyen información para apoyar la toma de decisiones en una organización.\n\nComponentes clave: entrada → procesamiento → salida → retroalimentación.\n\nSi tienes un tema específico (bases de datos, redes, ERP...), dime y lo bajamos a tierra. ✨";
+        return "Sistemas de la Información:\nConjunto de datos, hardware, software, personas y procesos que recolectan, procesan, almacenan y distribuyen información.\n\nFlujo: entrada → procesamiento → salida → retroalimentación.";
       }
       if (q.includes("etica") || q.includes("epus") || q.includes("moral")) {
-        return "⚖️ **EPUS en resumen**:\nEPUS trabaja ética, profesionalismo, universidad y sociedad. Mientras la **moral** son las normas de una sociedad, la **ética** es la reflexión sobre por qué algo es correcto o incorrecto.\n\nCorrientes útiles:\n• Deontología → el deber (Kant)\n• Utilitarismo → las consecuencias (Mill)\n• Ética de la virtud → el carácter (Aristóteles)\n\n¿Estás trabajando algún dilema de EPUS concreto? Cuéntame y lo analizamos juntas. 🌙";
+        return "EPUS:\n• Moral: normas de una sociedad.\n• Ética: reflexión sobre por qué algo es correcto o incorrecto.\n• Corrientes: Deontología (Kant), Utilitarismo (Mill), Ética de la virtud (Aristóteles).";
       }
-      return "🧠 Dime exactamente qué tema de Física, Matemáticas, Sistemas o EPUS quieres que te resuma (por ejemplo: 'explícame derivadas' o 'explícame cinemática') y te doy los puntos clave listos para tus apuntes. 🖤";
+      return "Indica qué tema de Física, Matemáticas, Sistemas o EPUS necesitas repasar.";
     }
 
     if (q.includes("estres") || q.includes("cansad") || q.includes("triste") || q.includes("agobi") || q.includes("animo") || q.includes("mal") || q.includes("ansiedad") || q.includes("saturad") || q.includes("no puedo")) {
-      return "🌙 Hey, baja un cambio un segundo, Zoe.\n\nEs completamente normal sentirse saturada en Ingeniería en Sistemas. No tienes que cargar con todo el semestre en una sola noche.\n\n• Toma un vaso de agua ahora mismo.\n• Elige UNA sola cosa pequeña para hoy y deja el resto para mañana.\n• Dormir bien también es parte de rendir en la U.\n• Si necesitas desahogarte, aquí estoy (sin juicios).\n\nRecuerda: progresar poco a poco sigue siendo progresar. Aquí estoy contigo 💜🖤";
+      return "Respira un momento, Zoe 🖤\n\nNo tienes que resolver todo el semestre hoy. Toma agua, elige una sola tarea pequeña y deja el resto para mañana. Descansar también cuenta.";
     }
 
     if (q.includes("organizar") || q.includes("semana") || q.includes("tiempo") || q.includes("productiv") || q.includes("procrastin") || q.includes("enfocar")) {
-      return "🗓️ **Consejos Kuromi para organizar tu semana**:\n\n1. Revisa primero tus exámenes y tareas de alta prioridad.\n2. Bloquea 2-3 sesiones Pomodoro por día (no más de 4 si estás agotada).\n3. Deja un buffer de 30-40 min entre clases para respirar o repasar rápido.\n4. Usa el planner diario para escribir solo 3 prioridades máximas.\n5. Los domingos por la tarde: 20 minutos de revisión de la semana siguiente.\n\nSi quieres, dime cómo está tu horario esta semana y te ayudo a armar un plan concreto. 🖤";
+      return "Organización semanal:\n\n1. Ataca primero exámenes y tareas de prioridad alta.\n2. Haz 2 o 3 bloques Pomodoro al día.\n3. Deja 30 min libres entre clases.\n4. Elige máximo 3 prioridades diarias.";
     }
 
     if (q.includes("ahorro") || q.includes("dinero") || q.includes("plata") || q.includes("meta financiera")) {
@@ -2809,24 +2746,20 @@
       if (target > 0) {
         const pct = Math.round((current / target) * 100);
         const falta = target - current;
-        return `💰 Para **"${goal}"** llevas $${current} de $${target} (${pct}%).\nTe faltan $${falta > 0 ? falta : 0}.\n¡Cada aporte suma, sigue así! ✨`;
+        return `${goal}: $${current} de $${target} (${pct}%). Faltan $${falta > 0 ? falta : 0}.`;
       }
-      return "💰 Aún no has puesto un monto objetivo en la sección Ahorro. Si lo llenas, te ayudo a calcular cuánto te falta y a armar un plan realista. 🖤";
+      return "No hay un monto objetivo registrado en Ahorro todavía.";
     }
 
     if (q.includes("hola") || q.includes("hey") || q.includes("buenos") || q.includes("buenas") || q.includes("como estas") || q.includes("que tal")) {
-      return `¡Hola Zoe! 🖤✨ Aquí lista en modo Kuromi IA. Tienes ${tasks.length} tarea(s) pendiente(s) y ${exams.length} examen(es) anotados. ¿Quieres que revisemos tus prioridades, te arme un plan de estudio o simplemente charlemos un rato? 💜`;
+      return `Hola Zoe 🖤 Tienes ${tasks.length} tarea(s) pendiente(s) y ${exams.length} examen(es) registrados.`;
     }
 
     if (q.includes("gracias") || q.includes("genial") || q.includes("perfecto")) {
-      return "¡De nada, Zoe! 🖤💜 Para eso estoy aquí. Cualquier cosa que necesites organizar, repasar o simplemente desahogarte, solo escríbeme.";
+      return "De nada, Zoe 🖤";
     }
 
-    if (q.includes("quien eres") || q.includes("que puedes hacer") || q.includes("ayudame")) {
-      return "🖤 Soy Kuromi IA, tu asistente personal dentro de este planner. Puedo:\n• Revisar tus tareas y exámenes reales\n• Armar planes de estudio\n• Explicar temas de Física, Matemáticas, Sistemas y EPUS\n• Darte consejos de organización y ánimo\n• Recordarte que eres capaz aunque el día se sienta pesado\n\nSolo dime qué necesitas. 💜";
-    }
-
-    return `🖤 Entendido, Zoe. Sobre "${rawInput}":\n\nSi quieres que lo convierta en acción dentro de tu planner, dime si prefieres:\n1️⃣ Revisar tus tareas y exámenes pendientes\n2️⃣ Armar un bloque de estudio de 25 minutos\n3️⃣ Resumir algún concepto de Física, Matemáticas, Sistemas o EPUS\n4️⃣ Consejos de organización o motivación\n\nEstoy lista cuando tú lo estés 💜`;
+    return `Dime si quieres revisar tus pendientes, armar un bloque de estudio o repasar algún tema de Física, Matemáticas, Sistemas o EPUS.`;
   }
 
   function sendBotMessage(customText) {
@@ -2851,7 +2784,7 @@
       replyDiv.textContent = replyText;
       botMessages.appendChild(replyDiv);
       botMessages.scrollTop = botMessages.scrollHeight;
-    }, 550 + Math.random() * 400);
+    }, 350);
   }
 
   document.getElementById('botSendBtn').addEventListener('click', () => sendBotMessage());

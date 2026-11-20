@@ -56,7 +56,7 @@ async function run() {
   for (const task of tasks) {
     if (!task || task.done || task.notified || task.date !== todayISO) continue;
     const targetMin = toMinutes(task.time || '09:00');
-    if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 20) {
+    if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
       await sendPush(tokens, `✅ Tarea: ${task.title}`, `${task.subject} · Hora: ${task.time || '09:00'} (Prioridad ${task.priority})`);
       task.notified = true;
       updated = true;
@@ -66,7 +66,7 @@ async function run() {
   for (const exam of exams) {
     if (!exam || exam.notified || exam.date !== todayISO) continue;
     const targetMin = toMinutes(exam.time || '08:00');
-    if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 20) {
+    if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
       await sendPush(tokens, `📝 Examen de ${exam.subject}`, `${exam.topic} · Hora: ${exam.time || '08:00'}`);
       exam.notified = true;
       updated = true;

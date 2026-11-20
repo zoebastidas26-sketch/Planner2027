@@ -192,7 +192,7 @@
     border: 1px solid rgba(122,61,158,0.35);
     border-radius: var(--radius);
     padding: 1.45rem 1.6rem;
-    box-shadow: 
+    box-shadow:
       var(--shadow-deep),
       inset 0 1px 0 rgba(255,255,255,0.03),
       0 0 0 1px rgba(0,0,0,0.4);
@@ -415,7 +415,7 @@
   /* Add bar */
   .add-bar {
     display: grid;
-    grid-template-columns: 2fr 1.2fr 1.1fr 1fr auto;
+    grid-template-columns: 2fr 1.1fr 1fr 0.85fr 1fr auto;
     gap: 0.65rem;
     margin-bottom: 1.3rem;
     background: rgba(18, 14, 26, 0.8);
@@ -423,7 +423,7 @@
     border-radius: 13px;
     border: 1px solid rgba(201,160,232,0.22);
   }
-  @media (max-width: 820px) {
+  @media (max-width: 920px) {
     .add-bar { grid-template-columns: 1fr; }
   }
 
@@ -975,7 +975,6 @@
         rgba(201,160,232,0.03) 28px
       );
   }
-  /* Espiral / anillas de libreta */
   .main::before {
     content: "";
     position: fixed;
@@ -1024,7 +1023,6 @@
     pointer-events: none;
   }
 
-  /* Stickers / decoraciones Kuromi flotantes */
   .kuromi-sticker {
     position: fixed;
     pointer-events: none;
@@ -1041,7 +1039,6 @@
     50% { transform: translateY(-12px) rotate(3deg); }
   }
 
-  /* Mejoras de cards tipo página de libreta */
   .card {
     background:
       linear-gradient(165deg, #120e18 0%, #0c0912 100%),
@@ -1066,7 +1063,6 @@
     border: 1px dashed rgba(201,160,232,0.28);
   }
 
-  /* Sidebar más "tapa de libreta" */
   .sidebar {
     background:
       linear-gradient(180deg, #0c0812 0%, #08060c 100%),
@@ -1079,7 +1075,6 @@
     filter: drop-shadow(0 0 16px rgba(201,160,232,0.65));
   }
 
-  /* Portada más notebook */
   .cover-frame {
     background:
       linear-gradient(160deg, #120e1a 0%, #0a0710 100%),
@@ -1092,7 +1087,6 @@
       inset 0 0 60px rgba(80,30,120,0.1);
   }
 
-  /* Celdas de horario con estilo de cuaderno */
   .schedule-table td {
     border: 1px solid rgba(122,61,158,0.18);
     background: rgba(18,12,28,0.4);
@@ -1124,6 +1118,8 @@
       <h1>KUROMI DARK</h1>
       <div class="name">Zoe V. Bastidas E.</div>
       <div class="sync-badge" id="syncStatus">☁️ Conectando nube...</div>
+      <button class="btn btn-ghost btn-sm" id="enablePushBtn" style="margin-top:0.55rem;width:100%;">🔔 Activar alertas</button>
+      <div id="pushTokenStatus" style="font-size:0.66rem;color:var(--text-muted);margin-top:0.35rem;word-break:break-all;">Alertas: sin activar</div>
     </div>
 
     <div class="nav-group">
@@ -1801,7 +1797,7 @@
     <section id="examenes" class="section">
       <div class="page-header">
         <h2>📝 Sección de Exámenes</h2>
-        <p>Elige materia, prioridad y fecha directamente desde el calendario</p>
+        <p>Elige materia, prioridad, fecha y hora directamente desde el calendario</p>
       </div>
 
       <div class="card">
@@ -1814,6 +1810,7 @@
             <option value="EPUS">EPUS</option>
           </select>
           <input type="date" id="newExamDate">
+          <input type="time" id="newExamTime" value="08:00">
           <select id="newExamPriority">
             <option value="Alta">Prioridad: Alta</option>
             <option value="Media" selected>Prioridad: Media</option>
@@ -1829,6 +1826,7 @@
                 <th>Materia</th>
                 <th>Tema / Tipo</th>
                 <th>Fecha</th>
+                <th>Hora</th>
                 <th>Prioridad</th>
                 <th>Notas</th>
                 <th></th>
@@ -1844,7 +1842,7 @@
     <section id="tareas" class="section">
       <div class="page-header">
         <h2>✅ Tareas & Entregas</h2>
-        <p>Organizadas por fechas · Elige materia, prioridad y fecha en calendario</p>
+        <p>Organizadas por fechas · Elige materia, prioridad, fecha y hora</p>
       </div>
 
       <div class="card">
@@ -1857,6 +1855,7 @@
             <option value="EPUS">EPUS</option>
           </select>
           <input type="date" id="newTaskDate">
+          <input type="time" id="newTaskTime" value="09:00">
           <select id="newTaskPriority">
             <option value="Alta">Prioridad: Alta</option>
             <option value="Media" selected>Prioridad: Media</option>
@@ -1880,6 +1879,7 @@
                 <th>Actividad</th>
                 <th>Materia</th>
                 <th>Fecha límite</th>
+                <th>Hora</th>
                 <th>Prioridad</th>
                 <th></th>
               </tr>
@@ -1968,6 +1968,7 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-analytics.js";
   import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-database.js";
+  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-messaging.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDmfx8Nhi-Kkx6voN9vt4QIIUsSd3cRxuA",
@@ -1980,9 +1981,12 @@
     measurementId: "G-R9VCRLFVMB"
   };
 
+  const VAPID_KEY = "BEAqPLhEIO6hktBu9XWp9Fub2fiLbcVtk9PNHhIg5uyXRauo_YkJcO7b6jNe4qoMvYk_gMHG4LFD3VRQPsx722E";
+
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db = getDatabase(app);
+  const messaging = getMessaging(app);
   const plannerRef = ref(db, 'zoe_planner_2027');
 
   let cloudState = {
@@ -1995,11 +1999,13 @@
     moods: {},
     daily: {},
     tasks: [],
-    exams: []
+    exams: [],
+    fcmTokens: {}
   };
 
   let activeTaskFilter = 'all';
   const syncBadge = document.getElementById('syncStatus');
+  const pushTokenStatus = document.getElementById('pushTokenStatus');
 
   function setSyncStatus(text, color = 'var(--lilac-soft)') {
     if (syncBadge) {
@@ -2126,8 +2132,6 @@
     if (!tbody) return;
     tbody.innerHTML = '';
 
-    // Horario oficial 1FAC-ING-SIS-03 (Matutina/Vespertina)
-    // d: 0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sáb, 6=Dom
     const scheduleData = {
       '7-3': 'EPUS',
       '8-3': 'EPUS',
@@ -2185,6 +2189,58 @@
     window._fbTimer = setTimeout(pushToFirebase, 650);
   }
 
+  // ===== PUSH NOTIFICATIONS (FCM) =====
+  async function activarNotificacionesPush() {
+    try {
+      if (!("Notification" in window) || !("serviceWorker" in navigator)) {
+        if (pushTokenStatus) pushTokenStatus.textContent = "Este navegador no soporta alertas push.";
+        return;
+      }
+
+      const permission = await Notification.requestPermission();
+      if (permission !== "granted") {
+        if (pushTokenStatus) pushTokenStatus.textContent = "Permiso denegado en el navegador.";
+        return;
+      }
+
+      const swReg = await navigator.serviceWorker.register("./firebase-messaging-sw.js");
+      const token = await getToken(messaging, {
+        vapidKey: VAPID_KEY,
+        serviceWorkerRegistration: swReg
+      });
+
+      if (token) {
+        const safeKey = token.slice(-18).replace(/[^a-zA-Z0-9_-]/g, "_");
+        cloudState.fcmTokens = cloudState.fcmTokens || {};
+        cloudState.fcmTokens[safeKey] = {
+          token,
+          updatedAt: new Date().toISOString(),
+          platform: navigator.userAgent.slice(0, 80)
+        };
+        pushToFirebase();
+        if (pushTokenStatus) pushTokenStatus.textContent = "✅ Alertas activadas y token guardado";
+      } else {
+        if (pushTokenStatus) pushTokenStatus.textContent = "No se pudo generar el token.";
+      }
+    } catch (err) {
+      console.error(err);
+      if (pushTokenStatus) pushTokenStatus.textContent = "Error al activar alertas.";
+    }
+  }
+
+  document.getElementById("enablePushBtn")?.addEventListener("click", activarNotificacionesPush);
+
+  onMessage(messaging, (payload) => {
+    const title = payload.notification?.title || "🖤 Kuromi Planner";
+    const body = payload.notification?.body || "Tienes un recordatorio en tu agenda.";
+    if (Notification.permission === "granted") {
+      new Notification(title, {
+        body,
+        icon: "https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png"
+      });
+    }
+  });
+
   // ===== TASKS & EXAMS RENDERING =====
   function getPriorityBadge(prio) {
     if (prio === 'Alta') return '<span class="pill pill-high">Alta</span>';
@@ -2208,13 +2264,14 @@
     if (tasksBody) {
       const filtered = filterTasksByTab(tasks, activeTaskFilter);
       tasksBody.innerHTML = filtered.length === 0
-        ? `<tr><td colspan="6" class="text-muted text-sm" style="text-align:center;padding:1.2rem;">No hay tareas en esta pestaña.</td></tr>`
+        ? `<tr><td colspan="7" class="text-muted text-sm" style="text-align:center;padding:1.2rem;">No hay tareas en esta pestaña.</td></tr>`
         : filtered.map(t => `
           <tr>
             <td><input type="checkbox" ${t.done ? 'checked' : ''} onchange="window.toggleTaskDone('${t.id}')"></td>
             <td style="${t.done ? 'text-decoration:line-through;opacity:0.55;' : ''}">${t.title}</td>
             <td><span class="pill pill-mid">${t.subject}</span></td>
             <td><input type="date" value="${t.date || ''}" onchange="window.updateTaskField('${t.id}', 'date', this.value)" style="max-width:140px;"></td>
+            <td><input type="time" value="${t.time || ''}" onchange="window.updateTaskField('${t.id}', 'time', this.value)" style="max-width:110px;"></td>
             <td>
               <select onchange="window.updateTaskField('${t.id}', 'priority', this.value)" style="max-width:110px;">
                 <option value="Alta" ${t.priority === 'Alta' ? 'selected' : ''}>Alta</option>
@@ -2237,7 +2294,7 @@
             <input type="checkbox" ${t.done ? 'checked' : ''} onchange="window.toggleTaskDone('${t.id}')">
             <span style="flex:1;${t.done ? 'text-decoration:line-through;opacity:0.55;' : ''}">${t.title}</span>
             <span class="pill pill-mid">${t.subject}</span>
-            <span class="text-sm text-muted">${formatDateDisplay(t.date)}</span>
+            <span class="text-sm text-muted">${formatDateDisplay(t.date)}${t.time ? ' · ' + t.time : ''}</span>
             ${getPriorityBadge(t.priority)}
           </div>
         `).join('');
@@ -2246,7 +2303,7 @@
     const examsBody = document.getElementById('examsTableBody');
     if (examsBody) {
       examsBody.innerHTML = exams.length === 0
-        ? `<tr><td colspan="6" class="text-muted text-sm" style="text-align:center;padding:1.2rem;">Aún no has agregado exámenes.</td></tr>`
+        ? `<tr><td colspan="7" class="text-muted text-sm" style="text-align:center;padding:1.2rem;">Aún no has agregado exámenes.</td></tr>`
         : exams.map(ex => `
           <tr>
             <td>
@@ -2259,6 +2316,7 @@
             </td>
             <td>${ex.topic}</td>
             <td><input type="date" value="${ex.date || ''}" onchange="window.updateExamField('${ex.id}', 'date', this.value)" style="max-width:140px;"></td>
+            <td><input type="time" value="${ex.time || ''}" onchange="window.updateExamField('${ex.id}', 'time', this.value)" style="max-width:110px;"></td>
             <td>
               <select onchange="window.updateExamField('${ex.id}', 'priority', this.value)" style="max-width:110px;">
                 <option value="Alta" ${ex.priority === 'Alta' ? 'selected' : ''}>Alta</option>
@@ -2279,7 +2337,7 @@
         : exams.slice(0, 4).map(ex => `
           <div style="padding:0.35rem 0;border-bottom:1px solid rgba(80,35,120,0.15);display:flex;justify-content:space-between;align-items:center;">
             <span><strong>${ex.subject}:</strong> ${ex.topic}</span>
-            <span>${formatDateDisplay(ex.date)} ${getPriorityBadge(ex.priority)}</span>
+            <span>${formatDateDisplay(ex.date)}${ex.time ? ' · ' + ex.time : ''} ${getPriorityBadge(ex.priority)}</span>
           </div>
         `).join('');
     }
@@ -2293,6 +2351,7 @@
       title,
       subject: document.getElementById('newTaskSubject').value,
       date: document.getElementById('newTaskDate').value,
+      time: document.getElementById('newTaskTime')?.value || '',
       priority: document.getElementById('newTaskPriority').value,
       done: false
     });
@@ -2333,6 +2392,7 @@
       topic,
       subject: document.getElementById('newExamSubject').value,
       date: document.getElementById('newExamDate').value,
+      time: document.getElementById('newExamTime')?.value || '',
       priority: document.getElementById('newExamPriority').value,
       notes: ''
     });
@@ -2398,6 +2458,10 @@
       el.checked = Boolean(cloudState.wishChecks && cloudState.wishChecks[id]);
     });
 
+    if (pushTokenStatus && cloudState.fcmTokens && Object.keys(cloudState.fcmTokens).length > 0) {
+      pushTokenStatus.textContent = "✅ Alertas activadas y token guardado";
+    }
+
     renderSubjectDatedFields();
     renderTasksAndExams();
     renderCalendar();
@@ -2419,7 +2483,8 @@
         moods: val.moods || {},
         daily: val.daily || {},
         tasks: val.tasks || [],
-        exams: val.exams || []
+        exams: val.exams || [],
+        fcmTokens: val.fcmTokens || {}
       };
       applyCloudState();
     }
@@ -2661,7 +2726,7 @@
     renderPomo();
   });
 
-  // ===== KUROMI IA BOT — Versión mejorada =====
+  // ===== KUROMI IA BOT =====
   const botMessages = document.getElementById('botMessages');
   const botInput = document.getElementById('botInput');
   const botTyping = document.getElementById('botTyping');
@@ -2675,7 +2740,6 @@
     const highTasks = tasks.filter(t => t.priority === 'Alta');
     const todayTasks = tasks.filter(t => t.date === today);
 
-    // 1. Análisis de agenda / tareas / exámenes
     if (q.includes("agenda") || q.includes("tarea") || q.includes("pendiente") || q.includes("priorizar") || q.includes("que tengo") || q.includes("que debo hacer") || q.includes("que hay")) {
       let resp = "🖤 Revisé tu base de datos en tiempo real, Zoe:\n\n";
       if (tasks.length === 0 && exams.length === 0) {
@@ -2703,7 +2767,6 @@
       return resp;
     }
 
-    // 2. Plan de estudio personalizado
     if (q.includes("plan de estudio") || q.includes("estudiar") || q.includes("examen") || q.includes("parcial") || q.includes("repasar")) {
       let targetSubj = "tus materias";
       if (q.includes("fisica")) targetSubj = "Física";
@@ -2715,7 +2778,6 @@
       return `📚 Plan de ataque Kuromi para **${targetSubj}**:\n\n1️⃣ **Bloque 1 (25 min)**: Lee tus apuntes por fecha y saca las fórmulas/conceptos clave en un resumen limpio.\n2️⃣ **Descanso (5 min)**: Agua + estiramiento lejos de pantallas. No toques el celular.\n3️⃣ **Bloque 2 (25 min)**: Resuelve 3-5 ejercicios prácticos sin mirar la solución. Si te trabas, anótalo.\n4️⃣ **Cierre (10 min)**: Escribe en "Preguntas pendientes" cualquier duda puntual para clase o tutoría.\n\n💜 Si tienes un examen cercano, prioriza los temas que más se repiten. Yo estoy aquí para cuando necesites que te explique algo.`;
     }
 
-    // 3. Explicaciones académicas
     if (q.includes("derivad") || q.includes("cinematic") || q.includes("vector") || q.includes("sistema") || q.includes("etica") || q.includes("epus") || q.includes("explica") || q.includes("que es") || q.includes("como funciona")) {
       if (q.includes("derivad")) {
         return "📐 **Derivadas en modo fácil**:\nUna derivada mide qué tan rápido cambia una función en un punto exacto (la pendiente de la recta tangente).\n\n• Regla de la potencia: si f(x) = xⁿ → f'(x) = n·xⁿ⁻¹\n• Derivada de una constante siempre es 0\n• Suma/resta: (f+g)' = f' + g'\n• Producto: (f·g)' = f'g + fg'\n\nSi necesitas practicar, anota los ejercicios en tu bloque de Matemáticas por fecha y los vamos desglosando juntos. 💜";
@@ -2732,17 +2794,14 @@
       return "🧠 Dime exactamente qué tema de Física, Matemáticas, Sistemas o EPUS quieres que te resuma (por ejemplo: 'explícame derivadas' o 'explícame cinemática') y te doy los puntos clave listos para tus apuntes. 🖤";
     }
 
-    // 4. Apoyo emocional
     if (q.includes("estres") || q.includes("cansad") || q.includes("triste") || q.includes("agobi") || q.includes("animo") || q.includes("mal") || q.includes("ansiedad") || q.includes("saturad") || q.includes("no puedo")) {
       return "🌙 Hey, baja un cambio un segundo, Zoe.\n\nEs completamente normal sentirse saturada en Ingeniería en Sistemas. No tienes que cargar con todo el semestre en una sola noche.\n\n• Toma un vaso de agua ahora mismo.\n• Elige UNA sola cosa pequeña para hoy y deja el resto para mañana.\n• Dormir bien también es parte de rendir en la U.\n• Si necesitas desahogarte, aquí estoy (sin juicios).\n\nRecuerda: progresar poco a poco sigue siendo progresar. Aquí estoy contigo 💜🖤";
     }
 
-    // 5. Organización y productividad
     if (q.includes("organizar") || q.includes("semana") || q.includes("tiempo") || q.includes("productiv") || q.includes("procrastin") || q.includes("enfocar")) {
       return "🗓️ **Consejos Kuromi para organizar tu semana**:\n\n1. Revisa primero tus exámenes y tareas de alta prioridad.\n2. Bloquea 2-3 sesiones Pomodoro por día (no más de 4 si estás agotada).\n3. Deja un buffer de 30-40 min entre clases para respirar o repasar rápido.\n4. Usa el planner diario para escribir solo 3 prioridades máximas.\n5. Los domingos por la tarde: 20 minutos de revisión de la semana siguiente.\n\nSi quieres, dime cómo está tu horario esta semana y te ayudo a armar un plan concreto. 🖤";
     }
 
-    // 6. Ahorro / finanzas
     if (q.includes("ahorro") || q.includes("dinero") || q.includes("plata") || q.includes("meta financiera")) {
       const goal = cloudState.fields['save-goal'] || 'tu meta';
       const target = parseFloat(cloudState.fields['save-target']) || 0;
@@ -2755,12 +2814,11 @@
       return "💰 Aún no has puesto un monto objetivo en la sección Ahorro. Si lo llenas, te ayudo a calcular cuánto te falta y a armar un plan realista. 🖤";
     }
 
-    // 7. Saludos y conversación
     if (q.includes("hola") || q.includes("hey") || q.includes("buenos") || q.includes("buenas") || q.includes("como estas") || q.includes("que tal")) {
       return `¡Hola Zoe! 🖤✨ Aquí lista en modo Kuromi IA. Tienes ${tasks.length} tarea(s) pendiente(s) y ${exams.length} examen(es) anotados. ¿Quieres que revisemos tus prioridades, te arme un plan de estudio o simplemente charlemos un rato? 💜`;
     }
 
-    if (q.includes("gracias") || q.includes("genial") || q.includes("perfecto") || q.includes("gracias")) {
+    if (q.includes("gracias") || q.includes("genial") || q.includes("perfecto")) {
       return "¡De nada, Zoe! 🖤💜 Para eso estoy aquí. Cualquier cosa que necesites organizar, repasar o simplemente desahogarte, solo escríbeme.";
     }
 
@@ -2768,7 +2826,6 @@
       return "🖤 Soy Kuromi IA, tu asistente personal dentro de este planner. Puedo:\n• Revisar tus tareas y exámenes reales\n• Armar planes de estudio\n• Explicar temas de Física, Matemáticas, Sistemas y EPUS\n• Darte consejos de organización y ánimo\n• Recordarte que eres capaz aunque el día se sienta pesado\n\nSolo dime qué necesitas. 💜";
     }
 
-    // 8. Respuesta por defecto más inteligente
     return `🖤 Entendido, Zoe. Sobre "${rawInput}":\n\nSi quieres que lo convierta en acción dentro de tu planner, dime si prefieres:\n1️⃣ Revisar tus tareas y exámenes pendientes\n2️⃣ Armar un bloque de estudio de 25 minutos\n3️⃣ Resumir algún concepto de Física, Matemáticas, Sistemas o EPUS\n4️⃣ Consejos de organización o motivación\n\nEstoy lista cuando tú lo estés 💜`;
   }
 

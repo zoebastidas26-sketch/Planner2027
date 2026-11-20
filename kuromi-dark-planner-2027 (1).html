@@ -1,0 +1,2816 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KUROMI DARK PLANNER 2027 — Zoe Valentina Bastidas Enríquez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #050308;
+    --bg-card: #0e0a12;
+    --bg-elevated: #16101c;
+    --purple-dark: #1a0f28;
+    --purple-mid: #3d1f5c;
+    --purple-glow: #6b2d9b;
+    --lilac: #c9a0e8;
+    --lilac-soft: #e8d4f8;
+    --pink-soft: #f0b8d0;
+    --pink-accent: #e070a0;
+    --rose: #c45a80;
+    --white-soft: #f5f0f8;
+    --text-main: #ede4f2;
+    --text-muted: #a898b8;
+    --border-glow: #7a3d9e;
+    --shadow-deep: 0 12px 40px rgba(0,0,0,0.7);
+    --radius: 16px;
+    --font-display: 'Cinzel Decorative', serif;
+    --font-elegant: 'Cormorant Garamond', serif;
+    --font-body: 'Quicksand', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-deep);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 15% 10%, rgba(80,30,120,0.22) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 90%, rgba(40,15,60,0.28) 0%, transparent 45%),
+      radial-gradient(ellipse at 50% 50%, rgba(20,8,30,0.4) 0%, transparent 70%);
+  }
+
+  /* ===== LAYOUT ===== */
+  .app {
+    display: flex;
+    min-height: 100vh;
+  }
+  .sidebar {
+    width: 270px;
+    background: linear-gradient(180deg, #0c0812 0%, #08060c 100%);
+    border-right: 1px solid rgba(122,61,158,0.4);
+    padding: 1.5rem 1rem;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 6px 0 30px rgba(0,0,0,0.55);
+  }
+  .sidebar-logo {
+    text-align: center;
+    padding: 0.8rem 0 1.4rem;
+    border-bottom: 1px solid rgba(201,160,232,0.18);
+    margin-bottom: 1.2rem;
+    position: relative;
+  }
+  .sidebar-logo::after {
+    content: "✦ · ✦ · ✦";
+    position: absolute;
+    bottom: -8px;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: 0.6rem;
+    color: var(--lilac);
+    opacity: 0.5;
+    letter-spacing: 0.4em;
+  }
+  .sidebar-logo .kuromi-img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 12px rgba(201,160,232,0.5));
+    margin-bottom: 0.4rem;
+  }
+  .sidebar-logo h1 {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    letter-spacing: 0.14em;
+    color: var(--lilac);
+    margin-top: 0.25rem;
+    text-shadow: 0 0 12px rgba(201,160,232,0.3);
+  }
+  .sidebar-logo .name {
+    font-size: 0.7rem;
+    color: var(--pink-soft);
+    letter-spacing: 0.05em;
+    margin-top: 0.25rem;
+  }
+  .sync-badge {
+    display: inline-block;
+    margin-top: 0.6rem;
+    padding: 0.22rem 0.7rem;
+    border-radius: 14px;
+    font-size: 0.68rem;
+    background: rgba(201,160,232,0.1);
+    color: var(--lilac-soft);
+    border: 1px solid rgba(201,160,232,0.28);
+  }
+  .nav-group { margin-bottom: 1.25rem; }
+  .nav-group-title {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    padding: 0 0.65rem 0.4rem;
+  }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.52rem 0.75rem;
+    border-radius: 11px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 500;
+    transition: all 0.22s ease;
+    margin-bottom: 3px;
+  }
+  .nav-link:hover, .nav-link.active {
+    background: linear-gradient(90deg, rgba(80,35,120,0.55), transparent);
+    color: var(--lilac-soft);
+    box-shadow: inset 3px 0 0 var(--lilac);
+  }
+  .nav-link .icon { font-size: 1.05rem; width: 1.35rem; text-align: center; }
+
+  .main {
+    margin-left: 270px;
+    flex: 1;
+    padding: 2rem 2.4rem 4rem;
+    max-width: 1220px;
+  }
+
+  /* ===== COMMON COMPONENTS ===== */
+  .section {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .section.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .page-header {
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 1.1rem;
+  }
+  .page-header::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--lilac), var(--pink-soft), var(--lilac), transparent);
+    opacity: 0.5;
+  }
+  .page-header h2 {
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    color: var(--lilac);
+    letter-spacing: 0.07em;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-shadow: 0 0 18px rgba(201,160,232,0.25);
+  }
+  .page-header p {
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+    font-family: var(--font-elegant);
+    font-size: 1.1rem;
+  }
+
+  /* Enhanced gothic cards */
+  .card {
+    background: linear-gradient(165deg, #120e18 0%, #0c0912 100%);
+    border: 1px solid rgba(122,61,158,0.35);
+    border-radius: var(--radius);
+    padding: 1.45rem 1.6rem;
+    box-shadow: 
+      var(--shadow-deep),
+      inset 0 1px 0 rgba(255,255,255,0.03),
+      0 0 0 1px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--lilac), var(--pink-soft), var(--lilac), transparent);
+    opacity: 0.7;
+  }
+  .card::after {
+    content: "";
+    position: absolute;
+    top: 8px; left: 8px; right: 8px; bottom: 8px;
+    border: 1px solid rgba(201,160,232,0.08);
+    border-radius: 12px;
+    pointer-events: none;
+  }
+  .card-title {
+    font-family: var(--font-elegant);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--pink-soft);
+    margin-bottom: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.3rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.15rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  @media (max-width: 980px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .sidebar { width: 230px; }
+    .main { margin-left: 230px; padding: 1.3rem; }
+  }
+  @media (max-width: 680px) {
+    .app { flex-direction: column; }
+    .sidebar { position: relative; width: 100%; height: auto; border-right: none; border-bottom: 1px solid rgba(122,61,158,0.4); }
+    .main { margin-left: 0; padding: 1.1rem; }
+  }
+
+  /* Editable areas */
+  [contenteditable="true"] {
+    outline: none;
+    min-height: 1.4em;
+    border-radius: 7px;
+    transition: background 0.2s;
+  }
+  [contenteditable="true"]:focus {
+    background: rgba(201,160,232,0.07);
+  }
+  [contenteditable="true"]:empty::before {
+    content: attr(data-placeholder);
+    color: rgba(168, 152, 184, 0.4);
+    font-style: italic;
+  }
+  .note-area {
+    background: rgba(12,9,18,0.7);
+    border: 1px dashed rgba(201,160,232,0.22);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    min-height: 145px;
+    font-family: var(--font-elegant);
+    font-size: 1.08rem;
+    line-height: 1.65;
+    color: var(--text-main);
+  }
+  .note-area.tall { min-height: 250px; }
+
+  /* Tables & Form Controls */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  th {
+    background: rgba(80,35,120,0.35);
+    color: var(--lilac);
+    font-weight: 600;
+    text-align: left;
+    padding: 0.7rem 0.8rem;
+    border-bottom: 1px solid rgba(201,160,232,0.22);
+    font-family: var(--font-elegant);
+    letter-spacing: 0.03em;
+  }
+  td {
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid rgba(80,35,120,0.18);
+    vertical-align: middle;
+  }
+  tr:hover td { background: rgba(80,35,120,0.12); }
+  input, select, textarea {
+    background: var(--bg-elevated);
+    border: 1px solid rgba(122,61,158,0.45);
+    color: var(--text-main);
+    border-radius: 9px;
+    padding: 0.48rem 0.7rem;
+    font-family: var(--font-body);
+    font-size: 0.86rem;
+    width: 100%;
+    color-scheme: dark;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--lilac);
+    box-shadow: 0 0 0 2px rgba(201,160,232,0.2);
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, var(--purple-mid), #5a2d80);
+    color: var(--white-soft);
+    border: none;
+    border-radius: 11px;
+    padding: 0.58rem 1.2rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.86rem;
+    cursor: pointer;
+    transition: all 0.22s;
+    box-shadow: 0 5px 16px rgba(80,35,120,0.45);
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(80,35,120,0.6);
+  }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid rgba(201,160,232,0.35);
+    color: var(--lilac);
+    box-shadow: none;
+  }
+  .btn-ghost:hover {
+    background: rgba(201,160,232,0.1);
+  }
+  .btn-sm {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.78rem;
+    border-radius: 8px;
+  }
+  .btn-danger {
+    background: rgba(200, 60, 90, 0.2);
+    border: 1px solid rgba(200, 60, 90, 0.4);
+    color: #ff9eb5;
+    padding: 0.32rem 0.6rem;
+    font-size: 0.78rem;
+    box-shadow: none;
+  }
+
+  /* Subject Date Navigator Bar */
+  .subj-date-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    background: rgba(18, 14, 26, 0.9);
+    border: 1px solid rgba(201,160,232,0.3);
+    border-radius: 13px;
+    padding: 0.85rem 1.1rem;
+    margin-bottom: 1.3rem;
+  }
+  .subj-date-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .subj-divider {
+    margin: 2rem 0 1.3rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(201,160,232,0.22);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .subj-divider h4 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--lilac);
+    letter-spacing: 0.05em;
+  }
+
+  /* Filter tabs */
+  .filter-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.1rem;
+  }
+  .filter-tab {
+    padding: 0.4rem 0.9rem;
+    border-radius: 22px;
+    background: var(--bg-elevated);
+    border: 1px solid rgba(122,61,158,0.4);
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-tab.active, .filter-tab:hover {
+    background: linear-gradient(135deg, var(--purple-mid), #5a2d80);
+    color: var(--white-soft);
+    border-color: var(--lilac);
+  }
+
+  /* Add bar */
+  .add-bar {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.1fr 1fr auto;
+    gap: 0.65rem;
+    margin-bottom: 1.3rem;
+    background: rgba(18, 14, 26, 0.8);
+    padding: 1rem;
+    border-radius: 13px;
+    border: 1px solid rgba(201,160,232,0.22);
+  }
+  @media (max-width: 820px) {
+    .add-bar { grid-template-columns: 1fr; }
+  }
+
+  /* Tags / pills */
+  .pill {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 22px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .pill-high { background: rgba(200,90,130,0.28); color: var(--pink-soft); }
+  .pill-mid { background: rgba(201,160,232,0.2); color: var(--lilac); }
+  .pill-low { background: rgba(90,90,110,0.35); color: var(--text-muted); }
+
+  /* ===== PORTADA ===== */
+  #portada {
+    min-height: calc(100vh - 3.5rem);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 2rem;
+  }
+  #portada.active { display: flex; }
+  .cover-frame {
+    position: relative;
+    padding: 3.2rem 2.8rem;
+    max-width: 740px;
+    background: linear-gradient(160deg, #120e1a 0%, #0a0710 100%);
+    border: 1px solid rgba(201,160,232,0.3);
+    border-radius: 28px;
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,0.7),
+      0 25px 70px rgba(0,0,0,0.7),
+      inset 0 1px 0 rgba(255,255,255,0.04),
+      0 0 40px rgba(122,61,158,0.15);
+  }
+  .cover-frame::before, .cover-frame::after {
+    content: "✦  ·  🖤  ·  ✦  ·  🌙  ·  ✦  ·  💜  ·  ✦";
+    position: absolute;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: 0.72rem;
+    letter-spacing: 0.4em;
+    color: var(--lilac);
+    opacity: 0.55;
+  }
+  .cover-frame::before { top: 14px; }
+  .cover-frame::after { bottom: 14px; }
+  .cover-kuromi {
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+    margin: 0.6rem auto 0.5rem;
+    filter: drop-shadow(0 0 22px rgba(201,160,232,0.55));
+    display: block;
+  }
+  .cover-title {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    color: var(--lilac);
+    letter-spacing: 0.09em;
+    margin-bottom: 0.35rem;
+    text-shadow: 0 0 28px rgba(201,160,232,0.4);
+  }
+  .cover-year {
+    font-family: var(--font-elegant);
+    font-size: 1.4rem;
+    color: var(--pink-soft);
+    letter-spacing: 0.28em;
+    margin-bottom: 1.5rem;
+  }
+  .cover-name {
+    font-family: var(--font-elegant);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--white-soft);
+    letter-spacing: 0.07em;
+    border-top: 1px solid rgba(201,160,232,0.28);
+    border-bottom: 1px solid rgba(201,160,232,0.28);
+    padding: 0.75rem 1.4rem;
+    display: inline-block;
+    margin-bottom: 1.3rem;
+  }
+  .cover-tagline {
+    font-size: 0.98rem;
+    color: var(--text-muted);
+    font-style: italic;
+    font-family: var(--font-elegant);
+    max-width: 440px;
+    margin: 0 auto 1.6rem;
+  }
+  .cover-deco {
+    display: flex;
+    justify-content: center;
+    gap: 1.3rem;
+    font-size: 1.35rem;
+    opacity: 0.75;
+    margin-top: 0.5rem;
+  }
+
+  /* ===== DASHBOARD ===== */
+  .dash-banner {
+    background: linear-gradient(135deg, #140f1c 0%, #2a1a3d 50%, #140f1c 100%);
+    border: 1px solid rgba(201,160,232,0.32);
+    border-radius: 18px;
+    padding: 1.5rem 1.9rem;
+    margin-bottom: 1.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  }
+  .dash-date {
+    font-family: var(--font-elegant);
+    font-size: 1.45rem;
+    color: var(--lilac);
+    text-transform: capitalize;
+  }
+  .dash-greeting {
+    font-size: 0.98rem;
+    color: var(--text-muted);
+  }
+  .quick-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+  .quick-nav a {
+    font-size: 0.8rem;
+    padding: 0.38rem 0.75rem;
+    background: rgba(201,160,232,0.12);
+    border: 1px solid rgba(201,160,232,0.28);
+    border-radius: 22px;
+    color: var(--lilac-soft);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .quick-nav a:hover {
+    background: rgba(201,160,232,0.22);
+  }
+
+  .priority-list {
+    list-style: none;
+  }
+  .priority-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid rgba(80,35,120,0.15);
+    font-size: 0.92rem;
+  }
+  .priority-list li:last-child { border-bottom: none; }
+  .priority-list li span { flex: 1; }
+  .check-circle {
+    width: 19px; height: 19px;
+    border: 1.5px solid var(--lilac);
+    border-radius: 50%;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .check-circle.done {
+    background: var(--lilac);
+    box-shadow: 0 0 10px rgba(201,160,232,0.55);
+  }
+
+  /* ===== MATERIAS ===== */
+  .subject-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-bottom: 1.5rem;
+  }
+  .subject-tab {
+    padding: 0.55rem 1.1rem;
+    border-radius: 13px;
+    background: var(--bg-elevated);
+    border: 1px solid rgba(122,61,158,0.35);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.87rem;
+    transition: all 0.2s;
+  }
+  .subject-tab.active, .subject-tab:hover {
+    background: linear-gradient(135deg, var(--purple-mid), #5a2d80);
+    color: var(--white-soft);
+    border-color: transparent;
+  }
+  .subject-panel { display: none; }
+  .subject-panel.active { display: block; }
+  .subject-hero {
+    background: linear-gradient(135deg, #160f22, #2a1a3d);
+    border-radius: 16px;
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 1.3rem;
+    border: 1px solid rgba(201,160,232,0.25);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .subject-hero h3 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--lilac);
+  }
+  .subject-hero .meta {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+  .sub-section { margin-bottom: 1.3rem; }
+  .sub-section h4 {
+    font-family: var(--font-elegant);
+    font-size: 1.2rem;
+    color: var(--pink-soft);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  /* ===== HORARIO ===== */
+  .schedule-table { overflow-x: auto; }
+  .schedule-table table { min-width: 780px; }
+  .schedule-table th { text-align: center; min-width: 95px; }
+  .schedule-table td { height: 60px; vertical-align: top; font-size: 0.82rem; }
+  .schedule-table .time-col {
+    width: 72px;
+    text-align: center;
+    color: var(--lilac);
+    font-weight: 600;
+    background: rgba(40,20,60,0.35);
+  }
+
+  /* ===== CALENDARIO MENSUAL ===== */
+  .month-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.1rem;
+  }
+  .month-nav h3 {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    color: var(--lilac);
+  }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+  }
+  .cal-day-name {
+    text-align: center;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    padding: 0.4rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+  }
+  .cal-cell {
+    aspect-ratio: 1;
+    background: var(--bg-elevated);
+    border: 1px solid rgba(122,61,158,0.25);
+    border-radius: 9px;
+    padding: 0.35rem;
+    font-size: 0.82rem;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.15s;
+    overflow-y: auto;
+  }
+  .cal-cell:hover {
+    border-color: var(--lilac);
+    background: rgba(80,35,120,0.28);
+  }
+  .cal-cell.other { opacity: 0.35; }
+  .cal-cell.today {
+    border-color: var(--pink-soft);
+    box-shadow: 0 0 0 1px var(--pink-soft);
+  }
+  .cal-num { font-weight: 600; color: var(--lilac-soft); }
+  .cal-note {
+    font-size: 0.72rem;
+    color: var(--text-main);
+    margin-top: 2px;
+    flex: 1;
+  }
+
+  /* ===== HABIT TRACKER ===== */
+  .habit-grid { overflow-x: auto; }
+  .habit-table { min-width: 640px; }
+  .habit-table th, .habit-table td { text-align: center; padding: 0.48rem 0.32rem; }
+  .habit-table th:first-child, .habit-table td:first-child { text-align: left; min-width: 145px; }
+  .habit-check {
+    width: 24px; height: 24px;
+    border: 1.5px solid rgba(201,160,232,0.4);
+    border-radius: 7px;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+  }
+  .habit-check.done {
+    background: linear-gradient(135deg, var(--purple-mid), var(--rose));
+    border-color: transparent;
+    color: white;
+  }
+
+  /* ===== MOOD TRACKER ===== */
+  .mood-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-bottom: 1.3rem;
+  }
+  .mood-btn {
+    padding: 0.48rem 0.9rem;
+    border-radius: 22px;
+    border: 1px solid rgba(201,160,232,0.32);
+    background: var(--bg-elevated);
+    color: var(--text-main);
+    cursor: pointer;
+    font-size: 0.87rem;
+    transition: all 0.2s;
+  }
+  .mood-btn:hover, .mood-btn.selected {
+    background: rgba(201,160,232,0.2);
+    border-color: var(--lilac);
+  }
+  .mood-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 7px;
+  }
+  .mood-day {
+    aspect-ratio: 1;
+    border-radius: 11px;
+    background: var(--bg-elevated);
+    border: 1px solid rgba(122,61,158,0.28);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.76rem;
+    cursor: pointer;
+  }
+  .mood-day .num { color: var(--text-muted); margin-bottom: 2px; }
+  .mood-day .emoji { font-size: 1.15rem; }
+
+  /* ===== WISHLIST / LISTS ===== */
+  .list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid rgba(80,35,120,0.15);
+  }
+  .list-item:last-child { border-bottom: none; }
+  .list-item input[type="checkbox"] {
+    width: 19px; height: 19px;
+    accent-color: var(--lilac);
+  }
+
+  /* ===== WIDGETS & KUROMI IA BOT ===== */
+  .clock-widget {
+    text-align: center;
+    padding: 1.8rem 1rem;
+    background: radial-gradient(circle at center, rgba(80,35,120,0.4), rgba(12,9,18,0.95));
+    border-radius: 16px;
+    border: 1px solid rgba(201,160,232,0.32);
+  }
+  .clock-time {
+    font-family: var(--font-display);
+    font-size: 2.7rem;
+    color: var(--lilac);
+    letter-spacing: 0.08em;
+    text-shadow: 0 0 20px rgba(201,160,232,0.5);
+  }
+  .clock-sub {
+    font-family: var(--font-elegant);
+    font-size: 1.15rem;
+    color: var(--pink-soft);
+    margin-top: 0.35rem;
+    text-transform: capitalize;
+  }
+  .pomo-display {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    color: var(--pink-soft);
+    text-align: center;
+    margin: 0.9rem 0;
+    text-shadow: 0 0 16px rgba(240,184,208,0.35);
+  }
+  .pomo-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+  }
+  .bot-container {
+    display: flex;
+    flex-direction: column;
+    height: 480px;
+    background: rgba(10, 7, 15, 0.92);
+    border: 1px solid rgba(201,160,232,0.3);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .bot-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.9rem 1.1rem;
+    background: linear-gradient(90deg, rgba(60,25,90,0.5), rgba(30,15,50,0.6));
+    border-bottom: 1px solid rgba(201,160,232,0.2);
+  }
+  .bot-header img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(201,160,232,0.4));
+  }
+  .bot-header-text h4 {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: var(--lilac);
+    letter-spacing: 0.04em;
+  }
+  .bot-header-text span {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+  .bot-messages {
+    flex: 1;
+    padding: 1.1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .bot-msg {
+    max-width: 86%;
+    padding: 0.8rem 1.05rem;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    white-space: pre-line;
+  }
+  .bot-msg.kuromi {
+    align-self: flex-start;
+    background: linear-gradient(135deg, rgba(70,30,110,0.55), rgba(35,18,55,0.85));
+    border: 1px solid rgba(201,160,232,0.32);
+    color: var(--lilac-soft);
+  }
+  .bot-msg.user {
+    align-self: flex-end;
+    background: rgba(224,112,160,0.18);
+    border: 1px solid rgba(224,112,160,0.35);
+    color: var(--white-soft);
+  }
+  .bot-typing {
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--pink-soft);
+    padding: 0 1.1rem 0.45rem;
+    display: none;
+  }
+  .bot-input-row {
+    display: flex;
+    gap: 0.55rem;
+    padding: 0.8rem;
+    background: var(--bg-elevated);
+    border-top: 1px solid rgba(122,61,158,0.28);
+  }
+  .bot-chips {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    padding: 0.7rem 0.9rem 0.3rem;
+  }
+  .bot-chip {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 15px;
+    background: rgba(201,160,232,0.12);
+    border: 1px solid rgba(201,160,232,0.28);
+    color: var(--lilac);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .bot-chip:hover { background: rgba(201,160,232,0.25); }
+
+  /* ===== FOOTER TINY ===== */
+  .app-footer {
+    text-align: center;
+    padding: 1.6rem;
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  /* Utility */
+  .spacer { height: 1rem; }
+  .text-muted { color: var(--text-muted); }
+  .text-sm { font-size: 0.84rem; }
+  .flex-between { display: flex; justify-content: space-between; align-items: center; }
+  .mb-1 { margin-bottom: 0.75rem; }
+  .mb-2 { margin-bottom: 1.3rem; }
+  .mt-2 { margin-top: 1.1rem; }
+
+  /* Progress bar */
+  .progress-bar {
+    height: 9px;
+    background: rgba(122,61,158,0.3);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--purple-mid), var(--pink-accent));
+    border-radius: 12px;
+    transition: width 0.4s ease;
+  }
+
+  /* ===== LIBRETA INTERACTIVA / NOTEBOOK LOOK ===== */
+  .main {
+    position: relative;
+    background:
+      linear-gradient(90deg, rgba(20,12,30,0.97) 0%, rgba(12,8,18,0.98) 8px, transparent 8px),
+      radial-gradient(ellipse at 90% 10%, rgba(90,40,130,0.12) 0%, transparent 40%),
+      radial-gradient(ellipse at 10% 80%, rgba(60,25,90,0.1) 0%, transparent 35%),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 27px,
+        rgba(201,160,232,0.03) 27px,
+        rgba(201,160,232,0.03) 28px
+      );
+  }
+  /* Espiral / anillas de libreta */
+  .main::before {
+    content: "";
+    position: fixed;
+    left: 270px;
+    top: 0;
+    bottom: 0;
+    width: 28px;
+    background:
+      radial-gradient(circle at 14px 30px, #2a1a3d 6px, transparent 7px),
+      radial-gradient(circle at 14px 70px, #2a1a3d 6px, transparent 7px),
+      radial-gradient(circle at 14px 110px, #2a1a3d 6px, transparent 7px),
+      radial-gradient(circle at 14px 150px, #2a1a3d 6px, transparent 7px),
+      radial-gradient(circle at 14px 190px, #2a1a3d 6px, transparent 7px),
+      radial-gradient(circle at 14px 230px, #2a1a3d 6px, transparent 7px),
+      radial-gradient(circle at 14px 270px, #2a1a3d 6px, transparent 7px),
+      radial-gradient(circle at 14px 310px, #2a1a3d 6px, transparent 7px),
+      radial-gradient(circle at 14px 350px, #2a1a3d 6px, transparent 7px),
+      radial-gradient(circle at 14px 390px, #2a1a3d 6px, transparent 7px),
+      radial-gradient(circle at 14px 430px, #2a1a3d 6px, transparent 7px),
+      radial-gradient(circle at 14px 470px, #2a1a3d 6px, transparent 7px),
+      radial-gradient(circle at 14px 510px, #2a1a3d 6px, transparent 7px),
+      radial-gradient(circle at 14px 550px, #2a1a3d 6px, transparent 7px),
+      radial-gradient(circle at 14px 590px, #2a1a3d 6px, transparent 7px),
+      linear-gradient(90deg, rgba(40,20,60,0.9) 0%, rgba(20,10,35,0.6) 100%);
+    z-index: 50;
+    pointer-events: none;
+    border-right: 1px solid rgba(201,160,232,0.15);
+  }
+  .main::after {
+    content: "";
+    position: fixed;
+    left: 278px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      transparent 18px,
+      rgba(201,160,232,0.35) 18px,
+      rgba(201,160,232,0.35) 22px,
+      transparent 22px,
+      transparent 40px
+    );
+    z-index: 51;
+    pointer-events: none;
+  }
+
+  /* Stickers / decoraciones Kuromi flotantes */
+  .kuromi-sticker {
+    position: fixed;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0.18;
+    filter: drop-shadow(0 0 8px rgba(201,160,232,0.4));
+    animation: floaty 8s ease-in-out infinite;
+  }
+  .kuromi-sticker.s1 { right: 40px; top: 120px; width: 90px; animation-delay: 0s; }
+  .kuromi-sticker.s2 { right: 80px; bottom: 180px; width: 70px; animation-delay: -2s; transform: rotate(-12deg); }
+  .kuromi-sticker.s3 { right: 200px; top: 40%; width: 55px; animation-delay: -4s; opacity: 0.12; }
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(3deg); }
+  }
+
+  /* Mejoras de cards tipo página de libreta */
+  .card {
+    background:
+      linear-gradient(165deg, #120e18 0%, #0c0912 100%),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 23px,
+        rgba(201,160,232,0.025) 23px,
+        rgba(201,160,232,0.025) 24px
+      );
+  }
+  .note-area {
+    background:
+      rgba(12,9,18,0.7)
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 22px,
+        rgba(201,160,232,0.04) 22px,
+        rgba(201,160,232,0.04) 23px
+      );
+    border: 1px dashed rgba(201,160,232,0.28);
+  }
+
+  /* Sidebar más "tapa de libreta" */
+  .sidebar {
+    background:
+      linear-gradient(180deg, #0c0812 0%, #08060c 100%),
+      radial-gradient(ellipse at 50% 0%, rgba(100,40,140,0.25) 0%, transparent 60%);
+    border-right: 2px solid rgba(122,61,158,0.55);
+  }
+  .sidebar-logo .kuromi-img {
+    width: 82px;
+    height: 82px;
+    filter: drop-shadow(0 0 16px rgba(201,160,232,0.65));
+  }
+
+  /* Portada más notebook */
+  .cover-frame {
+    background:
+      linear-gradient(160deg, #120e1a 0%, #0a0710 100%),
+      radial-gradient(ellipse at center, rgba(90,40,130,0.15) 0%, transparent 70%);
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,0.7),
+      0 25px 70px rgba(0,0,0,0.7),
+      inset 0 1px 0 rgba(255,255,255,0.04),
+      0 0 50px rgba(122,61,158,0.22),
+      inset 0 0 60px rgba(80,30,120,0.1);
+  }
+
+  /* Celdas de horario con estilo de cuaderno */
+  .schedule-table td {
+    border: 1px solid rgba(122,61,158,0.18);
+    background: rgba(18,12,28,0.4);
+  }
+  .schedule-table td:hover {
+    background: rgba(80,35,120,0.22);
+  }
+  .schedule-table .time-col {
+    background: rgba(40,20,60,0.5);
+  }
+
+  @media (max-width: 680px) {
+    .main::before, .main::after { display: none; }
+    .kuromi-sticker { display: none; }
+  }
+</style>
+</head>
+<body>
+<!-- Stickers decorativos de Kuromi (libreta aesthetic) -->
+<img src="https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png" alt="" class="kuromi-sticker s1" onerror="this.style.display='none'">
+<img src="https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png" alt="" class="kuromi-sticker s2" onerror="this.style.display='none'">
+<img src="https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png" alt="" class="kuromi-sticker s3" onerror="this.style.display='none'">
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png" alt="Kuromi" class="kuromi-img" onerror="this.style.display='none'">
+      <h1>KUROMI DARK</h1>
+      <div class="name">Zoe V. Bastidas E.</div>
+      <div class="sync-badge" id="syncStatus">☁️ Conectando nube...</div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-title">Principal</div>
+      <a href="#portada" class="nav-link active" data-section="portada"><span class="icon">✨</span> Portada</a>
+      <a href="#dashboard" class="nav-link" data-section="dashboard"><span class="icon">🏠</span> Dashboard</a>
+      <a href="#widgets" class="nav-link" data-section="widgets"><span class="icon">🔮</span> Widgets & IA Bot</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-title">Académico</div>
+      <a href="#materias" class="nav-link" data-section="materias"><span class="icon">📚</span> Materias</a>
+      <a href="#horario" class="nav-link" data-section="horario"><span class="icon">🕒</span> Horario</a>
+      <a href="#examenes" class="nav-link" data-section="examenes"><span class="icon">📝</span> Exámenes</a>
+      <a href="#tareas" class="nav-link" data-section="tareas"><span class="icon">✅</span> Tareas & Entregas</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-title">Planners</div>
+      <a href="#mensual" class="nav-link" data-section="mensual"><span class="icon">📅</span> Mensual</a>
+      <a href="#semanal" class="nav-link" data-section="semanal"><span class="icon">🗓️</span> Semanal</a>
+      <a href="#diario" class="nav-link" data-section="diario"><span class="icon">📖</span> Diario</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-title">Hábitos & Vida</div>
+      <a href="#habitos" class="nav-link" data-section="habitos"><span class="icon">💜</span> Hábitos</a>
+      <a href="#mood" class="nav-link" data-section="mood"><span class="icon">🌙</span> Mood Tracker</a>
+      <a href="#ahorro" class="nav-link" data-section="ahorro"><span class="icon">💰</span> Ahorro</a>
+      <a href="#wishlist" class="nav-link" data-section="wishlist"><span class="icon">🛍️</span> Wishlist</a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- ========== PORTADA ========== -->
+    <section id="portada" class="section active">
+      <div class="cover-frame">
+        <img src="https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png" alt="Kuromi" class="cover-kuromi" onerror="this.outerHTML='<div class=\'cover-skull\' style=\'font-size:4.5rem;margin:0.8rem 0 0.4rem;filter:drop-shadow(0 0 18px rgba(201,160,232,0.55));\'>🖤</div>'">
+        <div class="cover-title">KUROMI DARK PLANNER</div>
+        <div class="cover-year">2 0 2 7</div>
+        <div class="cover-name">ZOE VALENTINA BASTIDAS ENRÍQUEZ</div>
+        <p class="cover-tagline">
+          Agenda académica · Bullet journal · Organizador de vida<br>
+          Dark · Kawaii · Gótico · Elegante
+        </p>
+        <div class="cover-deco">
+          <span>🌙</span><span>✨</span><span>🖤</span><span>✨</span><span>💜</span><span>✨</span><span>⭐</span>
+        </div>
+        <div style="margin-top:1.9rem;">
+          <button class="btn" onclick="showSection('dashboard')">Entrar al Dashboard →</button>
+        </div>
+      </div>
+      <p class="app-footer" style="margin-top:2.6rem;">Hecho con 🖤 para Zoe · Sincronizado en la nube entre PC y Celular</p>
+    </section>
+
+    <!-- ========== DASHBOARD ========== -->
+    <section id="dashboard" class="section">
+      <div class="page-header">
+        <h2>✨ Dashboard</h2>
+        <p>Resumen del día y accesos rápidos</p>
+      </div>
+
+      <div class="dash-banner">
+        <div>
+          <div class="dash-date" id="currentDate">—</div>
+          <div class="dash-greeting">Hola Zoe, ¿lista para conquistar el día? 💜</div>
+        </div>
+        <div class="quick-nav">
+          <a href="#" onclick="showSection('materias');return false;">Materias</a>
+          <a href="#" onclick="showSection('tareas');return false;">Tareas</a>
+          <a href="#" onclick="showSection('examenes');return false;">Exámenes</a>
+          <a href="#" onclick="showSection('diario');return false;">Diario</a>
+          <a href="#" onclick="showSection('widgets');return false;">Widgets & IA Bot</a>
+        </div>
+      </div>
+
+      <div class="grid-2 mb-2">
+        <div class="card">
+          <div class="card-title">⚡ Prioridades del día</div>
+          <ul class="priority-list" id="dashPriorities">
+            <li><div class="check-circle" data-check="prio-1"></div><span contenteditable="true" data-key="prio-text-1" data-placeholder="Escribe una prioridad..."></span></li>
+            <li><div class="check-circle" data-check="prio-2"></div><span contenteditable="true" data-key="prio-text-2" data-placeholder="Escribe una prioridad..."></span></li>
+            <li><div class="check-circle" data-check="prio-3"></div><span contenteditable="true" data-key="prio-text-3" data-placeholder="Escribe una prioridad..."></span></li>
+            <li><div class="check-circle" data-check="prio-4"></div><span contenteditable="true" data-key="prio-text-4" data-placeholder="Escribe una prioridad..."></span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">🎯 Objetivos semanales</div>
+          <ul class="priority-list">
+            <li><div class="check-circle" data-check="obj-1"></div><span contenteditable="true" data-key="obj-text-1" data-placeholder="Escribe un objetivo semanal..."></span></li>
+            <li><div class="check-circle" data-check="obj-2"></div><span contenteditable="true" data-key="obj-text-2" data-placeholder="Escribe un objetivo semanal..."></span></li>
+            <li><div class="check-circle" data-check="obj-3"></div><span contenteditable="true" data-key="obj-text-3" data-placeholder="Escribe un objetivo semanal..."></span></li>
+            <li><div class="check-circle" data-check="obj-4"></div><span contenteditable="true" data-key="obj-text-4" data-placeholder="Escribe un objetivo semanal..."></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card mb-2">
+        <div class="flex-between mb-1">
+          <div class="card-title" style="margin:0;">✅ Tareas por Fecha</div>
+          <button class="btn btn-ghost" style="padding:0.3rem 0.7rem;font-size:0.78rem;" onclick="showSection('tareas')">+ Gestionar todas</button>
+        </div>
+        <div class="filter-tabs" id="dashTaskTabs">
+          <button class="filter-tab active" data-filter="all">Todas</button>
+          <button class="filter-tab" data-filter="today">Hoy</button>
+          <button class="filter-tab" data-filter="upcoming">Próximas</button>
+          <button class="filter-tab" data-filter="nodate">Sin fecha</button>
+        </div>
+        <div id="dashTaskList"></div>
+      </div>
+
+      <div class="grid-2 mb-2">
+        <div class="card">
+          <div class="card-title">📝 Próximos exámenes</div>
+          <div id="dashExamsPreview" class="text-sm"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">🌟 Objetivos del semestre</div>
+          <div contenteditable="true" data-key="dash-semester" data-placeholder="Escribe tus metas del semestre aquí..." style="min-height:70px;"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📌 Notas rápidas del día</div>
+        <div class="note-area" contenteditable="true" data-key="dash-notes" data-placeholder="Escribe aquí recordatorios, ideas o pendientes sueltos…"></div>
+      </div>
+    </section>
+
+    <!-- ========== WIDGETS & IA BOT ========== -->
+    <section id="widgets" class="section">
+      <div class="page-header">
+        <h2>🔮 Widgets & Kuromi IA</h2>
+        <p>Reloj en vivo · Temporizador de enfoque · Asistente IA con acceso a tu agenda</p>
+      </div>
+
+      <div class="grid-2 mb-2">
+        <div class="card">
+          <div class="card-title">🕰️ Reloj Dark Aesthetic</div>
+          <div class="clock-widget">
+            <div class="clock-time" id="liveClock">00:00:00</div>
+            <div class="clock-sub" id="liveClockDate">—</div>
+            <div style="margin-top:0.9rem;font-size:0.87rem;color:var(--lilac-soft);">🖤 Modo enfoque activo · Quito, EC</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">⏳ Temporizador de Estudio (Pomodoro)</div>
+          <p class="text-sm text-muted">25 minutos de estudio profundo · 5 minutos de descanso</p>
+          <div class="pomo-display" id="pomoDisplay">25:00</div>
+          <div class="pomo-controls">
+            <button class="btn" id="pomoStartBtn">▶ Iniciar</button>
+            <button class="btn btn-ghost" id="pomoPauseBtn">⏸ Pausar</button>
+            <button class="btn btn-ghost" id="pomoResetBtn">🔄 25m</button>
+            <button class="btn btn-ghost" id="pomoBreakBtn">☕ 5m</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kuromi IA Bot -->
+      <div class="card">
+        <div class="card-title">🖤 Kuromi IA — Tu Asistente Inteligente</div>
+        <p class="text-sm text-muted mb-1">Entiende tus preguntas, revisa tus tareas/exámenes reales, te ayuda a estudiar y te organiza con personalidad gótica-kawaii.</p>
+        <div class="bot-container">
+          <div class="bot-header">
+            <img src="https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png" alt="Kuromi" onerror="this.style.display='none'">
+            <div class="bot-header-text">
+              <h4>Kuromi IA</h4>
+              <span>En línea · Acceso a tu planner</span>
+            </div>
+          </div>
+          <div class="bot-chips">
+            <button class="bot-chip" data-prompt="Analiza mi agenda de hoy y dime qué priorizar">📋 Analizar mi agenda</button>
+            <button class="bot-chip" data-prompt="Ayúdame a armar un plan de estudio para mis exámenes">📚 Plan de estudio</button>
+            <button class="bot-chip" data-prompt="Explícame derivadas o cinemática de forma fácil">🧠 Explicar tema</button>
+            <button class="bot-chip" data-prompt="Me siento cansada y estresada, necesito ánimo">🌙 Necesito ánimo</button>
+            <button class="bot-chip" data-prompt="¿Qué consejos tienes para organizar mejor mi semana?">🗓️ Organización</button>
+          </div>
+          <div class="bot-messages" id="botMessages">
+            <div class="bot-msg kuromi">¡Hola Zoe! 🖤 Soy Kuromi IA, tu asistente gótica-kawaii. Tengo acceso en tiempo real a tus tareas, exámenes, hábitos y notas. Pregúntame lo que necesites: priorizar el día, planes de estudio, explicaciones de materias o simplemente desahogarte. ¿Por dónde empezamos? 💜</div>
+          </div>
+          <div class="bot-typing" id="botTyping">✨ Kuromi IA está pensando...</div>
+          <div class="bot-input-row">
+            <input type="text" id="botInput" placeholder="Pregúntale algo a Kuromi IA (ej: '¿Qué exámenes tengo?', 'Explícame vectores', 'Estoy agobiada')...">
+            <button class="btn" id="botSendBtn">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== MATERIAS ========== -->
+    <section id="materias" class="section">
+      <div class="page-header">
+        <h2>📚 Materias</h2>
+        <p>Apuntes, resúmenes y fórmulas separados por fechas navegables · Vista general abajo</p>
+      </div>
+
+      <div class="subject-tabs">
+        <button class="subject-tab active" data-subject="fisica">Física</button>
+        <button class="subject-tab" data-subject="mates">Matemáticas</button>
+        <button class="subject-tab" data-subject="sistemas">Intro. Sistemas de la Información</button>
+        <button class="subject-tab" data-subject="etica">EPUS</button>
+      </div>
+
+      <div class="subj-date-bar">
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="color:var(--pink-soft);font-weight:600;font-size:0.9rem;">📅 Fecha de clase:</span>
+          <input type="date" id="subjectDatePicker" style="max-width:165px;">
+        </div>
+        <div class="subj-date-controls">
+          <button class="btn btn-ghost btn-sm" id="subjPrevDayBtn">← Día anterior</button>
+          <button class="btn btn-ghost btn-sm" id="subjTodayBtn">Hoy</button>
+          <button class="btn btn-ghost btn-sm" id="subjNextDayBtn">Día siguiente →</button>
+        </div>
+      </div>
+
+      <!-- FÍSICA -->
+      <div class="subject-panel active" id="subj-fisica">
+        <div class="subject-hero">
+          <div>
+            <h3>⚡ Física</h3>
+            <div class="meta">Cinemática · Dinámica · Energía · Ondas · <span class="subj-date-badge" style="color:var(--pink-soft);"></span></div>
+          </div>
+          <span style="font-size:2.1rem;">🖤</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="sub-section">
+            <h4>📝 Apuntes (por fecha)</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="fisica-apuntes" data-placeholder="Escribe los apuntes de Física de esta fecha..."></div>
+          </div>
+          <div class="sub-section">
+            <h4>📋 Resúmenes (por fecha)</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="fisica-resumenes" data-placeholder="Resume lo visto en esta fecha..."></div>
+          </div>
+        </div>
+        <div class="sub-section">
+          <h4>🔑 Fórmulas & conceptos clave (por fecha)</h4>
+          <div class="note-area" contenteditable="true" data-subj-dated="fisica-formulas" data-placeholder="Fórmulas y conceptos vistos en esta fecha..."></div>
+        </div>
+
+        <div class="subj-divider">
+          <h4>📌 Vista General de Física (Permanente)</h4>
+          <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('fisica-tareas')">+ Insertar fecha de hoy en notas</button>
+        </div>
+        <div class="grid-2">
+          <div class="sub-section">
+            <h4>❓ Preguntas pendientes</h4>
+            <div class="note-area" contenteditable="true" data-key="fisica-preguntas" data-placeholder="Dudas generales para clase o tutoría..."></div>
+          </div>
+          <div class="sub-section">
+            <h4>✅ Tareas de Física</h4>
+            <div class="note-area" contenteditable="true" data-key="fisica-tareas" data-placeholder="Lista general de tareas (puedes anotar fechas aquí)..."></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="sub-section">
+            <h4>📚 Recursos</h4>
+            <div class="note-area" contenteditable="true" data-key="fisica-recursos" data-placeholder="Videos, PDFs, enlaces, libros..."></div>
+          </div>
+          <div class="sub-section">
+            <h4>🧪 Exámenes & Proyectos</h4>
+            <div class="note-area" contenteditable="true" data-key="fisica-examenes" data-placeholder="Temas de parciales, fechas y proyectos..."></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MATEMÁTICAS -->
+      <div class="subject-panel" id="subj-mates">
+        <div class="subject-hero">
+          <div>
+            <h3>📐 Matemáticas</h3>
+            <div class="meta">Álgebra · Cálculo · Funciones · Derivadas · <span class="subj-date-badge" style="color:var(--pink-soft);"></span></div>
+          </div>
+          <span style="font-size:2.1rem;">💜</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="sub-section">
+            <h4>📝 Apuntes (por fecha)</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="mates-apuntes" data-placeholder="Apuntes de Matemáticas de esta fecha..."></div>
+          </div>
+          <div class="sub-section">
+            <h4>📋 Resúmenes (por fecha)</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="mates-resumenes" data-placeholder="Resúmenes de esta fecha..."></div>
+          </div>
+        </div>
+        <div class="sub-section">
+          <h4>🔑 Fórmulas & conceptos clave (por fecha)</h4>
+          <div class="note-area" contenteditable="true" data-subj-dated="mates-formulas" data-placeholder="Reglas, derivadas o propiedades vistas en esta fecha..."></div>
+        </div>
+
+        <div class="subj-divider">
+          <h4>📌 Vista General de Matemáticas (Permanente)</h4>
+          <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('mates-tareas')">+ Insertar fecha de hoy en notas</button>
+        </div>
+        <div class="grid-2">
+          <div class="sub-section">
+            <h4>❓ Preguntas pendientes</h4>
+            <div class="note-area" contenteditable="true" data-key="mates-preguntas" data-placeholder="Dudas generales..."></div>
+          </div>
+          <div class="sub-section">
+            <h4>✅ Tareas</h4>
+            <div class="note-area" contenteditable="true" data-key="mates-tareas" data-placeholder="Tareas y ejercicios..."></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="sub-section">
+            <h4>📚 Recursos</h4>
+            <div class="note-area" contenteditable="true" data-key="mates-recursos" data-placeholder="Recursos de apoyo..."></div>
+          </div>
+          <div class="sub-section">
+            <h4>🧪 Exámenes & Proyectos</h4>
+            <div class="note-area" contenteditable="true" data-key="mates-examenes" data-placeholder="Registro de evaluaciones..."></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SISTEMAS -->
+      <div class="subject-panel" id="subj-sistemas">
+        <div class="subject-hero">
+          <div>
+            <h3>💻 Introducción a Sistemas de la Información</h3>
+            <div class="meta">Sistemas · Datos · Procesos · Tecnología · <span class="subj-date-badge" style="color:var(--pink-soft);"></span></div>
+          </div>
+          <span style="font-size:2.1rem;">⭐</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="sub-section">
+            <h4>📝 Apuntes (por fecha)</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="sistemas-apuntes" data-placeholder="Apuntes de Sistemas de esta fecha..."></div>
+          </div>
+          <div class="sub-section">
+            <h4>📋 Resúmenes (por fecha)</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="sistemas-resumenes" data-placeholder="Resúmenes de esta fecha..."></div>
+          </div>
+        </div>
+        <div class="sub-section">
+          <h4>🔑 Fórmulas & conceptos clave (por fecha)</h4>
+          <div class="note-area" contenteditable="true" data-subj-dated="sistemas-formulas" data-placeholder="Definiciones, diagramas o conceptos clave de esta fecha..."></div>
+        </div>
+
+        <div class="subj-divider">
+          <h4>📌 Vista General de Sistemas (Permanente)</h4>
+          <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('sistemas-tareas')">+ Insertar fecha de hoy en notas</button>
+        </div>
+        <div class="grid-2">
+          <div class="sub-section">
+            <h4>❓ Preguntas pendientes</h4>
+            <div class="note-area" contenteditable="true" data-key="sistemas-preguntas" data-placeholder="Dudas generales..."></div>
+          </div>
+          <div class="sub-section">
+            <h4>✅ Tareas & Proyectos</h4>
+            <div class="note-area" contenteditable="true" data-key="sistemas-tareas" data-placeholder="Trabajos y proyectos..."></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="sub-section">
+            <h4>📚 Recursos</h4>
+            <div class="note-area" contenteditable="true" data-key="sistemas-recursos" data-placeholder="Lecturas, videos, herramientas..."></div>
+          </div>
+          <div class="sub-section">
+            <h4>🧪 Exámenes & Proyectos</h4>
+            <div class="note-area" contenteditable="true" data-key="sistemas-examenes" data-placeholder="Evaluaciones..."></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EPUS -->
+      <div class="subject-panel" id="subj-etica">
+        <div class="subject-hero">
+          <div>
+            <h3>⚖️ EPUS</h3>
+            <div class="meta">Ética · Profesionalismo · Universidad · Sociedad · <span class="subj-date-badge" style="color:var(--pink-soft);"></span></div>
+          </div>
+          <span style="font-size:2.1rem;">🌙</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="sub-section">
+            <h4>📝 Apuntes (por fecha)</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="etica-apuntes" data-placeholder="Apuntes de EPUS de esta fecha..."></div>
+          </div>
+          <div class="sub-section">
+            <h4>📋 Resúmenes (por fecha)</h4>
+            <div class="note-area tall" contenteditable="true" data-subj-dated="etica-resumenes" data-placeholder="Resúmenes y reflexiones de esta fecha..."></div>
+          </div>
+        </div>
+        <div class="sub-section">
+          <h4>🔑 Conceptos clave (por fecha)</h4>
+          <div class="note-area" contenteditable="true" data-subj-dated="etica-formulas" data-placeholder="Autores, teorías o dilemas de EPUS de esta fecha..."></div>
+        </div>
+
+        <div class="subj-divider">
+          <h4>📌 Vista General de EPUS (Permanente)</h4>
+          <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('etica-tareas')">+ Insertar fecha de hoy en notas</button>
+        </div>
+        <div class="grid-2">
+          <div class="sub-section">
+            <h4>❓ Preguntas pendientes</h4>
+            <div class="note-area" contenteditable="true" data-key="etica-preguntas" data-placeholder="Dudas o temas para profundizar..."></div>
+          </div>
+          <div class="sub-section">
+            <h4>✅ Tareas & Ensayos</h4>
+            <div class="note-area" contenteditable="true" data-key="etica-tareas" data-placeholder="Trabajos escritos..."></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="sub-section">
+            <h4>📚 Recursos</h4>
+            <div class="note-area" contenteditable="true" data-key="etica-recursos" data-placeholder="Lecturas recomendadas..."></div>
+          </div>
+          <div class="sub-section">
+            <h4>🧪 Exámenes & Proyectos</h4>
+            <div class="note-area" contenteditable="true" data-key="etica-examenes" data-placeholder="Exámenes y participaciones..."></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== HORARIO ========== -->
+    <section id="horario" class="section">
+      <div class="page-header">
+        <h2>🕒 Horario Semanal</h2>
+        <p>Paralelo 1FAC-ING-SIS-03 · Jornada Matutina/Vespertina · Clases pre-cargadas</p>
+      </div>
+      <div class="card schedule-table">
+        <table>
+          <thead>
+            <tr>
+              <th class="time-col">Hora</th>
+              <th>Lunes</th>
+              <th>Martes</th>
+              <th>Miércoles</th>
+              <th>Jueves</th>
+              <th>Viernes</th>
+              <th>Sábado</th>
+              <th>Domingo</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+      <p class="text-sm text-muted" style="margin-top:0.85rem;">Horario oficial cargado (EPUS, Física, Matemáticas, Intro. Sistemas). Puedes editar cualquier celda. Los cambios se sincronizan en la nube automáticamente.</p>
+    </section>
+
+    <!-- ========== PLANNER MENSUAL ========== -->
+    <section id="mensual" class="section">
+      <div class="page-header">
+        <h2>📅 Planner Mensual</h2>
+        <p>Vista de mes · Objetivos · Fechas importantes</p>
+      </div>
+
+      <div class="month-nav">
+        <button class="btn btn-ghost" id="prevMonthBtn">← Anterior</button>
+        <h3 id="monthTitle">Noviembre 2026</h3>
+        <button class="btn btn-ghost" id="nextMonthBtn">Siguiente →</button>
+      </div>
+
+      <div class="card mb-2">
+        <div class="cal-grid" id="calendarGrid"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">🎯 Objetivos del mes</div>
+          <div class="note-area" contenteditable="true" data-key="month-goals" data-placeholder="Escribe tus objetivos mensuales aquí…"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">📌 Fechas importantes</div>
+          <div class="note-area" contenteditable="true" data-key="month-dates" data-placeholder="Exámenes, entregas, eventos, cumpleaños…"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PLANNER SEMANAL ========== -->
+    <section id="semanal" class="section">
+      <div class="page-header">
+        <h2>🗓️ Planner Semanal</h2>
+        <p>Vista amplia de la semana · Objetivos · Prioridades</p>
+      </div>
+
+      <div class="card mb-2">
+        <div class="flex-between mb-1">
+          <div class="card-title" style="margin:0;">Semana del <span id="weekRangeAuto" style="color:var(--lilac);">—</span></div>
+        </div>
+        <div class="grid-2">
+          <div>
+            <h4 style="color:var(--pink-soft);font-family:var(--font-elegant);margin-bottom:0.55rem;">🎯 Objetivos de la semana</h4>
+            <div class="note-area" contenteditable="true" data-key="week-goals" style="min-height:100px;"></div>
+          </div>
+          <div>
+            <h4 style="color:var(--pink-soft);font-family:var(--font-elegant);margin-bottom:0.55rem;">⚡ Prioridades</h4>
+            <div class="note-area" contenteditable="true" data-key="week-priorities" style="min-height:100px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2 mb-2">
+        <div class="card">
+          <div class="card-title">Lunes</div>
+          <div class="note-area" contenteditable="true" data-key="week-lun" style="min-height:110px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Martes</div>
+          <div class="note-area" contenteditable="true" data-key="week-mar" style="min-height:110px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Miércoles</div>
+          <div class="note-area" contenteditable="true" data-key="week-mie" style="min-height:110px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Jueves</div>
+          <div class="note-area" contenteditable="true" data-key="week-jue" style="min-height:110px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Viernes</div>
+          <div class="note-area" contenteditable="true" data-key="week-vie" style="min-height:110px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Sábado</div>
+          <div class="note-area" contenteditable="true" data-key="week-sab" style="min-height:110px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Domingo</div>
+          <div class="note-area" contenteditable="true" data-key="week-dom" style="min-height:110px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">📌 Recordatorios & Notas</div>
+          <div class="note-area" contenteditable="true" data-key="week-notes" style="min-height:110px;"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📊 Seguimiento de progreso</div>
+        <div class="note-area" contenteditable="true" data-key="week-progress" data-placeholder="Qué logré esta semana / qué mejorar…"></div>
+      </div>
+    </section>
+
+    <!-- ========== PLANNER DIARIO ========== -->
+    <section id="diario" class="section">
+      <div class="page-header">
+        <h2>📖 Planner Diario</h2>
+        <p>Un día a la vez · Tareas · Prioridades · Logros</p>
+      </div>
+
+      <div class="card mb-2">
+        <div class="flex-between">
+          <div>
+            <label class="text-sm text-muted">Fecha</label>
+            <input type="date" id="dailyDate" style="max-width:180px;margin-top:0.25rem;">
+          </div>
+          <span class="text-sm text-muted">Cada fecha guarda sus propias notas automáticamente</span>
+        </div>
+      </div>
+
+      <div class="grid-2 mb-2">
+        <div class="card">
+          <div class="card-title">✅ Tareas del día</div>
+          <div class="note-area" contenteditable="true" id="dailyTasks" style="min-height:160px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">⚡ Prioridades (máx 3)</div>
+          <div class="note-area" contenteditable="true" id="dailyPriorities" style="min-height:160px;"></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">📝 Apuntes rápidos</div>
+          <div class="note-area" contenteditable="true" id="dailyNotes" style="min-height:140px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">🌟 Logros del día</div>
+          <div class="note-area" contenteditable="true" id="dailyWins" style="min-height:140px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== HÁBITOS ========== -->
+    <section id="habitos" class="section">
+      <div class="page-header">
+        <h2>💜 Tracker de Hábitos</h2>
+        <p>Constancia diaria · Marca con un clic</p>
+      </div>
+
+      <div class="card habit-grid">
+        <table class="habit-table">
+          <thead>
+            <tr>
+              <th>Hábito</th>
+              <th>L</th><th>M</th><th>X</th><th>J</th><th>V</th><th>S</th><th>D</th>
+              <th>Meta</th>
+            </tr>
+          </thead>
+          <tbody id="habitBody">
+            <tr>
+              <td contenteditable="true" data-key="hab-name-0">😴 Dormir 8 horas</td>
+              <td><div class="habit-check" data-habit="0-0"></div></td>
+              <td><div class="habit-check" data-habit="0-1"></div></td>
+              <td><div class="habit-check" data-habit="0-2"></div></td>
+              <td><div class="habit-check" data-habit="0-3"></div></td>
+              <td><div class="habit-check" data-habit="0-4"></div></td>
+              <td><div class="habit-check" data-habit="0-5"></div></td>
+              <td><div class="habit-check" data-habit="0-6"></div></td>
+              <td contenteditable="true" data-key="hab-goal-0" style="width:50px;">5/7</td>
+            </tr>
+            <tr>
+              <td contenteditable="true" data-key="hab-name-1">💧 Beber agua</td>
+              <td><div class="habit-check" data-habit="1-0"></div></td>
+              <td><div class="habit-check" data-habit="1-1"></div></td>
+              <td><div class="habit-check" data-habit="1-2"></div></td>
+              <td><div class="habit-check" data-habit="1-3"></div></td>
+              <td><div class="habit-check" data-habit="1-4"></div></td>
+              <td><div class="habit-check" data-habit="1-5"></div></td>
+              <td><div class="habit-check" data-habit="1-6"></div></td>
+              <td contenteditable="true" data-key="hab-goal-1">7/7</td>
+            </tr>
+            <tr>
+              <td contenteditable="true" data-key="hab-name-2">📖 Estudiar</td>
+              <td><div class="habit-check" data-habit="2-0"></div></td>
+              <td><div class="habit-check" data-habit="2-1"></div></td>
+              <td><div class="habit-check" data-habit="2-2"></div></td>
+              <td><div class="habit-check" data-habit="2-3"></div></td>
+              <td><div class="habit-check" data-habit="2-4"></div></td>
+              <td><div class="habit-check" data-habit="2-5"></div></td>
+              <td><div class="habit-check" data-habit="2-6"></div></td>
+              <td contenteditable="true" data-key="hab-goal-2">5/7</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-sm text-muted" style="margin-top:0.85rem;">Haz clic en los cuadrados para marcar o edita el nombre de cualquier hábito.</p>
+      <div class="spacer"></div>
+      <div class="card">
+        <div class="card-title">Notas de hábitos</div>
+        <div class="note-area" contenteditable="true" data-key="habits-notes" data-placeholder="Observaciones, rachas, obstáculos…"></div>
+      </div>
+    </section>
+
+    <!-- ========== MOOD TRACKER ========== -->
+    <section id="mood" class="section">
+      <div class="page-header">
+        <h2>🌙 Mood Tracker</h2>
+        <p>Registra cómo te sientes cada día</p>
+      </div>
+
+      <div class="card mb-2">
+        <div class="card-title">Estados disponibles</div>
+        <div class="mood-options">
+          <button class="mood-btn" data-mood="excelente">🖤 Excelente</button>
+          <button class="mood-btn" data-mood="feliz">💜 Feliz</button>
+          <button class="mood-btn" data-mood="bien">⭐ Bien</button>
+          <button class="mood-btn" data-mood="normal">🌙 Normal</button>
+          <button class="mood-btn" data-mood="cansada">☁️ Cansada</button>
+          <button class="mood-btn" data-mood="descansar">🌧️ Necesito descansar</button>
+        </div>
+        <p class="text-sm text-muted">Selecciona un estado y luego haz clic en el día del calendario para registrarlo.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Mes actual</div>
+        <div class="mood-calendar" id="moodCalendar"></div>
+      </div>
+      <div class="spacer"></div>
+      <div class="card">
+        <div class="card-title">Notas de estado de ánimo</div>
+        <div class="note-area" contenteditable="true" data-key="mood-notes" data-placeholder="Patrones, triggers, cosas que te ayudan…"></div>
+      </div>
+    </section>
+
+    <!-- ========== EXÁMENES ========== -->
+    <section id="examenes" class="section">
+      <div class="page-header">
+        <h2>📝 Sección de Exámenes</h2>
+        <p>Elige materia, prioridad y fecha directamente desde el calendario</p>
+      </div>
+
+      <div class="card">
+        <div class="add-bar">
+          <input type="text" id="newExamTopic" placeholder="Tema o tipo (ej. Parcial 1 - Cinemática)">
+          <select id="newExamSubject">
+            <option value="Física">Física</option>
+            <option value="Matemáticas">Matemáticas</option>
+            <option value="Sistemas">Intro. Sistemas</option>
+            <option value="EPUS">EPUS</option>
+          </select>
+          <input type="date" id="newExamDate">
+          <select id="newExamPriority">
+            <option value="Alta">Prioridad: Alta</option>
+            <option value="Media" selected>Prioridad: Media</option>
+            <option value="Baja">Prioridad: Baja</option>
+          </select>
+          <button class="btn" id="addExamBtn">+ Agregar</button>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Materia</th>
+                <th>Tema / Tipo</th>
+                <th>Fecha</th>
+                <th>Prioridad</th>
+                <th>Notas</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="examsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TAREAS ========== -->
+    <section id="tareas" class="section">
+      <div class="page-header">
+        <h2>✅ Tareas & Entregas</h2>
+        <p>Organizadas por fechas · Elige materia, prioridad y fecha en calendario</p>
+      </div>
+
+      <div class="card">
+        <div class="add-bar">
+          <input type="text" id="newTaskTitle" placeholder="Nombre de la tarea o entrega...">
+          <select id="newTaskSubject">
+            <option value="Física">Física</option>
+            <option value="Matemáticas">Matemáticas</option>
+            <option value="Sistemas">Intro. Sistemas</option>
+            <option value="EPUS">EPUS</option>
+          </select>
+          <input type="date" id="newTaskDate">
+          <select id="newTaskPriority">
+            <option value="Alta">Prioridad: Alta</option>
+            <option value="Media" selected>Prioridad: Media</option>
+            <option value="Baja">Prioridad: Baja</option>
+          </select>
+          <button class="btn" id="addTaskBtn">+ Agregar</button>
+        </div>
+
+        <div class="filter-tabs" id="mainTaskTabs">
+          <button class="filter-tab active" data-filter="all">Todas</button>
+          <button class="filter-tab" data-filter="today">Hoy</button>
+          <button class="filter-tab" data-filter="upcoming">Próximas</button>
+          <button class="filter-tab" data-filter="nodate">Sin fecha</button>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:40px;">✓</th>
+                <th>Actividad</th>
+                <th>Materia</th>
+                <th>Fecha límite</th>
+                <th>Prioridad</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tasksTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== AHORRO ========== -->
+    <section id="ahorro" class="section">
+      <div class="page-header">
+        <h2>💰 Sección de Ahorro</h2>
+        <p>Metas financieras personales</p>
+      </div>
+      <div class="grid-2 mb-2">
+        <div class="card">
+          <div class="card-title">🎯 Meta de ahorro</div>
+          <div class="mb-1">
+            <label class="text-sm text-muted">¿Para qué ahorras?</label>
+            <input type="text" id="saveGoal" placeholder="Ej: Audífonos / Viaje / Fondo" data-key="save-goal">
+          </div>
+          <div class="mb-1">
+            <label class="text-sm text-muted">Cantidad objetivo</label>
+            <input type="number" id="saveTarget" placeholder="0" data-key="save-target">
+          </div>
+          <div class="mb-1">
+            <label class="text-sm text-muted">Cantidad actual</label>
+            <input type="number" id="saveCurrent" placeholder="0" data-key="save-current">
+          </div>
+          <div class="progress-bar mt-2">
+            <div class="progress-fill" id="saveProgress" style="width:0%"></div>
+          </div>
+          <p class="text-sm text-muted" style="margin-top:0.45rem;"><span id="savePercent">0</span>% completado</p>
+        </div>
+        <div class="card">
+          <div class="card-title">📊 Resumen</div>
+          <div class="mb-1">
+            <label class="text-sm text-muted">Ingresos del mes</label>
+            <input type="number" data-key="save-income" placeholder="0">
+          </div>
+          <div class="mb-1">
+            <label class="text-sm text-muted">Gastos del mes</label>
+            <input type="number" data-key="save-expenses" placeholder="0">
+          </div>
+          <div class="note-area" contenteditable="true" data-key="save-notes" data-placeholder="Notas de gastos o ingresos extra…" style="min-height:90px;margin-top:0.85rem;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== WISHLIST ========== -->
+    <section id="wishlist" class="section">
+      <div class="page-header">
+        <h2>🛍️ Wishlist</h2>
+        <p>Cosas que deseas · Compras · Accesorios · Tecnología</p>
+      </div>
+      <div class="card">
+        <div class="list-item">
+          <input type="checkbox" data-wish-check="0"> <span contenteditable="true" data-key="wish-text-0" data-placeholder="Deseo #1..." style="flex:1;"></span>
+          <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-0" data-placeholder="Prioridad"></span>
+        </div>
+        <div class="list-item">
+          <input type="checkbox" data-wish-check="1"> <span contenteditable="true" data-key="wish-text-1" data-placeholder="Deseo #2..." style="flex:1;"></span>
+          <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-1" data-placeholder="Prioridad"></span>
+        </div>
+        <div class="list-item">
+          <input type="checkbox" data-wish-check="2"> <span contenteditable="true" data-key="wish-text-2" data-placeholder="Deseo #3..." style="flex:1;"></span>
+          <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-2" data-placeholder="Prioridad"></span>
+        </div>
+        <div class="list-item">
+          <input type="checkbox" data-wish-check="3"> <span contenteditable="true" data-key="wish-text-3" data-placeholder="Deseo #4..." style="flex:1;"></span>
+          <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-3" data-placeholder="Prioridad"></span>
+        </div>
+        <div class="list-item">
+          <input type="checkbox" data-wish-check="4"> <span contenteditable="true" data-key="wish-text-4" data-placeholder="Deseo #5..." style="flex:1;"></span>
+          <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-4" data-placeholder="Prioridad"></span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-analytics.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDmfx8Nhi-Kkx6voN9vt4QIIUsSd3cRxuA",
+    authDomain: "agenda-34c88.firebaseapp.com",
+    databaseURL: "https://agenda-34c88-default-rtdb.firebaseio.com",
+    projectId: "agenda-34c88",
+    storageBucket: "agenda-34c88.firebasestorage.app",
+    messagingSenderId: "849353479073",
+    appId: "1:849353479073:web:b4a33b750ed7c500eff1e0",
+    measurementId: "G-R9VCRLFVMB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getDatabase(app);
+  const plannerRef = ref(db, 'zoe_planner_2027');
+
+  let cloudState = {
+    fields: {},
+    subjectDated: {},
+    habits: {},
+    checks: {},
+    wishChecks: {},
+    calendarNotes: {},
+    moods: {},
+    daily: {},
+    tasks: [],
+    exams: []
+  };
+
+  let activeTaskFilter = 'all';
+  const syncBadge = document.getElementById('syncStatus');
+
+  function setSyncStatus(text, color = 'var(--lilac-soft)') {
+    if (syncBadge) {
+      syncBadge.textContent = text;
+      syncBadge.style.color = color;
+    }
+  }
+
+  // ===== NAVIGATION =====
+  window.showSection = function(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    const section = document.getElementById(id);
+    if (section) section.classList.add('active');
+    const link = document.querySelector(`.nav-link[data-section="${id}"]`);
+    if (link) link.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      window.showSection(link.dataset.section);
+    });
+  });
+
+  // ===== SUBJECT TABS & DATE NAVIGATION =====
+  function getTodayISO() {
+    const now = new Date();
+    const offset = now.getTimezoneOffset() * 60000;
+    return new Date(now - offset).toISOString().split('T')[0];
+  }
+
+  function formatDateDisplay(isoStr) {
+    if (!isoStr) return 'Sin fecha';
+    const [y, m, d] = isoStr.split('-');
+    return `${d}/${m}/${y}`;
+  }
+
+  const subjDatePicker = document.getElementById('subjectDatePicker');
+  if (subjDatePicker) subjDatePicker.value = getTodayISO();
+
+  function renderSubjectDatedFields() {
+    const dateVal = subjDatePicker?.value || getTodayISO();
+    document.querySelectorAll('.subj-date-badge').forEach(badge => {
+      badge.textContent = `Fecha seleccionada: ${formatDateDisplay(dateVal)}`;
+    });
+
+    document.querySelectorAll('[data-subj-dated]').forEach(el => {
+      if (document.activeElement === el) return;
+      const baseKey = el.dataset.subjDated;
+      const fullKey = `${baseKey}__${dateVal}`;
+      el.innerHTML = (cloudState.subjectDated && cloudState.subjectDated[fullKey]) || '';
+    });
+  }
+
+  function shiftSubjectDate(days) {
+    const cur = subjDatePicker.value || getTodayISO();
+    const parts = cur.split('-').map(Number);
+    const d = new Date(parts[0], parts[1] - 1, parts[2]);
+    d.setDate(d.getDate() + days);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    subjDatePicker.value = `${yyyy}-${mm}-${dd}`;
+    renderSubjectDatedFields();
+  }
+
+  document.getElementById('subjPrevDayBtn').addEventListener('click', () => shiftSubjectDate(-1));
+  document.getElementById('subjNextDayBtn').addEventListener('click', () => shiftSubjectDate(1));
+  document.getElementById('subjTodayBtn').addEventListener('click', () => {
+    subjDatePicker.value = getTodayISO();
+    renderSubjectDatedFields();
+  });
+  subjDatePicker.addEventListener('change', renderSubjectDatedFields);
+
+  window.stampDateInGeneral = function(fieldKey) {
+    const el = document.querySelector(`[data-key="${fieldKey}"]`);
+    if (!el) return;
+    const stamp = `<div><strong>[${formatDateDisplay(getTodayISO())}]</strong> </div>`;
+    el.innerHTML = (el.innerHTML || '') + stamp;
+    cloudState.fields[fieldKey] = el.innerHTML;
+    pushToFirebase();
+    el.focus();
+  };
+
+  document.querySelectorAll('.subject-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.subject-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.subject-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('subj-' + tab.dataset.subject).classList.add('active');
+    });
+  });
+
+  // ===== DATE & AUTOMATIC WEEK RANGE =====
+  function updateDates() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('currentDate').textContent = now.toLocaleDateString('es-ES', options);
+
+    const dayOfWeek = now.getDay();
+    const diffToMon = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+    const monday = new Date(now);
+    monday.setDate(now.getDate() + diffToMon);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+
+    const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    const weekLabel = document.getElementById('weekRangeAuto');
+    if (weekLabel) {
+      if (monday.getMonth() === sunday.getMonth()) {
+        weekLabel.textContent = `${monday.getDate()} al ${sunday.getDate()} de ${months[sunday.getMonth()]} de ${sunday.getFullYear()}`;
+      } else {
+        weekLabel.textContent = `${monday.getDate()} de ${months[monday.getMonth()]} al ${sunday.getDate()} de ${months[sunday.getMonth()]} de ${sunday.getFullYear()}`;
+      }
+    }
+  }
+  updateDates();
+
+  // ===== BUILD SCHEDULE ROWS =====
+  function buildSchedule() {
+    const tbody = document.getElementById('scheduleBody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    // Horario oficial 1FAC-ING-SIS-03 (Matutina/Vespertina)
+    // d: 0=Lun, 1=Mar, 2=Mié, 3=Jue, 4=Vie, 5=Sáb, 6=Dom
+    const scheduleData = {
+      '7-3': 'EPUS',
+      '8-3': 'EPUS',
+      '9-2': 'EPUS',
+      '15-0': 'Matemáticas',
+      '15-1': 'Física',
+      '15-2': 'Matemáticas',
+      '15-3': 'Física',
+      '15-4': 'Física',
+      '16-0': 'Matemáticas',
+      '16-1': 'Física',
+      '16-2': 'Matemáticas',
+      '16-3': 'Física',
+      '16-4': 'Física',
+      '17-0': 'Intro. Sistemas',
+      '17-1': 'Matemáticas',
+      '17-2': 'Intro. Sistemas',
+      '17-3': 'Matemáticas',
+      '17-4': 'Intro. Sistemas',
+      '18-0': 'Intro. Sistemas',
+      '18-1': 'Matemáticas',
+      '18-2': 'Intro. Sistemas',
+      '18-3': 'Matemáticas',
+      '18-4': 'Intro. Sistemas'
+    };
+
+    for (let h = 7; h <= 20; h++) {
+      const hourStr = (h < 10 ? '0' : '') + h + ':00';
+      const tr = document.createElement('tr');
+      let cells = `<td class="time-col">${hourStr}</td>`;
+      for (let d = 0; d < 7; d++) {
+        const key = `${h}-${d}`;
+        const content = scheduleData[key] || '';
+        cells += `<td contenteditable="true" data-key="sched-${h}-${d}">${content}</td>`;
+      }
+      tr.innerHTML = cells;
+      tbody.appendChild(tr);
+    }
+  }
+  buildSchedule();
+
+  // ===== FIREBASE SYNC =====
+  function pushToFirebase() {
+    setSyncStatus('⏳ Guardando...', 'var(--pink-soft)');
+    set(plannerRef, cloudState)
+      .then(() => setSyncStatus('☁️ Sincronizado', '#a8e0b8'))
+      .catch(err => {
+        console.error(err);
+        setSyncStatus('⚠️ Error de red', '#ff8a8a');
+      });
+  }
+
+  function scheduleSave() {
+    clearTimeout(window._fbTimer);
+    window._fbTimer = setTimeout(pushToFirebase, 650);
+  }
+
+  // ===== TASKS & EXAMS RENDERING =====
+  function getPriorityBadge(prio) {
+    if (prio === 'Alta') return '<span class="pill pill-high">Alta</span>';
+    if (prio === 'Baja') return '<span class="pill pill-low">Baja</span>';
+    return '<span class="pill pill-mid">Media</span>';
+  }
+
+  function filterTasksByTab(tasks, filter) {
+    const today = getTodayISO();
+    if (filter === 'today') return tasks.filter(t => t.date === today);
+    if (filter === 'upcoming') return tasks.filter(t => t.date && t.date > today);
+    if (filter === 'nodate') return tasks.filter(t => !t.date);
+    return tasks;
+  }
+
+  function renderTasksAndExams() {
+    const tasks = Array.isArray(cloudState.tasks) ? cloudState.tasks : [];
+    const exams = Array.isArray(cloudState.exams) ? cloudState.exams : [];
+
+    const tasksBody = document.getElementById('tasksTableBody');
+    if (tasksBody) {
+      const filtered = filterTasksByTab(tasks, activeTaskFilter);
+      tasksBody.innerHTML = filtered.length === 0
+        ? `<tr><td colspan="6" class="text-muted text-sm" style="text-align:center;padding:1.2rem;">No hay tareas en esta pestaña.</td></tr>`
+        : filtered.map(t => `
+          <tr>
+            <td><input type="checkbox" ${t.done ? 'checked' : ''} onchange="window.toggleTaskDone('${t.id}')"></td>
+            <td style="${t.done ? 'text-decoration:line-through;opacity:0.55;' : ''}">${t.title}</td>
+            <td><span class="pill pill-mid">${t.subject}</span></td>
+            <td><input type="date" value="${t.date || ''}" onchange="window.updateTaskField('${t.id}', 'date', this.value)" style="max-width:140px;"></td>
+            <td>
+              <select onchange="window.updateTaskField('${t.id}', 'priority', this.value)" style="max-width:110px;">
+                <option value="Alta" ${t.priority === 'Alta' ? 'selected' : ''}>Alta</option>
+                <option value="Media" ${t.priority === 'Media' ? 'selected' : ''}>Media</option>
+                <option value="Baja" ${t.priority === 'Baja' ? 'selected' : ''}>Baja</option>
+              </select>
+            </td>
+            <td><button class="btn btn-danger" onclick="window.deleteTask('${t.id}')">🗑️</button></td>
+          </tr>
+        `).join('');
+    }
+
+    const dashTaskList = document.getElementById('dashTaskList');
+    if (dashTaskList) {
+      const filteredDash = filterTasksByTab(tasks, activeTaskFilter);
+      dashTaskList.innerHTML = filteredDash.length === 0
+        ? `<p class="text-sm text-muted" style="padding:0.6rem 0;">No hay tareas registradas para esta vista.</p>`
+        : filteredDash.map(t => `
+          <div class="list-item">
+            <input type="checkbox" ${t.done ? 'checked' : ''} onchange="window.toggleTaskDone('${t.id}')">
+            <span style="flex:1;${t.done ? 'text-decoration:line-through;opacity:0.55;' : ''}">${t.title}</span>
+            <span class="pill pill-mid">${t.subject}</span>
+            <span class="text-sm text-muted">${formatDateDisplay(t.date)}</span>
+            ${getPriorityBadge(t.priority)}
+          </div>
+        `).join('');
+    }
+
+    const examsBody = document.getElementById('examsTableBody');
+    if (examsBody) {
+      examsBody.innerHTML = exams.length === 0
+        ? `<tr><td colspan="6" class="text-muted text-sm" style="text-align:center;padding:1.2rem;">Aún no has agregado exámenes.</td></tr>`
+        : exams.map(ex => `
+          <tr>
+            <td>
+              <select onchange="window.updateExamField('${ex.id}', 'subject', this.value)" style="max-width:130px;">
+                <option value="Física" ${ex.subject === 'Física' ? 'selected' : ''}>Física</option>
+                <option value="Matemáticas" ${ex.subject === 'Matemáticas' ? 'selected' : ''}>Matemáticas</option>
+                <option value="Sistemas" ${ex.subject === 'Sistemas' ? 'selected' : ''}>Sistemas</option>
+                <option value="EPUS" ${ex.subject === 'EPUS' ? 'selected' : ''}>EPUS</option>
+              </select>
+            </td>
+            <td>${ex.topic}</td>
+            <td><input type="date" value="${ex.date || ''}" onchange="window.updateExamField('${ex.id}', 'date', this.value)" style="max-width:140px;"></td>
+            <td>
+              <select onchange="window.updateExamField('${ex.id}', 'priority', this.value)" style="max-width:110px;">
+                <option value="Alta" ${ex.priority === 'Alta' ? 'selected' : ''}>Alta</option>
+                <option value="Media" ${ex.priority === 'Media' ? 'selected' : ''}>Media</option>
+                <option value="Baja" ${ex.priority === 'Baja' ? 'selected' : ''}>Baja</option>
+              </select>
+            </td>
+            <td contenteditable="true" onblur="window.updateExamField('${ex.id}', 'notes', this.innerText)">${ex.notes || ''}</td>
+            <td><button class="btn btn-danger" onclick="window.deleteExam('${ex.id}')">🗑️</button></td>
+          </tr>
+        `).join('');
+    }
+
+    const dashExams = document.getElementById('dashExamsPreview');
+    if (dashExams) {
+      dashExams.innerHTML = exams.length === 0
+        ? `<p class="text-muted">Sin exámenes programados.</p>`
+        : exams.slice(0, 4).map(ex => `
+          <div style="padding:0.35rem 0;border-bottom:1px solid rgba(80,35,120,0.15);display:flex;justify-content:space-between;align-items:center;">
+            <span><strong>${ex.subject}:</strong> ${ex.topic}</span>
+            <span>${formatDateDisplay(ex.date)} ${getPriorityBadge(ex.priority)}</span>
+          </div>
+        `).join('');
+    }
+  }
+
+  document.getElementById('addTaskBtn').addEventListener('click', () => {
+    const title = document.getElementById('newTaskTitle').value.trim();
+    if (!title) return;
+    cloudState.tasks.push({
+      id: 't_' + Date.now(),
+      title,
+      subject: document.getElementById('newTaskSubject').value,
+      date: document.getElementById('newTaskDate').value,
+      priority: document.getElementById('newTaskPriority').value,
+      done: false
+    });
+    document.getElementById('newTaskTitle').value = '';
+    renderTasksAndExams();
+    pushToFirebase();
+  });
+
+  window.toggleTaskDone = function(id) {
+    const t = cloudState.tasks.find(x => x.id === id);
+    if (t) {
+      t.done = !t.done;
+      renderTasksAndExams();
+      pushToFirebase();
+    }
+  };
+
+  window.updateTaskField = function(id, field, val) {
+    const t = cloudState.tasks.find(x => x.id === id);
+    if (t) {
+      t[field] = val;
+      renderTasksAndExams();
+      pushToFirebase();
+    }
+  };
+
+  window.deleteTask = function(id) {
+    cloudState.tasks = cloudState.tasks.filter(x => x.id !== id);
+    renderTasksAndExams();
+    pushToFirebase();
+  };
+
+  document.getElementById('addExamBtn').addEventListener('click', () => {
+    const topic = document.getElementById('newExamTopic').value.trim();
+    if (!topic) return;
+    cloudState.exams.push({
+      id: 'e_' + Date.now(),
+      topic,
+      subject: document.getElementById('newExamSubject').value,
+      date: document.getElementById('newExamDate').value,
+      priority: document.getElementById('newExamPriority').value,
+      notes: ''
+    });
+    document.getElementById('newExamTopic').value = '';
+    renderTasksAndExams();
+    pushToFirebase();
+  });
+
+  window.updateExamField = function(id, field, val) {
+    const ex = cloudState.exams.find(x => x.id === id);
+    if (ex) {
+      ex[field] = val;
+      renderTasksAndExams();
+      pushToFirebase();
+    }
+  };
+
+  window.deleteExam = function(id) {
+    cloudState.exams = cloudState.exams.filter(x => x.id !== id);
+    renderTasksAndExams();
+    pushToFirebase();
+  };
+
+  document.querySelectorAll('.filter-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeTaskFilter = btn.dataset.filter;
+      document.querySelectorAll('.filter-tab').forEach(b => {
+        b.classList.toggle('active', b.dataset.filter === activeTaskFilter);
+      });
+      renderTasksAndExams();
+    });
+  });
+
+  // ===== APPLY CLOUD STATE =====
+  function applyCloudState() {
+    document.querySelectorAll('[data-key]').forEach(el => {
+      const key = el.dataset.key;
+      if (cloudState.fields && cloudState.fields[key] !== undefined) {
+        if (document.activeElement === el) return;
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          el.value = cloudState.fields[key];
+        } else {
+          el.innerHTML = cloudState.fields[key];
+        }
+      }
+    });
+
+    document.querySelectorAll('.habit-check').forEach(el => {
+      const id = el.dataset.habit;
+      const isDone = Boolean(cloudState.habits && cloudState.habits[id]);
+      el.classList.toggle('done', isDone);
+      el.textContent = isDone ? '✓' : '';
+    });
+
+    document.querySelectorAll('.check-circle').forEach(el => {
+      const id = el.dataset.check;
+      const isDone = Boolean(cloudState.checks && cloudState.checks[id]);
+      el.classList.toggle('done', isDone);
+    });
+
+    document.querySelectorAll('[data-wish-check]').forEach(el => {
+      const id = el.dataset.wishCheck;
+      el.checked = Boolean(cloudState.wishChecks && cloudState.wishChecks[id]);
+    });
+
+    renderSubjectDatedFields();
+    renderTasksAndExams();
+    renderCalendar();
+    renderMoodCalendar();
+    renderDailyFields();
+    updateSaveProgress();
+  }
+
+  onValue(plannerRef, (snapshot) => {
+    const val = snapshot.val();
+    if (val) {
+      cloudState = {
+        fields: val.fields || {},
+        subjectDated: val.subjectDated || {},
+        habits: val.habits || {},
+        checks: val.checks || {},
+        wishChecks: val.wishChecks || {},
+        calendarNotes: val.calendarNotes || {},
+        moods: val.moods || {},
+        daily: val.daily || {},
+        tasks: val.tasks || [],
+        exams: val.exams || []
+      };
+      applyCloudState();
+    }
+    setSyncStatus('☁️ Sincronizado', '#a8e0b8');
+  }, (error) => {
+    console.error(error);
+    setSyncStatus('⚠️ Sin conexión', '#ff8a8a');
+  });
+
+  // ===== GLOBAL LISTENERS =====
+  document.addEventListener('input', e => {
+    const el = e.target;
+    if (el.dataset && el.dataset.key) {
+      cloudState.fields[el.dataset.key] = (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') ? el.value : el.innerHTML;
+      if (el.id === 'saveTarget' || el.id === 'saveCurrent') updateSaveProgress();
+      scheduleSave();
+    }
+    if (el.dataset && el.dataset.subjDated) {
+      const dateVal = subjDatePicker?.value || getTodayISO();
+      const fullKey = `${el.dataset.subjDated}__${dateVal}`;
+      cloudState.subjectDated[fullKey] = el.innerHTML;
+      scheduleSave();
+    }
+    if (el.classList && el.classList.contains('cal-note')) {
+      cloudState.calendarNotes[el.dataset.calDate] = el.innerHTML;
+      scheduleSave();
+    }
+    if (['dailyTasks', 'dailyPriorities', 'dailyNotes', 'dailyWins'].includes(el.id)) {
+      const dateVal = document.getElementById('dailyDate').value || getTodayISO();
+      if (!cloudState.daily[dateVal]) cloudState.daily[dateVal] = {};
+      cloudState.daily[dateVal][el.id] = el.innerHTML;
+      scheduleSave();
+    }
+  });
+
+  document.addEventListener('change', e => {
+    const el = e.target;
+    if (el.dataset && el.dataset.wishCheck !== undefined) {
+      cloudState.wishChecks[el.dataset.wishCheck] = el.checked;
+      pushToFirebase();
+    }
+    if (el.id === 'dailyDate') renderDailyFields();
+  });
+
+  document.addEventListener('click', e => {
+    const el = e.target;
+    if (el.classList.contains('habit-check')) {
+      const id = el.dataset.habit;
+      const next = !el.classList.contains('done');
+      el.classList.toggle('done', next);
+      el.textContent = next ? '✓' : '';
+      cloudState.habits[id] = next;
+      pushToFirebase();
+    }
+    if (el.classList.contains('check-circle')) {
+      const id = el.dataset.check;
+      const next = !el.classList.contains('done');
+      el.classList.toggle('done', next);
+      cloudState.checks[id] = next;
+      pushToFirebase();
+    }
+  });
+
+  // ===== SAVE PROGRESS =====
+  function updateSaveProgress() {
+    const target = parseFloat(document.getElementById('saveTarget')?.value) || 0;
+    const current = parseFloat(document.getElementById('saveCurrent')?.value) || 0;
+    const pct = target > 0 ? Math.min(100, Math.round((current / target) * 100)) : 0;
+    const bar = document.getElementById('saveProgress');
+    const label = document.getElementById('savePercent');
+    if (bar) bar.style.width = pct + '%';
+    if (label) label.textContent = pct;
+  }
+
+  // ===== CALENDAR =====
+  let calYear = new Date().getFullYear();
+  let calMonth = new Date().getMonth();
+
+  function renderCalendar() {
+    const grid = document.getElementById('calendarGrid');
+    if (!grid) return;
+    const title = document.getElementById('monthTitle');
+    const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    title.textContent = monthNames[calMonth] + ' ' + calYear;
+
+    grid.innerHTML = '';
+    ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].forEach(d => {
+      const el = document.createElement('div');
+      el.className = 'cal-day-name';
+      el.textContent = d;
+      grid.appendChild(el);
+    });
+
+    const first = new Date(calYear, calMonth, 1);
+    let startDay = first.getDay();
+    startDay = startDay === 0 ? 6 : startDay - 1;
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    const today = new Date();
+
+    for (let i = 0; i < startDay; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'cal-cell other';
+      grid.appendChild(cell);
+    }
+    for (let d = 1; d <= daysInMonth; d++) {
+      const cell = document.createElement('div');
+      cell.className = 'cal-cell';
+      if (d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear()) {
+        cell.classList.add('today');
+      }
+      const dateKey = `${calYear}-${calMonth + 1}-${d}`;
+      const savedNote = (cloudState.calendarNotes && cloudState.calendarNotes[dateKey]) || '';
+      cell.innerHTML = `<span class="cal-num">${d}</span><div class="cal-note" contenteditable="true" data-cal-date="${dateKey}">${savedNote}</div>`;
+      grid.appendChild(cell);
+    }
+  }
+
+  document.getElementById('prevMonthBtn').addEventListener('click', () => {
+    calMonth--;
+    if (calMonth < 0) { calMonth = 11; calYear--; }
+    renderCalendar();
+    renderMoodCalendar();
+  });
+
+  document.getElementById('nextMonthBtn').addEventListener('click', () => {
+    calMonth++;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    renderCalendar();
+    renderMoodCalendar();
+  });
+
+  // ===== MOOD =====
+  let selectedMood = null;
+  const moodEmojis = {
+    excelente: '🖤', feliz: '💜', bien: '⭐', normal: '🌙', cansada: '☁️', descansar: '🌧️'
+  };
+
+  document.querySelectorAll('.mood-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedMood = btn.dataset.mood;
+    });
+  });
+
+  function renderMoodCalendar() {
+    const cal = document.getElementById('moodCalendar');
+    if (!cal) return;
+    cal.innerHTML = '';
+    const days = new Date(calYear, calMonth + 1, 0).getDate();
+    for (let d = 1; d <= days; d++) {
+      const moodKey = `${calYear}-${calMonth + 1}-${d}`;
+      const savedMood = (cloudState.moods && cloudState.moods[moodKey]) || '';
+      const cell = document.createElement('div');
+      cell.className = 'mood-day';
+      cell.innerHTML = `<span class="num">${d}</span><span class="emoji">${savedMood}</span>`;
+      cell.addEventListener('click', () => {
+        if (selectedMood) {
+          const emoji = moodEmojis[selectedMood];
+          cell.querySelector('.emoji').textContent = emoji;
+          cloudState.moods[moodKey] = emoji;
+          pushToFirebase();
+        }
+      });
+      cal.appendChild(cell);
+    }
+  }
+
+  // ===== DAILY =====
+  function renderDailyFields() {
+    const dateInput = document.getElementById('dailyDate');
+    if (!dateInput) return;
+    if (!dateInput.value) dateInput.value = getTodayISO();
+    const dateVal = dateInput.value;
+    const dayData = (cloudState.daily && cloudState.daily[dateVal]) || {};
+
+    ['dailyTasks', 'dailyPriorities', 'dailyNotes', 'dailyWins'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && document.activeElement !== el) {
+        el.innerHTML = dayData[id] !== undefined ? dayData[id] : '';
+      }
+    });
+  }
+
+  // ===== WIDGETS: LIVE CLOCK & POMODORO =====
+  function updateLiveClock() {
+    const now = new Date();
+    const clockEl = document.getElementById('liveClock');
+    const dateEl = document.getElementById('liveClockDate');
+    if (clockEl) {
+      clockEl.textContent = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+    if (dateEl) {
+      dateEl.textContent = now.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    }
+  }
+  setInterval(updateLiveClock, 1000);
+  updateLiveClock();
+
+  let pomoSeconds = 25 * 60;
+  let pomoInterval = null;
+  function renderPomo() {
+    const m = Math.floor(pomoSeconds / 60).toString().padStart(2, '0');
+    const s = (pomoSeconds % 60).toString().padStart(2, '0');
+    const disp = document.getElementById('pomoDisplay');
+    if (disp) disp.textContent = `${m}:${s}`;
+  }
+
+  document.getElementById('pomoStartBtn').addEventListener('click', () => {
+    if (pomoInterval) return;
+    pomoInterval = setInterval(() => {
+      if (pomoSeconds > 0) {
+        pomoSeconds--;
+        renderPomo();
+      } else {
+        clearInterval(pomoInterval);
+        pomoInterval = null;
+        alert('🖤 ¡Tiempo completado, Zoe! Tómate un respiro.');
+      }
+    }, 1000);
+  });
+
+  document.getElementById('pomoPauseBtn').addEventListener('click', () => {
+    clearInterval(pomoInterval);
+    pomoInterval = null;
+  });
+
+  document.getElementById('pomoResetBtn').addEventListener('click', () => {
+    clearInterval(pomoInterval);
+    pomoInterval = null;
+    pomoSeconds = 25 * 60;
+    renderPomo();
+  });
+
+  document.getElementById('pomoBreakBtn').addEventListener('click', () => {
+    clearInterval(pomoInterval);
+    pomoInterval = null;
+    pomoSeconds = 5 * 60;
+    renderPomo();
+  });
+
+  // ===== KUROMI IA BOT — Versión mejorada =====
+  const botMessages = document.getElementById('botMessages');
+  const botInput = document.getElementById('botInput');
+  const botTyping = document.getElementById('botTyping');
+  let chatHistory = [];
+
+  function generateSmartKuromiResponse(rawInput) {
+    const q = rawInput.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const tasks = (cloudState.tasks || []).filter(t => !t.done);
+    const exams = cloudState.exams || [];
+    const today = getTodayISO();
+    const highTasks = tasks.filter(t => t.priority === 'Alta');
+    const todayTasks = tasks.filter(t => t.date === today);
+
+    // 1. Análisis de agenda / tareas / exámenes
+    if (q.includes("agenda") || q.includes("tarea") || q.includes("pendiente") || q.includes("priorizar") || q.includes("que tengo") || q.includes("que debo hacer") || q.includes("que hay")) {
+      let resp = "🖤 Revisé tu base de datos en tiempo real, Zoe:\n\n";
+      if (tasks.length === 0 && exams.length === 0) {
+        resp += "✨ ¡Tienes el camino despejado! No hay tareas pendientes ni exámenes registrados. Es un buen momento para adelantar apuntes, repasar o simplemente descansar sin culpa.";
+        return resp;
+      }
+      if (tasks.length > 0) {
+        resp += `✅ Tienes **${tasks.length} tarea(s)** pendiente(s).\n`;
+        if (todayTasks.length > 0) {
+          resp += `• Para HOY (${todayTasks.length}): ${todayTasks.map(t => `"${t.title}" (${t.subject})`).join(", ")}.\n`;
+        }
+        if (highTasks.length > 0) {
+          resp += `• Prioridad ALTA: ${highTasks.map(t => `"${t.title}" [${t.subject}]`).join(", ")}.\n`;
+        } else if (tasks.length > 0) {
+          resp += `• Te sugiero empezar con: "${tasks[0].title}" de ${tasks[0].subject}.\n`;
+        }
+      }
+      if (exams.length > 0) {
+        resp += `\n📝 Exámenes en radar (${exams.length}):\n`;
+        exams.slice(0, 4).forEach(ex => {
+          resp += `• ${ex.subject}: ${ex.topic} → ${formatDateDisplay(ex.date)} [${ex.priority}]\n`;
+        });
+      }
+      resp += "\n💡 Consejo Kuromi: Pon el Pomodoro en 25 minutos y ataca solo la primera tarea de prioridad alta. Una cosa a la vez, reina.";
+      return resp;
+    }
+
+    // 2. Plan de estudio personalizado
+    if (q.includes("plan de estudio") || q.includes("estudiar") || q.includes("examen") || q.includes("parcial") || q.includes("repasar")) {
+      let targetSubj = "tus materias";
+      if (q.includes("fisica")) targetSubj = "Física";
+      else if (q.includes("mate")) targetSubj = "Matemáticas";
+      else if (q.includes("sistema")) targetSubj = "Introducción a Sistemas";
+      else if (q.includes("etica") || q.includes("epus")) targetSubj = "EPUS";
+      else if (exams.length > 0) targetSubj = `${exams[0].subject} (${exams[0].topic})`;
+
+      return `📚 Plan de ataque Kuromi para **${targetSubj}**:\n\n1️⃣ **Bloque 1 (25 min)**: Lee tus apuntes por fecha y saca las fórmulas/conceptos clave en un resumen limpio.\n2️⃣ **Descanso (5 min)**: Agua + estiramiento lejos de pantallas. No toques el celular.\n3️⃣ **Bloque 2 (25 min)**: Resuelve 3-5 ejercicios prácticos sin mirar la solución. Si te trabas, anótalo.\n4️⃣ **Cierre (10 min)**: Escribe en "Preguntas pendientes" cualquier duda puntual para clase o tutoría.\n\n💜 Si tienes un examen cercano, prioriza los temas que más se repiten. Yo estoy aquí para cuando necesites que te explique algo.`;
+    }
+
+    // 3. Explicaciones académicas
+    if (q.includes("derivad") || q.includes("cinematic") || q.includes("vector") || q.includes("sistema") || q.includes("etica") || q.includes("epus") || q.includes("explica") || q.includes("que es") || q.includes("como funciona")) {
+      if (q.includes("derivad")) {
+        return "📐 **Derivadas en modo fácil**:\nUna derivada mide qué tan rápido cambia una función en un punto exacto (la pendiente de la recta tangente).\n\n• Regla de la potencia: si f(x) = xⁿ → f'(x) = n·xⁿ⁻¹\n• Derivada de una constante siempre es 0\n• Suma/resta: (f+g)' = f' + g'\n• Producto: (f·g)' = f'g + fg'\n\nSi necesitas practicar, anota los ejercicios en tu bloque de Matemáticas por fecha y los vamos desglosando juntos. 💜";
+      }
+      if (q.includes("cinematic") || q.includes("vector") || q.includes("velocidad") || q.includes("aceleracion")) {
+        return "⚡ **Física clave – Cinemática y Vectores**:\n• Cinemática estudia el movimiento sin importar qué fuerza lo causa (posición x, velocidad v, aceleración a).\n• MRUV (aceleración constante):\n  v = v₀ + a·t\n  x = x₀ + v₀·t + ½·a·t²\n• Vectores: siempre descompón en ejes X (coseno) y Y (seno) antes de sumar.\n• Recuerda: la velocidad es vector, la rapidez es escalar.\n\n¿Quieres que te arme un ejemplo numérico? Solo dime el problema. 🖤";
+      }
+      if (q.includes("sistema") || q.includes("informacion")) {
+        return "💻 **Introducción a Sistemas de la Información**:\nUn sistema de información es un conjunto de componentes interrelacionados (datos, hardware, software, personas y procesos) que recolectan, procesan, almacenan y distribuyen información para apoyar la toma de decisiones en una organización.\n\nComponentes clave: entrada → procesamiento → salida → retroalimentación.\n\nSi tienes un tema específico (bases de datos, redes, ERP...), dime y lo bajamos a tierra. ✨";
+      }
+      if (q.includes("etica") || q.includes("epus") || q.includes("moral")) {
+        return "⚖️ **EPUS en resumen**:\nEPUS trabaja ética, profesionalismo, universidad y sociedad. Mientras la **moral** son las normas de una sociedad, la **ética** es la reflexión sobre por qué algo es correcto o incorrecto.\n\nCorrientes útiles:\n• Deontología → el deber (Kant)\n• Utilitarismo → las consecuencias (Mill)\n• Ética de la virtud → el carácter (Aristóteles)\n\n¿Estás trabajando algún dilema de EPUS concreto? Cuéntame y lo analizamos juntas. 🌙";
+      }
+      return "🧠 Dime exactamente qué tema de Física, Matemáticas, Sistemas o EPUS quieres que te resuma (por ejemplo: 'explícame derivadas' o 'explícame cinemática') y te doy los puntos clave listos para tus apuntes. 🖤";
+    }
+
+    // 4. Apoyo emocional
+    if (q.includes("estres") || q.includes("cansad") || q.includes("triste") || q.includes("agobi") || q.includes("animo") || q.includes("mal") || q.includes("ansiedad") || q.includes("saturad") || q.includes("no puedo")) {
+      return "🌙 Hey, baja un cambio un segundo, Zoe.\n\nEs completamente normal sentirse saturada en Ingeniería en Sistemas. No tienes que cargar con todo el semestre en una sola noche.\n\n• Toma un vaso de agua ahora mismo.\n• Elige UNA sola cosa pequeña para hoy y deja el resto para mañana.\n• Dormir bien también es parte de rendir en la U.\n• Si necesitas desahogarte, aquí estoy (sin juicios).\n\nRecuerda: progresar poco a poco sigue siendo progresar. Aquí estoy contigo 💜🖤";
+    }
+
+    // 5. Organización y productividad
+    if (q.includes("organizar") || q.includes("semana") || q.includes("tiempo") || q.includes("productiv") || q.includes("procrastin") || q.includes("enfocar")) {
+      return "🗓️ **Consejos Kuromi para organizar tu semana**:\n\n1. Revisa primero tus exámenes y tareas de alta prioridad.\n2. Bloquea 2-3 sesiones Pomodoro por día (no más de 4 si estás agotada).\n3. Deja un buffer de 30-40 min entre clases para respirar o repasar rápido.\n4. Usa el planner diario para escribir solo 3 prioridades máximas.\n5. Los domingos por la tarde: 20 minutos de revisión de la semana siguiente.\n\nSi quieres, dime cómo está tu horario esta semana y te ayudo a armar un plan concreto. 🖤";
+    }
+
+    // 6. Ahorro / finanzas
+    if (q.includes("ahorro") || q.includes("dinero") || q.includes("plata") || q.includes("meta financiera")) {
+      const goal = cloudState.fields['save-goal'] || 'tu meta';
+      const target = parseFloat(cloudState.fields['save-target']) || 0;
+      const current = parseFloat(cloudState.fields['save-current']) || 0;
+      if (target > 0) {
+        const pct = Math.round((current / target) * 100);
+        const falta = target - current;
+        return `💰 Para **"${goal}"** llevas $${current} de $${target} (${pct}%).\nTe faltan $${falta > 0 ? falta : 0}.\n¡Cada aporte suma, sigue así! ✨`;
+      }
+      return "💰 Aún no has puesto un monto objetivo en la sección Ahorro. Si lo llenas, te ayudo a calcular cuánto te falta y a armar un plan realista. 🖤";
+    }
+
+    // 7. Saludos y conversación
+    if (q.includes("hola") || q.includes("hey") || q.includes("buenos") || q.includes("buenas") || q.includes("como estas") || q.includes("que tal")) {
+      return `¡Hola Zoe! 🖤✨ Aquí lista en modo Kuromi IA. Tienes ${tasks.length} tarea(s) pendiente(s) y ${exams.length} examen(es) anotados. ¿Quieres que revisemos tus prioridades, te arme un plan de estudio o simplemente charlemos un rato? 💜`;
+    }
+
+    if (q.includes("gracias") || q.includes("genial") || q.includes("perfecto") || q.includes("gracias")) {
+      return "¡De nada, Zoe! 🖤💜 Para eso estoy aquí. Cualquier cosa que necesites organizar, repasar o simplemente desahogarte, solo escríbeme.";
+    }
+
+    if (q.includes("quien eres") || q.includes("que puedes hacer") || q.includes("ayudame")) {
+      return "🖤 Soy Kuromi IA, tu asistente personal dentro de este planner. Puedo:\n• Revisar tus tareas y exámenes reales\n• Armar planes de estudio\n• Explicar temas de Física, Matemáticas, Sistemas y EPUS\n• Darte consejos de organización y ánimo\n• Recordarte que eres capaz aunque el día se sienta pesado\n\nSolo dime qué necesitas. 💜";
+    }
+
+    // 8. Respuesta por defecto más inteligente
+    return `🖤 Entendido, Zoe. Sobre "${rawInput}":\n\nSi quieres que lo convierta en acción dentro de tu planner, dime si prefieres:\n1️⃣ Revisar tus tareas y exámenes pendientes\n2️⃣ Armar un bloque de estudio de 25 minutos\n3️⃣ Resumir algún concepto de Física, Matemáticas, Sistemas o EPUS\n4️⃣ Consejos de organización o motivación\n\nEstoy lista cuando tú lo estés 💜`;
+  }
+
+  function sendBotMessage(customText) {
+    const text = (customText || botInput.value).trim();
+    if (!text) return;
+
+    chatHistory.push({ role: 'user', text });
+    const userDiv = document.createElement('div');
+    userDiv.className = 'bot-msg user';
+    userDiv.textContent = text;
+    botMessages.appendChild(userDiv);
+    if (!customText) botInput.value = '';
+    botMessages.scrollTop = botMessages.scrollHeight;
+
+    botTyping.style.display = 'block';
+    setTimeout(() => {
+      botTyping.style.display = 'none';
+      const replyText = generateSmartKuromiResponse(text);
+      chatHistory.push({ role: 'assistant', text: replyText });
+      const replyDiv = document.createElement('div');
+      replyDiv.className = 'bot-msg kuromi';
+      replyDiv.textContent = replyText;
+      botMessages.appendChild(replyDiv);
+      botMessages.scrollTop = botMessages.scrollHeight;
+    }, 550 + Math.random() * 400);
+  }
+
+  document.getElementById('botSendBtn').addEventListener('click', () => sendBotMessage());
+  botInput.addEventListener('keypress', e => {
+    if (e.key === 'Enter') sendBotMessage();
+  });
+  document.querySelectorAll('.bot-chip').forEach(chip => {
+    chip.addEventListener('click', () => sendBotMessage(chip.dataset.prompt));
+  });
+
+  // INIT
+  renderSubjectDatedFields();
+  renderTasksAndExams();
+  renderCalendar();
+  renderMoodCalendar();
+  renderDailyFields();
+</script>
+</body>
+</html>

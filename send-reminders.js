@@ -8,7 +8,7 @@ admin.initializeApp({
 });
 
 const db = admin.database();
-const MONTHLY_REMINDER_TIME = '07:30';
+const MONTHLY_REMINDER_TIME = '18:55';
 const PLANNER_URL = 'https://zoebastidas26-sketch.github.io/Planner2027/';
 const KUROMI_ICON = 'https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png';
 

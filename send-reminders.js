@@ -8,6 +8,7 @@ admin.initializeApp({
 });
 
 const db = admin.database();
+const MONTHLY_REMINDER_TIME = '07:30';
 
 function getQuitoNow() {
   const now = new Date();
@@ -27,6 +28,18 @@ function toMinutes(hhmm) {
   const [h, m] = hhmm.split(':').map(Number);
   if (Number.isNaN(h) || Number.isNaN(m)) return null;
   return h * 60 + m;
+}
+
+function cleanNoteText(htmlOrText) {
+  if (!htmlOrText) return '';
+  return String(htmlOrText)
+    .replace(/<br\s*\/?>/gi, ' · ')
+    .replace(/<\/(div|p|li|tr)>/gi, ' · ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/(\s*·\s*)+/g, ' · ')
+    .trim();
 }
 
 async function run() {
@@ -53,6 +66,7 @@ async function run() {
   const tasks = Array.isArray(data.tasks) ? data.tasks : [];
   const exams = Array.isArray(data.exams) ? data.exams : [];
   let updated = false;
+  let updatedMonthly = false;
 
   for (const task of tasks) {
     if (!task || task.done) continue;
@@ -126,9 +140,35 @@ async function run() {
     }
   }
 
+  // Aviso de lo anotado en el Planner Mensual para el día de hoy
+  const calendarNotes = data.calendarNotes && typeof data.calendarNotes === 'object' ? data.calendarNotes : {};
+  const monthlyNotified = data.monthlyNotified && typeof data.monthlyNotified === 'object' ? data.monthlyNotified : {};
+  const shortDateKey = `${nowQuito.getFullYear()}-${nowQuito.getMonth() + 1}-${nowQuito.getDate()}`;
+  const dayNoteText = cleanNoteText(calendarNotes[todayISO] || calendarNotes[shortDateKey] || '');
+  const monthlyTargetMin = toMinutes(MONTHLY_REMINDER_TIME);
+
+  if (
+    dayNoteText &&
+    monthlyTargetMin !== null &&
+    nowMinutes >= monthlyTargetMin &&
+    nowMinutes <= monthlyTargetMin + 2 &&
+    monthlyNotified[todayISO] !== dayNoteText
+  ) {
+    await sendPush(
+      tokens,
+      `📅 Planner Mensual (${todayISO})`,
+      dayNoteText
+    );
+    monthlyNotified[todayISO] = dayNoteText;
+    updatedMonthly = true;
+  }
+
   if (updated) {
     await db.ref('zoe_planner_2027/tasks').set(tasks);
     await db.ref('zoe_planner_2027/exams').set(exams);
+  }
+  if (updatedMonthly) {
+    await db.ref('zoe_planner_2027/monthlyNotified').set(monthlyNotified);
   }
 }
 

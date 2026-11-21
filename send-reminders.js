@@ -8,7 +8,7 @@ admin.initializeApp({
 });
 
 const db = admin.database();
-const MONTHLY_REMINDER_TIME = '17:51';
+const MONTHLY_REMINDER_TIME = '18:15';
 
 function getQuitoNow() {
   const now = new Date();

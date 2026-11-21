@@ -25,6 +25,7 @@ function formatDateISO(d) {
 function toMinutes(hhmm) {
   if (!hhmm || !hhmm.includes(':')) return null;
   const [h, m] = hhmm.split(':').map(Number);
+  if (Number.isNaN(h) || Number.isNaN(m)) return null;
   return h * 60 + m;
 }
 
@@ -54,25 +55,76 @@ async function run() {
   let updated = false;
 
   for (const task of tasks) {
-    if (!task || task.done || task.notified || task.date !== todayISO) continue;
-    const targetMin = toMinutes(task.time || '09:00');
-    if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
-      await sendPush(tokens, `✅ Tarea: ${task.title}`, `${task.subject} · Hora: ${task.time || '09:00'} (Prioridad ${task.priority})`);
-      task.notified = true;
-      updated = true;
+    if (!task || task.done) continue;
+    const defaultTime = task.time || '09:00';
+
+    // Recordatorios previos elegidos por ti (fecha y hora personalizadas)
+    if (Array.isArray(task.reminders)) {
+      for (const rem of task.reminders) {
+        if (!rem || rem.sent || rem.date !== todayISO) continue;
+        const targetMin = toMinutes(rem.time || defaultTime);
+        if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
+          await sendPush(
+            tokens,
+            `⏳ Recordatorio: ${task.title}`,
+            `${task.subject} · Entrega: ${task.date || 'Sin fecha'} · Hora: ${rem.time || defaultTime}`
+          );
+          rem.sent = true;
+          updated = true;
+        }
+      }
+    }
+
+    // Aviso principal en la fecha y hora límite de la tarea
+    if (!task.notified && task.date === todayISO) {
+      const targetMin = toMinutes(defaultTime);
+      if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
+        await sendPush(
+          tokens,
+          `✅ Tarea: ${task.title}`,
+          `${task.subject} · Hora: ${defaultTime} (Prioridad ${task.priority})`
+        );
+        task.notified = true;
+        updated = true;
+      }
     }
   }
 
-    for (const exam of exams) {
-    if (!exam || exam.notified || exam.date !== todayISO) continue;
-    const targetMin = toMinutes(exam.time || '08:00');
-    if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
-      await sendPush(tokens, `📝 Examen de ${exam.subject}`, `${exam.topic || 'Evaluación'} · Hora: ${exam.time || '08:00'}`);
-      exam.notified = true;
-      updated = true;
+  for (const exam of exams) {
+    if (!exam) continue;
+    const defaultTime = exam.time || '08:00';
+
+    // Recordatorios previos elegidos por ti (fecha y hora personalizadas)
+    if (Array.isArray(exam.reminders)) {
+      for (const rem of exam.reminders) {
+        if (!rem || rem.sent || rem.date !== todayISO) continue;
+        const targetMin = toMinutes(rem.time || defaultTime);
+        if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
+          await sendPush(
+            tokens,
+            `⏳ Recordatorio examen: ${exam.subject}`,
+            `${exam.topic || 'Evaluación'} · Fecha: ${exam.date || 'Sin fecha'} · Hora: ${rem.time || defaultTime}`
+          );
+          rem.sent = true;
+          updated = true;
+        }
+      }
+    }
+
+    // Aviso principal en la fecha y hora del examen
+    if (!exam.notified && exam.date === todayISO) {
+      const targetMin = toMinutes(defaultTime);
+      if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
+        await sendPush(
+          tokens,
+          `📝 Examen de ${exam.subject}`,
+          `${exam.topic || 'Evaluación'} · Hora: ${defaultTime}`
+        );
+        exam.notified = true;
+        updated = true;
+      }
     }
   }
-
 
   if (updated) {
     await db.ref('zoe_planner_2027/tasks').set(tasks);

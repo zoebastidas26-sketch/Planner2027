@@ -262,6 +262,84 @@
   }
   .note-area.tall { min-height: 250px; }
 
+  /* Link de clase fijo en General */
+  .class-link-box {
+    background: rgba(20, 13, 30, 0.85);
+    border: 1px solid rgba(201,160,232,0.28);
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.1rem;
+  }
+  .class-link-row {
+    display: flex;
+    gap: 0.55rem;
+    align-items: center;
+    margin-top: 0.4rem;
+  }
+  .class-link-open {
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  /* Recordatorios inteligentes */
+  .smart-reminders-box {
+    background: rgba(20, 13, 30, 0.88);
+    border: 1px solid rgba(201,160,232,0.28);
+    border-radius: 13px;
+    padding: 0.95rem 1.05rem;
+    margin-bottom: 1.2rem;
+  }
+  .smart-reminders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
+  }
+  .smart-days-badge {
+    font-size: 0.78rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(201,160,232,0.14);
+    border: 1px solid rgba(201,160,232,0.32);
+    color: var(--lilac-soft);
+    font-weight: 600;
+  }
+  .reminder-item-row {
+    display: grid;
+    grid-template-columns: auto 1fr 145px 115px auto;
+    gap: 0.55rem;
+    align-items: center;
+    padding: 0.45rem 0.55rem;
+    border-radius: 10px;
+    background: rgba(12, 8, 18, 0.75);
+    border: 1px solid rgba(122,61,158,0.22);
+    margin-bottom: 0.45rem;
+    font-size: 0.83rem;
+  }
+  .reminder-item-row input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--lilac);
+  }
+  .reminder-add-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.6rem;
+  }
+  @media (max-width: 760px) {
+    .reminder-item-row {
+      grid-template-columns: auto 1fr auto;
+    }
+    .reminder-item-row input[type="date"],
+    .reminder-item-row input[type="time"] {
+      grid-column: span 3;
+    }
+  }
+
   /* Tables & Form Controls */
   table {
     width: 100%;
@@ -411,7 +489,7 @@
     display: grid;
     grid-template-columns: 2fr 1.1fr 1fr 0.85fr 1fr auto;
     gap: 0.65rem;
-    margin-bottom: 1.3rem;
+    margin-bottom: 1rem;
     background: rgba(18, 14, 26, 0.8);
     padding: 1rem;
     border-radius: 13px;
@@ -1321,6 +1399,13 @@
           <h4>📌 General</h4>
           <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('fisica-tareas')">+ Fecha de hoy</button>
         </div>
+        <div class="class-link-box">
+          <label class="text-sm" style="color:var(--pink-soft);font-weight:600;">🔗 Link de clase</label>
+          <div class="class-link-row">
+            <input type="url" data-key="fisica-link" data-link-input="fisica-link" placeholder="Pega aquí tu link de clase">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm class-link-open" data-link-for="fisica-link">Abrir ↗</a>
+          </div>
+        </div>
         <div class="grid-2">
           <div class="sub-section">
             <h4>❓ Preguntas</h4>
@@ -1371,6 +1456,13 @@
         <div class="subj-divider">
           <h4>📌 General</h4>
           <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('mates-tareas')">+ Fecha de hoy</button>
+        </div>
+        <div class="class-link-box">
+          <label class="text-sm" style="color:var(--pink-soft);font-weight:600;">🔗 Link de clase</label>
+          <div class="class-link-row">
+            <input type="url" data-key="mates-link" data-link-input="mates-link" placeholder="Pega aquí tu link de clase">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm class-link-open" data-link-for="mates-link">Abrir ↗</a>
+          </div>
         </div>
         <div class="grid-2">
           <div class="sub-section">
@@ -1423,6 +1515,13 @@
           <h4>📌 General</h4>
           <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('sistemas-tareas')">+ Fecha de hoy</button>
         </div>
+        <div class="class-link-box">
+          <label class="text-sm" style="color:var(--pink-soft);font-weight:600;">🔗 Link de clase</label>
+          <div class="class-link-row">
+            <input type="url" data-key="sistemas-link" data-link-input="sistemas-link" placeholder="Pega aquí tu link de clase">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm class-link-open" data-link-for="sistemas-link">Abrir ↗</a>
+          </div>
+        </div>
         <div class="grid-2">
           <div class="sub-section">
             <h4>❓ Preguntas</h4>
@@ -1473,6 +1572,13 @@
         <div class="subj-divider">
           <h4>📌 General</h4>
           <button class="btn btn-ghost btn-sm" onclick="window.stampDateInGeneral('etica-tareas')">+ Fecha de hoy</button>
+        </div>
+        <div class="class-link-box">
+          <label class="text-sm" style="color:var(--pink-soft);font-weight:600;">🔗 Link de clase</label>
+          <div class="class-link-row">
+            <input type="url" data-key="etica-link" data-link-input="etica-link" placeholder="Pega aquí tu link de clase">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm class-link-open" data-link-for="etica-link">Abrir ↗</a>
+          </div>
         </div>
         <div class="grid-2">
           <div class="sub-section">
@@ -1761,6 +1867,19 @@
           <button class="btn" id="addExamBtn">+ Agregar</button>
         </div>
 
+        <div class="smart-reminders-box" id="examSmartRemindersBox">
+          <div class="smart-reminders-header">
+            <span style="color:var(--pink-soft);font-weight:600;font-size:0.88rem;">🧠 Recordatorios inteligentes (días y horas a tu elección)</span>
+            <span class="smart-days-badge" id="examDaysMarginBadge">Elige una fecha para ver los días disponibles</span>
+          </div>
+          <div id="examSmartRemindersList"></div>
+          <div class="reminder-add-row">
+            <input type="date" id="examExtraRemDate" style="max-width:165px;">
+            <input type="time" id="examExtraRemTime" value="16:00" style="max-width:125px;">
+            <button type="button" class="btn btn-ghost btn-sm" id="addExamExtraRemBtn">+ Añadir recordatorio</button>
+          </div>
+        </div>
+
         <div style="overflow-x:auto;">
           <table>
             <thead>
@@ -1803,6 +1922,19 @@
             <option value="Baja">Baja</option>
           </select>
           <button class="btn" id="addTaskBtn">+ Agregar</button>
+        </div>
+
+        <div class="smart-reminders-box" id="taskSmartRemindersBox">
+          <div class="smart-reminders-header">
+            <span style="color:var(--pink-soft);font-weight:600;font-size:0.88rem;">🧠 Recordatorios inteligentes (días y horas a tu elección)</span>
+            <span class="smart-days-badge" id="taskDaysMarginBadge">Elige una fecha para ver los días disponibles</span>
+          </div>
+          <div id="taskSmartRemindersList"></div>
+          <div class="reminder-add-row">
+            <input type="date" id="taskExtraRemDate" style="max-width:165px;">
+            <input type="time" id="taskExtraRemTime" value="16:00" style="max-width:125px;">
+            <button type="button" class="btn btn-ghost btn-sm" id="addTaskExtraRemBtn">+ Añadir recordatorio</button>
+          </div>
         </div>
 
         <div class="filter-tabs" id="mainTaskTabs">
@@ -1978,10 +2110,44 @@
     return new Date(now - offset).toISOString().split('T')[0];
   }
 
+  function addDaysToISO(isoStr, deltaDays) {
+    if (!isoStr) return '';
+    const [y, m, d] = isoStr.split('-').map(Number);
+    const dt = new Date(y, m - 1, d + deltaDays);
+    const yyyy = dt.getFullYear();
+    const mm = String(dt.getMonth() + 1).padStart(2, '0');
+    const dd = String(dt.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  function diffDaysFromToday(isoStr) {
+    if (!isoStr) return null;
+    const todayParts = getTodayISO().split('-').map(Number);
+    const targetParts = isoStr.split('-').map(Number);
+    const t0 = Date.UTC(todayParts[0], todayParts[1] - 1, todayParts[2]);
+    const t1 = Date.UTC(targetParts[0], targetParts[1] - 1, targetParts[2]);
+    return Math.round((t1 - t0) / 86400000);
+  }
+
   function formatDateDisplay(isoStr) {
     if (!isoStr) return 'Sin fecha';
     const [y, m, d] = isoStr.split('-');
     return `${d}/${m}/${y}`;
+  }
+
+  function updateClassLinkButtons() {
+    document.querySelectorAll('[data-link-for]').forEach(anchor => {
+      const key = anchor.dataset.linkFor;
+      const val = (cloudState.fields && cloudState.fields[key]) ? String(cloudState.fields[key]).trim() : '';
+      if (val) {
+        const href = /^https?:\/\//i.test(val) ? val : `https://${val}`;
+        anchor.href = href;
+        anchor.style.opacity = '1';
+      } else {
+        anchor.href = '#materias';
+        anchor.style.opacity = '0.45';
+      }
+    });
   }
 
   const subjDatePicker = document.getElementById('subjectDatePicker');
@@ -2003,13 +2169,7 @@
 
   function shiftSubjectDate(days) {
     const cur = subjDatePicker.value || getTodayISO();
-    const parts = cur.split('-').map(Number);
-    const d = new Date(parts[0], parts[1] - 1, parts[2]);
-    d.setDate(d.getDate() + days);
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    subjDatePicker.value = `${yyyy}-${mm}-${dd}`;
+    subjDatePicker.value = addDaysToISO(cur, days);
     renderSubjectDatedFields();
   }
 
@@ -2180,6 +2340,156 @@
     }
   });
 
+  // ===== SMART REMINDERS BUILDER (TASKS & EXAMS) =====
+  const draftReminders = {
+    task: [],
+    exam: []
+  };
+  let lastGeneratedSignature = {
+    task: '',
+    exam: ''
+  };
+
+  function buildSuggestedReminders(targetDateISO, defaultTime, kind) {
+    if (!targetDateISO) return [];
+    const daysLeft = diffDaysFromToday(targetDateISO);
+    if (daysLeft === null || daysLeft <= 0) return [];
+
+    const baseHour = defaultTime || (kind === 'exam' ? '08:00' : '09:00');
+    let offsets = [];
+    if (daysLeft === 1) {
+      offsets = [];
+    } else if (daysLeft <= 4) {
+      offsets = [Math.min(2, daysLeft - 1), 1];
+    } else if (daysLeft <= 10) {
+      offsets = [5, 2, 1];
+    } else {
+      offsets = [7, 3, 1];
+    }
+
+    const uniqueOffsets = [...new Set(offsets)].filter(d => d >= 1 && d < daysLeft).sort((a, b) => b - a);
+    return uniqueOffsets.map(offset => {
+      const remDate = addDaysToISO(targetDateISO, -offset);
+      const label = offset === 1 ? '1 día antes' : `${offset} días antes`;
+      return {
+        id: `sug_${kind}_${offset}_${remDate}`,
+        label,
+        date: remDate,
+        time: baseHour,
+        enabled: true,
+        sent: false
+      };
+    });
+  }
+
+  function syncDraftRemindersWithDate(kind, forceRebuild = false) {
+    const dateInput = document.getElementById(kind === 'task' ? 'newTaskDate' : 'newExamDate');
+    const timeInput = document.getElementById(kind === 'task' ? 'newTaskTime' : 'newExamTime');
+    const badge = document.getElementById(kind === 'task' ? 'taskDaysMarginBadge' : 'examDaysMarginBadge');
+    const targetDate = dateInput?.value || '';
+    const defaultTime = timeInput?.value || (kind === 'exam' ? '08:00' : '09:00');
+
+    if (!targetDate) {
+      if (badge) badge.textContent = 'Elige una fecha para ver los días disponibles';
+      if (forceRebuild) draftReminders[kind] = [];
+      lastGeneratedSignature[kind] = '';
+      renderSmartRemindersUI(kind);
+      return;
+    }
+
+    const daysLeft = diffDaysFromToday(targetDate);
+    if (badge) {
+      if (daysLeft < 0) {
+        badge.textContent = `Fecha pasada (${Math.abs(daysLeft)} día(s) atrás)`;
+      } else if (daysLeft === 0) {
+        badge.textContent = 'Es para hoy (0 días de margen previo)';
+      } else if (daysLeft === 1) {
+        badge.textContent = 'Falta 1 día de margen';
+      } else {
+        badge.textContent = `Tienes ${daysLeft} días de margen`;
+      }
+    }
+
+    const sig = `${targetDate}__${daysLeft}`;
+    if (forceRebuild || lastGeneratedSignature[kind] !== sig) {
+      const customOnes = draftReminders[kind].filter(r => !r.id.startsWith(`sug_${kind}_`) && r.date < targetDate);
+      const suggested = buildSuggestedReminders(targetDate, defaultTime, kind);
+      draftReminders[kind] = [...suggested, ...customOnes];
+      lastGeneratedSignature[kind] = sig;
+    }
+
+    renderSmartRemindersUI(kind);
+  }
+
+  function renderSmartRemindersUI(kind) {
+    const listEl = document.getElementById(kind === 'task' ? 'taskSmartRemindersList' : 'examSmartRemindersList');
+    if (!listEl) return;
+    const items = draftReminders[kind] || [];
+
+    if (!items.length) {
+      listEl.innerHTML = `<div class="text-sm text-muted">No hay avisos previos activos para esta fecha. Puedes añadir uno abajo si quieres.</div>`;
+      return;
+    }
+
+    listEl.innerHTML = items.map((rem, idx) => `
+      <div class="reminder-item-row">
+        <input type="checkbox" ${rem.enabled ? 'checked' : ''} onchange="window.toggleDraftReminder('${kind}', ${idx}, this.checked)">
+        <span style="color:${rem.enabled ? 'var(--lilac-soft)' : 'var(--text-muted)'};font-weight:600;">${rem.label || 'Aviso extra'}</span>
+        <input type="date" value="${rem.date || ''}" onchange="window.updateDraftReminder('${kind}', ${idx}, 'date', this.value)">
+        <input type="time" value="${rem.time || '16:00'}" onchange="window.updateDraftReminder('${kind}', ${idx}, 'time', this.value)">
+        <button type="button" class="btn btn-danger" onclick="window.removeDraftReminder('${kind}', ${idx})">✕</button>
+      </div>
+    `).join('');
+  }
+
+  window.toggleDraftReminder = function(kind, idx, checked) {
+    if (draftReminders[kind][idx]) {
+      draftReminders[kind][idx].enabled = checked;
+      renderSmartRemindersUI(kind);
+    }
+  };
+
+  window.updateDraftReminder = function(kind, idx, field, val) {
+    if (draftReminders[kind][idx]) {
+      draftReminders[kind][idx][field] = val;
+      draftReminders[kind][idx].sent = false;
+    }
+  };
+
+  window.removeDraftReminder = function(kind, idx) {
+    draftReminders[kind].splice(idx, 1);
+    renderSmartRemindersUI(kind);
+  };
+
+  function addExtraDraftReminder(kind) {
+    const dateEl = document.getElementById(kind === 'task' ? 'taskExtraRemDate' : 'examExtraRemDate');
+    const timeEl = document.getElementById(kind === 'task' ? 'taskExtraRemTime' : 'examExtraRemTime');
+    const targetEl = document.getElementById(kind === 'task' ? 'newTaskDate' : 'newExamDate');
+    const remDate = dateEl?.value || '';
+    const remTime = timeEl?.value || '16:00';
+    if (!remDate) return;
+
+    const daysBefore = targetEl?.value ? diffDaysFromToday(targetEl.value) - diffDaysFromToday(remDate) : null;
+    const label = daysBefore && daysBefore > 0
+      ? (daysBefore === 1 ? '1 día antes (personalizado)' : `${daysBefore} días antes (personalizado)`)
+      : 'Recordatorio personalizado';
+
+    draftReminders[kind].push({
+      id: `custom_${kind}_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      label,
+      date: remDate,
+      time: remTime,
+      enabled: true,
+      sent: false
+    });
+    renderSmartRemindersUI(kind);
+  }
+
+  document.getElementById('newTaskDate')?.addEventListener('change', () => syncDraftRemindersWithDate('task', true));
+  document.getElementById('newExamDate')?.addEventListener('change', () => syncDraftRemindersWithDate('exam', true));
+  document.getElementById('addTaskExtraRemBtn')?.addEventListener('click', () => addExtraDraftReminder('task'));
+  document.getElementById('addExamExtraRemBtn')?.addEventListener('click', () => addExtraDraftReminder('exam'));
+
   // ===== TASKS & EXAMS RENDERING =====
   function getPriorityBadge(prio) {
     if (prio === 'Alta') return '<span class="pill pill-high">Alta</span>';
@@ -2204,10 +2514,15 @@
       const filtered = filterTasksByTab(tasks, activeTaskFilter);
       tasksBody.innerHTML = filtered.length === 0
         ? `<tr><td colspan="7" class="text-muted text-sm" style="text-align:center;padding:1.2rem;">Sin tareas.</td></tr>`
-        : filtered.map(t => `
+        : filtered.map(t => {
+          const activeRems = Array.isArray(t.reminders) ? t.reminders.filter(r => r && r.enabled !== false) : [];
+          const remBadge = activeRems.length > 0
+            ? `<div class="text-sm text-muted" style="font-size:0.74rem;margin-top:0.2rem;">🔔 ${activeRems.map(r => `${formatDateDisplay(r.date)} ${r.time || ''}`).join(' · ')}</div>`
+            : '';
+          return `
           <tr>
             <td><input type="checkbox" ${t.done ? 'checked' : ''} onchange="window.toggleTaskDone('${t.id}')"></td>
-            <td style="${t.done ? 'text-decoration:line-through;opacity:0.55;' : ''}">${t.title}</td>
+            <td style="${t.done ? 'text-decoration:line-through;opacity:0.55;' : ''}">${t.title}${remBadge}</td>
             <td><span class="pill pill-mid">${t.subject}</span></td>
             <td><input type="date" value="${t.date || ''}" onchange="window.updateTaskField('${t.id}', 'date', this.value)" style="max-width:140px;"></td>
             <td><input type="time" value="${t.time || ''}" onchange="window.updateTaskField('${t.id}', 'time', this.value)" style="max-width:110px;"></td>
@@ -2220,7 +2535,8 @@
             </td>
             <td><button class="btn btn-danger" onclick="window.deleteTask('${t.id}')">🗑️</button></td>
           </tr>
-        `).join('');
+        `;
+        }).join('');
     }
 
     const dashTaskList = document.getElementById('dashTaskList');
@@ -2243,7 +2559,12 @@
     if (examsBody) {
       examsBody.innerHTML = exams.length === 0
         ? `<tr><td colspan="7" class="text-muted text-sm" style="text-align:center;padding:1.2rem;">Sin exámenes.</td></tr>`
-        : exams.map(ex => `
+        : exams.map(ex => {
+          const activeRems = Array.isArray(ex.reminders) ? ex.reminders.filter(r => r && r.enabled !== false) : [];
+          const remBadge = activeRems.length > 0
+            ? `<div class="text-sm text-muted" style="font-size:0.74rem;margin-top:0.2rem;">🔔 ${activeRems.map(r => `${formatDateDisplay(r.date)} ${r.time || ''}`).join(' · ')}</div>`
+            : '';
+          return `
           <tr>
             <td>
               <select onchange="window.updateExamField('${ex.id}', 'subject', this.value)" style="max-width:130px;">
@@ -2253,7 +2574,7 @@
                 <option value="EPUS" ${ex.subject === 'EPUS' ? 'selected' : ''}>EPUS</option>
               </select>
             </td>
-            <td>${ex.topic}</td>
+            <td>${ex.topic}${remBadge}</td>
             <td><input type="date" value="${ex.date || ''}" onchange="window.updateExamField('${ex.id}', 'date', this.value)" style="max-width:140px;"></td>
             <td><input type="time" value="${ex.time || ''}" onchange="window.updateExamField('${ex.id}', 'time', this.value)" style="max-width:110px;"></td>
             <td>
@@ -2266,7 +2587,8 @@
             <td contenteditable="true" onblur="window.updateExamField('${ex.id}', 'notes', this.innerText)">${ex.notes || ''}</td>
             <td><button class="btn btn-danger" onclick="window.deleteExam('${ex.id}')">🗑️</button></td>
           </tr>
-        `).join('');
+        `;
+        }).join('');
     }
 
     const dashExams = document.getElementById('dashExamsPreview');
@@ -2285,6 +2607,10 @@
   document.getElementById('addTaskBtn').addEventListener('click', () => {
     const title = document.getElementById('newTaskTitle').value.trim();
     if (!title) return;
+    const reminders = draftReminders.task
+      .filter(r => r.enabled && r.date)
+      .map(r => ({ date: r.date, time: r.time || '09:00', sent: false }));
+
     cloudState.tasks.push({
       id: 't_' + Date.now(),
       title,
@@ -2292,9 +2618,13 @@
       date: document.getElementById('newTaskDate').value,
       time: document.getElementById('newTaskTime')?.value || '',
       priority: document.getElementById('newTaskPriority').value,
+      reminders,
       done: false
     });
     document.getElementById('newTaskTitle').value = '';
+    draftReminders.task = [];
+    lastGeneratedSignature.task = '';
+    renderSmartRemindersUI('task');
     renderTasksAndExams();
     pushToFirebase();
   });
@@ -2312,6 +2642,9 @@
     const t = cloudState.tasks.find(x => x.id === id);
     if (t) {
       t[field] = val;
+      if (field === 'date' || field === 'time') {
+        t.notified = false;
+      }
       renderTasksAndExams();
       pushToFirebase();
     }
@@ -2326,6 +2659,10 @@
   document.getElementById('addExamBtn').addEventListener('click', () => {
     const topic = document.getElementById('newExamTopic').value.trim();
     if (!topic) return;
+    const reminders = draftReminders.exam
+      .filter(r => r.enabled && r.date)
+      .map(r => ({ date: r.date, time: r.time || '08:00', sent: false }));
+
     cloudState.exams.push({
       id: 'e_' + Date.now(),
       topic,
@@ -2333,9 +2670,13 @@
       date: document.getElementById('newExamDate').value,
       time: document.getElementById('newExamTime')?.value || '',
       priority: document.getElementById('newExamPriority').value,
+      reminders,
       notes: ''
     });
     document.getElementById('newExamTopic').value = '';
+    draftReminders.exam = [];
+    lastGeneratedSignature.exam = '';
+    renderSmartRemindersUI('exam');
     renderTasksAndExams();
     pushToFirebase();
   });
@@ -2344,6 +2685,9 @@
     const ex = cloudState.exams.find(x => x.id === id);
     if (ex) {
       ex[field] = val;
+      if (field === 'date' || field === 'time') {
+        ex.notified = false;
+      }
       renderTasksAndExams();
       pushToFirebase();
     }
@@ -2378,6 +2722,8 @@
         }
       }
     });
+
+    updateClassLinkButtons();
 
     document.querySelectorAll('.habit-check').forEach(el => {
       const id = el.dataset.habit;
@@ -2438,6 +2784,7 @@
     const el = e.target;
     if (el.dataset && el.dataset.key) {
       cloudState.fields[el.dataset.key] = (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') ? el.value : el.innerHTML;
+      if (el.dataset.linkInput) updateClassLinkButtons();
       if (el.id === 'saveTarget' || el.id === 'saveCurrent') updateSaveProgress();
       scheduleSave();
     }
@@ -2801,6 +3148,8 @@
   renderCalendar();
   renderMoodCalendar();
   renderDailyFields();
+  syncDraftRemindersWithDate('task', false);
+  syncDraftRemindersWithDate('exam', false);
 </script>
 </body>
 </html>

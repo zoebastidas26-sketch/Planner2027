@@ -2303,6 +2303,7 @@
       }
 
       const swReg = await navigator.serviceWorker.register("./firebase-messaging-sw.js");
+      await swReg.update();
       const token = await getToken(messaging, {
         vapidKey: VAPID_KEY,
         serviceWorkerRegistration: swReg
@@ -2330,12 +2331,15 @@
   document.getElementById("enablePushBtn")?.addEventListener("click", activarNotificacionesPush);
 
   onMessage(messaging, (payload) => {
-    const title = payload.notification?.title || "🖤 Kuromi Planner";
-    const body = payload.notification?.body || "";
+    const data = payload.data || {};
+    const title = data.title || payload.notification?.title || "🖤 Kuromi Planner";
+    const body = data.body || payload.notification?.body || "";
+    const tag = data.tag || `kuromi-${Date.now()}`;
     if (Notification.permission === "granted") {
       new Notification(title, {
         body,
-        icon: "https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png"
+        icon: data.icon || "https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png",
+        tag
       });
     }
   });

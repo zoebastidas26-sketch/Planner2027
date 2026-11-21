@@ -12,20 +12,46 @@ firebase.initializeApp({
 });
 
 const messaging = firebase.messaging();
+const PLANNER_URL = 'https://zoebastidas26-sketch.github.io/Planner2027/';
 
 messaging.onBackgroundMessage((payload) => {
-  const title = payload.notification?.title || '🖤 Kuromi Planner';
+  const notif = payload.notification || {};
+  const webNotif = (payload.webpush && payload.webpush.notification) || {};
+  const dataPayload = payload.data || {};
+
+  const title = notif.title || webNotif.title || dataPayload.title || '🖤 Kuromi Planner';
+  const tag = webNotif.tag || dataPayload.tag || `kuromi-${Date.now()}`;
+  const targetUrl =
+    (payload.webpush && payload.webpush.fcmOptions && payload.webpush.fcmOptions.link) ||
+    dataPayload.url ||
+    PLANNER_URL;
+
   const options = {
-    body: payload.notification?.body || 'Tienes un recordatorio pendiente en tu agenda.',
-    icon: 'https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png',
-    data: { url: 'https://zoebastidas26-sketch.github.io/Planner2027/' }
+    body: notif.body || webNotif.body || dataPayload.body || 'Tienes un recordatorio pendiente en tu agenda.',
+    icon: notif.icon || webNotif.icon || 'https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png',
+    tag,
+    renotify: true,
+    requireInteraction: true,
+    data: { url: targetUrl }
   };
-  self.registration.showNotification(title, options);
+
+  return self.registration.showNotification(title, options);
 });
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
+  const urlToOpen = (event.notification.data && event.notification.data.url) || PLANNER_URL;
+
   event.waitUntil(
-    clients.openWindow(event.notification.data?.url || 'https://zoebastidas26-sketch.github.io/Planner2027/')
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      for (const client of clientList) {
+        if (client.url.startsWith(PLANNER_URL) && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(urlToOpen);
+      }
+    })
   );
 });

@@ -8,7 +8,9 @@ admin.initializeApp({
 });
 
 const db = admin.database();
-const MONTHLY_REMINDER_TIME = '18:15';
+const MONTHLY_REMINDER_TIME = '07:30';
+const PLANNER_URL = 'https://zoebastidas26-sketch.github.io/Planner2027/';
+const KUROMI_ICON = 'https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png';
 
 function getQuitoNow() {
   const now = new Date();
@@ -50,11 +52,10 @@ async function run() {
     return;
   }
 
-  const tokens = Object.values(data.fcmTokens)
-    .map((entry) => entry && entry.token)
-    .filter(Boolean);
+  const tokenEntries = Object.entries(data.fcmTokens)
+    .filter(([, entry]) => entry && entry.token);
 
-  if (tokens.length === 0) {
+  if (tokenEntries.length === 0) {
     console.log('Lista de tokens vacía.');
     return;
   }
@@ -72,15 +73,14 @@ async function run() {
     if (!task || task.done) continue;
     const defaultTime = task.time || '09:00';
 
-    // Recordatorios previos elegidos por ti (fecha y hora personalizadas)
     if (Array.isArray(task.reminders)) {
       for (let i = 0; i < task.reminders.length; i++) {
         const rem = task.reminders[i];
         if (!rem || rem.sent || rem.date !== todayISO) continue;
         const targetMin = toMinutes(rem.time || defaultTime);
-        if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
+        if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 3) {
           await sendPush(
-            tokens,
+            tokenEntries,
             `⏳ Recordatorio: ${task.title}`,
             `${task.subject} · Entrega: ${task.date || 'Sin fecha'} · Hora: ${rem.time || defaultTime}`,
             `task-rem-${task.id || 't'}-${i}-${todayISO}`
@@ -91,12 +91,11 @@ async function run() {
       }
     }
 
-    // Aviso principal en la fecha y hora límite de la tarea
     if (!task.notified && task.date === todayISO) {
       const targetMin = toMinutes(defaultTime);
-      if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
+      if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 3) {
         await sendPush(
-          tokens,
+          tokenEntries,
           `✅ Tarea: ${task.title}`,
           `${task.subject} · Hora: ${defaultTime} (Prioridad ${task.priority})`,
           `task-${task.id || 't'}-${todayISO}`
@@ -111,15 +110,14 @@ async function run() {
     if (!exam) continue;
     const defaultTime = exam.time || '08:00';
 
-    // Recordatorios previos elegidos por ti (fecha y hora personalizadas)
     if (Array.isArray(exam.reminders)) {
       for (let i = 0; i < exam.reminders.length; i++) {
         const rem = exam.reminders[i];
         if (!rem || rem.sent || rem.date !== todayISO) continue;
         const targetMin = toMinutes(rem.time || defaultTime);
-        if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
+        if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 3) {
           await sendPush(
-            tokens,
+            tokenEntries,
             `⏳ Recordatorio examen: ${exam.subject}`,
             `${exam.topic || 'Evaluación'} · Fecha: ${exam.date || 'Sin fecha'} · Hora: ${rem.time || defaultTime}`,
             `exam-rem-${exam.id || 'e'}-${i}-${todayISO}`
@@ -130,12 +128,11 @@ async function run() {
       }
     }
 
-    // Aviso principal en la fecha y hora del examen
     if (!exam.notified && exam.date === todayISO) {
       const targetMin = toMinutes(defaultTime);
-      if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
+      if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 3) {
         await sendPush(
-          tokens,
+          tokenEntries,
           `📝 Examen de ${exam.subject}`,
           `${exam.topic || 'Evaluación'} · Hora: ${defaultTime}`,
           `exam-${exam.id || 'e'}-${todayISO}`
@@ -146,7 +143,6 @@ async function run() {
     }
   }
 
-  // Aviso de lo anotado en el Planner Mensual para el día de hoy
   const calendarNotes = data.calendarNotes && typeof data.calendarNotes === 'object' ? data.calendarNotes : {};
   const monthlyNotified = data.monthlyNotified && typeof data.monthlyNotified === 'object' ? data.monthlyNotified : {};
   const shortDateKey = `${nowQuito.getFullYear()}-${nowQuito.getMonth() + 1}-${nowQuito.getDate()}`;
@@ -157,11 +153,11 @@ async function run() {
     dayNoteText &&
     monthlyTargetMin !== null &&
     nowMinutes >= monthlyTargetMin &&
-    nowMinutes <= monthlyTargetMin + 2 &&
+    nowMinutes <= monthlyTargetMin + 3 &&
     monthlyNotified[todayISO] !== dayNoteText
   ) {
     await sendPush(
-      tokens,
+      tokenEntries,
       `📅 Planner Mensual (${todayISO})`,
       dayNoteText,
       `monthly-${todayISO}`
@@ -179,23 +175,45 @@ async function run() {
   }
 }
 
-async function sendPush(tokens, title, body, tag = 'kuromi-alert') {
+async function sendPush(tokenEntries, title, body, tag) {
+  const tokens = tokenEntries.map(([, entry]) => entry.token);
   const response = await admin.messaging().sendEachForMulticast({
     tokens,
-    notification: { title, body },
+    data: {
+      title: String(title),
+      body: String(body),
+      tag: String(tag),
+      icon: KUROMI_ICON,
+      url: PLANNER_URL
+    },
     webpush: {
-      notification: {
-        icon: 'https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png',
-        tag,
-        renotify: true,
-        requireInteraction: true
+      headers: {
+        Urgency: 'high',
+        TTL: '86400'
       },
       fcmOptions: {
-        link: 'https://zoebastidas26-sketch.github.io/Planner2027/'
+        link: PLANNER_URL
       }
     }
   });
+
   console.log(`[${tag}] Enviadas: ${response.successCount}, Fallidas: ${response.failureCount}`);
+
+  // Limpia tokens inválidos o caducados para que no bloqueen futuros envíos
+  for (let i = 0; i < response.responses.length; i++) {
+    const res = response.responses[i];
+    if (!res.success && res.error) {
+      const code = res.error.code || '';
+      if (
+        code === 'messaging/registration-token-not-registered' ||
+        code === 'messaging/invalid-registration-token'
+      ) {
+        const [deadKey] = tokenEntries[i];
+        await db.ref(`zoe_planner_2027/fcmTokens/${deadKey}`).remove();
+        console.log(`Token caducado eliminado: ${deadKey}`);
+      }
+    }
+  }
 }
 
 run()

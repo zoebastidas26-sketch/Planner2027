@@ -63,15 +63,16 @@ async function run() {
     }
   }
 
-  for (const exam of exams) {
+    for (const exam of exams) {
     if (!exam || exam.notified || exam.date !== todayISO) continue;
     const targetMin = toMinutes(exam.time || '08:00');
     if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
-      await sendPush(tokens, `📝 Examen de ${exam.subject}`, `${exam.topic} · Hora: ${exam.time || '08:00'}`);
+      await sendPush(tokens, `📝 Examen de ${exam.subject}`, `${exam.topic || 'Evaluación'} · Hora: ${exam.time || '08:00'}`);
       exam.notified = true;
       updated = true;
     }
   }
+
 
   if (updated) {
     await db.ref('zoe_planner_2027/tasks').set(tasks);

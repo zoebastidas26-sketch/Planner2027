@@ -74,14 +74,16 @@ async function run() {
 
     // Recordatorios previos elegidos por ti (fecha y hora personalizadas)
     if (Array.isArray(task.reminders)) {
-      for (const rem of task.reminders) {
+      for (let i = 0; i < task.reminders.length; i++) {
+        const rem = task.reminders[i];
         if (!rem || rem.sent || rem.date !== todayISO) continue;
         const targetMin = toMinutes(rem.time || defaultTime);
         if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
           await sendPush(
             tokens,
             `⏳ Recordatorio: ${task.title}`,
-            `${task.subject} · Entrega: ${task.date || 'Sin fecha'} · Hora: ${rem.time || defaultTime}`
+            `${task.subject} · Entrega: ${task.date || 'Sin fecha'} · Hora: ${rem.time || defaultTime}`,
+            `task-rem-${task.id || 't'}-${i}-${todayISO}`
           );
           rem.sent = true;
           updated = true;
@@ -96,7 +98,8 @@ async function run() {
         await sendPush(
           tokens,
           `✅ Tarea: ${task.title}`,
-          `${task.subject} · Hora: ${defaultTime} (Prioridad ${task.priority})`
+          `${task.subject} · Hora: ${defaultTime} (Prioridad ${task.priority})`,
+          `task-${task.id || 't'}-${todayISO}`
         );
         task.notified = true;
         updated = true;
@@ -110,14 +113,16 @@ async function run() {
 
     // Recordatorios previos elegidos por ti (fecha y hora personalizadas)
     if (Array.isArray(exam.reminders)) {
-      for (const rem of exam.reminders) {
+      for (let i = 0; i < exam.reminders.length; i++) {
+        const rem = exam.reminders[i];
         if (!rem || rem.sent || rem.date !== todayISO) continue;
         const targetMin = toMinutes(rem.time || defaultTime);
         if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 2) {
           await sendPush(
             tokens,
             `⏳ Recordatorio examen: ${exam.subject}`,
-            `${exam.topic || 'Evaluación'} · Fecha: ${exam.date || 'Sin fecha'} · Hora: ${rem.time || defaultTime}`
+            `${exam.topic || 'Evaluación'} · Fecha: ${exam.date || 'Sin fecha'} · Hora: ${rem.time || defaultTime}`,
+            `exam-rem-${exam.id || 'e'}-${i}-${todayISO}`
           );
           rem.sent = true;
           updated = true;
@@ -132,7 +137,8 @@ async function run() {
         await sendPush(
           tokens,
           `📝 Examen de ${exam.subject}`,
-          `${exam.topic || 'Evaluación'} · Hora: ${defaultTime}`
+          `${exam.topic || 'Evaluación'} · Hora: ${defaultTime}`,
+          `exam-${exam.id || 'e'}-${todayISO}`
         );
         exam.notified = true;
         updated = true;
@@ -157,7 +163,8 @@ async function run() {
     await sendPush(
       tokens,
       `📅 Planner Mensual (${todayISO})`,
-      dayNoteText
+      dayNoteText,
+      `monthly-${todayISO}`
     );
     monthlyNotified[todayISO] = dayNoteText;
     updatedMonthly = true;
@@ -172,20 +179,23 @@ async function run() {
   }
 }
 
-async function sendPush(tokens, title, body) {
+async function sendPush(tokens, title, body, tag = 'kuromi-alert') {
   const response = await admin.messaging().sendEachForMulticast({
     tokens,
     notification: { title, body },
     webpush: {
       notification: {
-        icon: 'https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png'
+        icon: 'https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png',
+        tag,
+        renotify: true,
+        requireInteraction: true
       },
       fcmOptions: {
         link: 'https://zoebastidas26-sketch.github.io/Planner2027/'
       }
     }
   });
-  console.log(`Enviadas: ${response.successCount}, Fallidas: ${response.failureCount}`);
+  console.log(`[${tag}] Enviadas: ${response.successCount}, Fallidas: ${response.failureCount}`);
 }
 
 run()

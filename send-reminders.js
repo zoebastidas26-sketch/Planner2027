@@ -1,4 +1,5 @@
 const admin = require('firebase-admin');
+const nodemailer = require('nodemailer');
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
@@ -10,7 +11,17 @@ admin.initializeApp({
 const db = admin.database();
 const MONTHLY_REMINDER_TIME = '18:55';
 const PLANNER_URL = 'https://zoebastidas26-sketch.github.io/Planner2027/';
-const KUROMI_ICON = 'https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png';
+
+const mailTransport =
+  process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD
+    ? nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.GMAIL_USER,
+          pass: process.env.GMAIL_APP_PASSWORD
+        }
+      })
+    : null;
 
 function getQuitoNow() {
   const now = new Date();
@@ -44,19 +55,35 @@ function cleanNoteText(htmlOrText) {
     .trim();
 }
 
-async function run() {
-  const snap = await db.ref('zoe_planner_2027').once('value');
-  const data = snap.val();
-  if (!data || !data.fcmTokens) {
-    console.log('Sin tokens registrados.');
+async function sendEmailAlert(title, body, tag) {
+  const toList = process.env.REMINDER_TO_EMAIL || process.env.GMAIL_USER;
+  if (!mailTransport || !toList) {
+    console.log(`[${tag}] Falta configurar GMAIL_USER, GMAIL_APP_PASSWORD o REMINDER_TO_EMAIL.`);
     return;
   }
 
-  const tokenEntries = Object.entries(data.fcmTokens)
-    .filter(([, entry]) => entry && entry.token);
+  await mailTransport.sendMail({
+    from: `"Kuromi Planner 2027" <${process.env.GMAIL_USER}>`,
+    to: toList,
+    subject: title,
+    text: `${title}\n\n${body}\n\nAbrir planner: ${PLANNER_URL}`,
+    html: `
+      <div style="font-family:sans-serif;background:#120d1a;color:#f5f0f8;padding:20px;border-radius:12px;border:1px solid #7a3d9e;">
+        <h2 style="margin:0 0 10px;color:#e8d4f8;">${title}</h2>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.5;">${body}</p>
+        <a href="${PLANNER_URL}" style="display:inline-block;padding:10px 16px;background:#5a2d80;color:#fff;text-decoration:none;border-radius:8px;font-weight:bold;">Abrir Kuromi Planner</a>
+        <p style="margin:14px 0 0;font-size:11px;color:#a898b8;">ID: ${tag}</p>
+      </div>
+    `
+  });
+  console.log(`[${tag}] Correo enviado a: ${toList}`);
+}
 
-  if (tokenEntries.length === 0) {
-    console.log('Lista de tokens vacía.');
+async function run() {
+  const snap = await db.ref('zoe_planner_2027').once('value');
+  const data = snap.val();
+  if (!data) {
+    console.log('Sin datos en la base.');
     return;
   }
 
@@ -79,8 +106,7 @@ async function run() {
         if (!rem || rem.sent || rem.date !== todayISO) continue;
         const targetMin = toMinutes(rem.time || defaultTime);
         if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 3) {
-          await sendPush(
-            tokenEntries,
+          await sendEmailAlert(
             `⏳ Recordatorio: ${task.title || 'Tarea'}`,
             `${task.subject || 'General'} · Entrega: ${task.date || 'Sin fecha'} · Hora: ${rem.time || defaultTime}`,
             `task-rem-${task.id || 't'}-${i}-${todayISO}`
@@ -94,8 +120,7 @@ async function run() {
     if (!task.notified && task.date === todayISO) {
       const targetMin = toMinutes(defaultTime);
       if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 3) {
-        await sendPush(
-          tokenEntries,
+        await sendEmailAlert(
           `✅ Tarea: ${task.title || 'Tarea'}`,
           `${task.subject || 'General'} · Hora: ${defaultTime} (Prioridad ${task.priority || 'Media'})`,
           `task-${task.id || 't'}-${todayISO}`
@@ -116,8 +141,7 @@ async function run() {
         if (!rem || rem.sent || rem.date !== todayISO) continue;
         const targetMin = toMinutes(rem.time || defaultTime);
         if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 3) {
-          await sendPush(
-            tokenEntries,
+          await sendEmailAlert(
             `⏳ Recordatorio examen: ${exam.subject || 'Examen'}`,
             `${exam.topic || 'Evaluación'} · Fecha: ${exam.date || 'Sin fecha'} · Hora: ${rem.time || defaultTime}`,
             `exam-rem-${exam.id || 'e'}-${i}-${todayISO}`
@@ -131,8 +155,7 @@ async function run() {
     if (!exam.notified && exam.date === todayISO) {
       const targetMin = toMinutes(defaultTime);
       if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 3) {
-        await sendPush(
-          tokenEntries,
+        await sendEmailAlert(
           `📝 Examen de ${exam.subject || 'Materia'}`,
           `${exam.topic || 'Evaluación'} · Hora: ${defaultTime}`,
           `exam-${exam.id || 'e'}-${todayISO}`
@@ -156,8 +179,7 @@ async function run() {
     nowMinutes <= monthlyTargetMin + 3 &&
     monthlyNotified[todayISO] !== dayNoteText
   ) {
-    await sendPush(
-      tokenEntries,
+    await sendEmailAlert(
       `📅 Planner Mensual (${todayISO})`,
       dayNoteText,
       `monthly-${todayISO}`
@@ -172,46 +194,6 @@ async function run() {
   }
   if (updatedMonthly) {
     await db.ref('zoe_planner_2027/monthlyNotified').set(monthlyNotified);
-  }
-}
-
-async function sendPush(tokenEntries, title, body, tag) {
-  const tokens = tokenEntries.map(([, entry]) => entry.token);
-  const response = await admin.messaging().sendEachForMulticast({
-    tokens,
-    data: {
-      title: String(title),
-      body: String(body),
-      tag: String(tag),
-      icon: KUROMI_ICON,
-      url: PLANNER_URL
-    },
-    webpush: {
-      headers: {
-        Urgency: 'high',
-        TTL: '86400'
-      },
-      fcmOptions: {
-        link: PLANNER_URL
-      }
-    }
-  });
-
-  console.log(`[${tag}] Enviadas: ${response.successCount}, Fallidas: ${response.failureCount}`);
-
-  for (let i = 0; i < response.responses.length; i++) {
-    const res = response.responses[i];
-    if (!res.success && res.error) {
-      const code = res.error.code || '';
-      if (
-        code === 'messaging/registration-token-not-registered' ||
-        code === 'messaging/invalid-registration-token'
-      ) {
-        const [deadKey] = tokenEntries[i];
-        await db.ref(`zoe_planner_2027/fcmTokens/${deadKey}`).remove();
-        console.log(`Token caducado eliminado: ${deadKey}`);
-      }
-    }
   }
 }
 

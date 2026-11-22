@@ -9,7 +9,7 @@ admin.initializeApp({
 });
 
 const db = admin.database();
-const MONTHLY_REMINDER_TIME = '19:41';
+const MONTHLY_REMINDER_TIME = '07:30';
 const PLANNER_URL = 'https://zoebastidas26-sketch.github.io/Planner2027/';
 
 const mailTransport =
@@ -105,7 +105,7 @@ async function run() {
         const rem = task.reminders[i];
         if (!rem || rem.sent || rem.date !== todayISO) continue;
         const targetMin = toMinutes(rem.time || defaultTime);
-        if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 3) {
+        if (targetMin !== null && nowMinutes >= targetMin) {
           await sendEmailAlert(
             `⏳ Recordatorio: ${task.title || 'Tarea'}`,
             `${task.subject || 'General'} · Entrega: ${task.date || 'Sin fecha'} · Hora: ${rem.time || defaultTime}`,
@@ -119,7 +119,7 @@ async function run() {
 
     if (!task.notified && task.date === todayISO) {
       const targetMin = toMinutes(defaultTime);
-      if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 3) {
+      if (targetMin !== null && nowMinutes >= targetMin) {
         await sendEmailAlert(
           `✅ Tarea: ${task.title || 'Tarea'}`,
           `${task.subject || 'General'} · Hora: ${defaultTime} (Prioridad ${task.priority || 'Media'})`,
@@ -140,7 +140,7 @@ async function run() {
         const rem = exam.reminders[i];
         if (!rem || rem.sent || rem.date !== todayISO) continue;
         const targetMin = toMinutes(rem.time || defaultTime);
-        if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 3) {
+        if (targetMin !== null && nowMinutes >= targetMin) {
           await sendEmailAlert(
             `⏳ Recordatorio examen: ${exam.subject || 'Examen'}`,
             `${exam.topic || 'Evaluación'} · Fecha: ${exam.date || 'Sin fecha'} · Hora: ${rem.time || defaultTime}`,
@@ -154,7 +154,7 @@ async function run() {
 
     if (!exam.notified && exam.date === todayISO) {
       const targetMin = toMinutes(defaultTime);
-      if (targetMin !== null && nowMinutes >= targetMin && nowMinutes <= targetMin + 3) {
+      if (targetMin !== null && nowMinutes >= targetMin) {
         await sendEmailAlert(
           `📝 Examen de ${exam.subject || 'Materia'}`,
           `${exam.topic || 'Evaluación'} · Hora: ${defaultTime}`,
@@ -176,7 +176,6 @@ async function run() {
     dayNoteText &&
     monthlyTargetMin !== null &&
     nowMinutes >= monthlyTargetMin &&
-    nowMinutes <= monthlyTargetMin + 3 &&
     monthlyNotified[todayISO] !== dayNoteText
   ) {
     await sendEmailAlert(

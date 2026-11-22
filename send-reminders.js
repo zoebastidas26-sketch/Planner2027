@@ -9,7 +9,7 @@ admin.initializeApp({
 });
 
 const db = admin.database();
-const MONTHLY_REMINDER_TIME = '19:25';
+const MONTHLY_REMINDER_TIME = '19:41';
 const PLANNER_URL = 'https://zoebastidas26-sketch.github.io/Planner2027/';
 
 const mailTransport =

@@ -1341,7 +1341,7 @@
         <div class="card">
           <div class="card-title">⚡ Prioridades del día</div>
           <ul class="priority-list" id="dashPrioritiesList">
-            <li><div class="check-circle" data-check="prio-1"></div><span contenteditable="true" data-key="prio-text-1" data-placeholder="Escribe una prioridad..."></span></li>
+            <li><div class="check-circle" data-check="prio-1"></div><span contenteditable="true" data-singleline="true" data-key="prio-text-1" data-placeholder="Escribe una prioridad..."></span></li>
           </ul>
           <div style="margin-top:0.85rem;">
             <button type="button" class="btn btn-ghost btn-sm" id="addPrioBtn">+ Agregar opción</button>
@@ -1350,7 +1350,7 @@
         <div class="card">
           <div class="card-title">🎯 Objetivos semanales</div>
           <ul class="priority-list" id="dashWeeklyGoalsList">
-            <li><div class="check-circle" data-check="obj-1"></div><span contenteditable="true" data-key="obj-text-1" data-placeholder="Escribe un objetivo semanal..."></span></li>
+            <li><div class="check-circle" data-check="obj-1"></div><span contenteditable="true" data-singleline="true" data-key="obj-text-1" data-placeholder="Escribe un objetivo semanal..."></span></li>
           </ul>
           <div style="margin-top:0.85rem;">
             <button type="button" class="btn btn-ghost btn-sm" id="addObjBtn">+ Agregar opción</button>
@@ -1871,7 +1871,7 @@
           </thead>
           <tbody id="habitBody">
             <tr>
-              <td contenteditable="true" data-key="hab-name-0">😴 Dormir 8 horas</td>
+              <td contenteditable="true" data-singleline="true" data-key="hab-name-0">😴 Dormir 8 horas</td>
               <td><div class="habit-check" data-habit="0-0"></div></td>
               <td><div class="habit-check" data-habit="0-1"></div></td>
               <td><div class="habit-check" data-habit="0-2"></div></td>
@@ -1879,10 +1879,10 @@
               <td><div class="habit-check" data-habit="0-4"></div></td>
               <td><div class="habit-check" data-habit="0-5"></div></td>
               <td><div class="habit-check" data-habit="0-6"></div></td>
-              <td contenteditable="true" data-key="hab-goal-0" style="width:50px;">5/7</td>
+              <td contenteditable="true" data-singleline="true" data-key="hab-goal-0" style="width:50px;">5/7</td>
             </tr>
             <tr>
-              <td contenteditable="true" data-key="hab-name-1">💧 Beber agua</td>
+              <td contenteditable="true" data-singleline="true" data-key="hab-name-1">💧 Beber agua</td>
               <td><div class="habit-check" data-habit="1-0"></div></td>
               <td><div class="habit-check" data-habit="1-1"></div></td>
               <td><div class="habit-check" data-habit="1-2"></div></td>
@@ -1890,10 +1890,10 @@
               <td><div class="habit-check" data-habit="1-4"></div></td>
               <td><div class="habit-check" data-habit="1-5"></div></td>
               <td><div class="habit-check" data-habit="1-6"></div></td>
-              <td contenteditable="true" data-key="hab-goal-1">7/7</td>
+              <td contenteditable="true" data-singleline="true" data-key="hab-goal-1">7/7</td>
             </tr>
             <tr>
-              <td contenteditable="true" data-key="hab-name-2">📖 Estudiar</td>
+              <td contenteditable="true" data-singleline="true" data-key="hab-name-2">📖 Estudiar</td>
               <td><div class="habit-check" data-habit="2-0"></div></td>
               <td><div class="habit-check" data-habit="2-1"></div></td>
               <td><div class="habit-check" data-habit="2-2"></div></td>
@@ -1901,7 +1901,7 @@
               <td><div class="habit-check" data-habit="2-4"></div></td>
               <td><div class="habit-check" data-habit="2-5"></div></td>
               <td><div class="habit-check" data-habit="2-6"></div></td>
-              <td contenteditable="true" data-key="hab-goal-2">5/7</td>
+              <td contenteditable="true" data-singleline="true" data-key="hab-goal-2">5/7</td>
             </tr>
           </tbody>
         </table>
@@ -2113,8 +2113,8 @@
         <div id="wishlistItemsContainer">
           <div class="list-item">
             <input type="checkbox" data-wish-check="0">
-            <span contenteditable="true" data-key="wish-text-0" data-placeholder="Escribe un deseo..." style="flex:1;"></span>
-            <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-0" data-placeholder="Prioridad"></span>
+            <span contenteditable="true" data-singleline="true" data-key="wish-text-0" data-placeholder="Escribe un deseo..." style="flex:1;"></span>
+            <span class="text-sm text-muted" contenteditable="true" data-singleline="true" data-key="wish-prio-0" data-placeholder="Prioridad"></span>
           </div>
         </div>
         <div style="margin-top:0.9rem;">
@@ -2146,10 +2146,24 @@
   const VAPID_KEY = "BEAqPLhEIO6hktBu9XWp9Fub2fiLbcVtk9PNHhIg5uyXRauo_YkJcO7b6jNe4qoMvYk_gMHG4LFD3VRQPsx722E"
 
   const app = initializeApp(firebaseConfig)
-  const analytics = getAnalytics(app)
   const db = getDatabase(app)
-  const messaging = getMessaging(app)
   const plannerRef = ref(db, "zoe_planner_2027")
+
+  let analytics = null
+  try {
+    analytics = getAnalytics(app)
+  } catch (err) {
+    console.warn("Analytics no disponible:", err)
+  }
+
+  let messaging = null
+  try {
+    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+      messaging = getMessaging(app)
+    }
+  } catch (err) {
+    console.warn("Messaging no disponible:", err)
+  }
 
   let cloudState = {
     fields: {},
@@ -2212,6 +2226,7 @@
     circle.dataset.check = checkKey
     const span = document.createElement("span")
     span.contentEditable = "true"
+    span.dataset.singleline = "true"
     span.dataset.key = textKey
     span.dataset.placeholder = placeholder
     li.appendChild(circle)
@@ -2227,12 +2242,14 @@
     chk.dataset.wishCheck = String(idx)
     const txt = document.createElement("span")
     txt.contentEditable = "true"
+    txt.dataset.singleline = "true"
     txt.dataset.key = `wish-text-${idx}`
     txt.dataset.placeholder = "Escribe un deseo..."
     txt.style.flex = "1"
     const prio = document.createElement("span")
     prio.className = "text-sm text-muted"
     prio.contentEditable = "true"
+    prio.dataset.singleline = "true"
     prio.dataset.key = `wish-prio-${idx}`
     prio.dataset.placeholder = "Prioridad"
     div.appendChild(chk)
@@ -2579,7 +2596,7 @@
     set(plannerRef, cloudState)
       .then(() => setSyncStatus("☁️ Sincronizado", "#a8e0b8"))
       .catch(err => {
-        console.error(err)
+        console.error("Error al guardar en Firebase:", err)
         setSyncStatus("⚠️ Error de red", "#ff8a8a")
       })
   }
@@ -2592,7 +2609,7 @@
   // ===== PUSH NOTIFICATIONS (FCM) =====
   async function activarNotificacionesPush() {
     try {
-      if (!("Notification" in window) || !("serviceWorker" in navigator)) {
+      if (!messaging || !("Notification" in window) || !("serviceWorker" in navigator)) {
         if (pushTokenStatus) pushTokenStatus.textContent = "No compatible."
         return
       }
@@ -2624,26 +2641,28 @@
         if (pushTokenStatus) pushTokenStatus.textContent = "Error de token."
       }
     } catch (err) {
-      console.error(err)
+      console.error("Error al activar notificaciones push:", err)
       if (pushTokenStatus) pushTokenStatus.textContent = "Error al activar."
     }
   }
 
   document.getElementById("enablePushBtn")?.addEventListener("click", activarNotificacionesPush)
 
-  onMessage(messaging, (payload) => {
-    const data = payload.data || {}
-    const title = data.title || payload.notification?.title || "🖤 Kuromi Planner"
-    const body = data.body || payload.notification?.body || ""
-    const tag = data.tag || `kuromi-${Date.now()}`
-    if (Notification.permission === "granted") {
-      new Notification(title, {
-        body,
-        icon: data.icon || "https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png",
-        tag
-      })
-    }
-  })
+  if (messaging) {
+    onMessage(messaging, (payload) => {
+      const data = payload.data || {}
+      const title = data.title || payload.notification?.title || "🖤 Kuromi Planner"
+      const body = data.body || payload.notification?.body || ""
+      const tag = data.tag || `kuromi-${Date.now()}`
+      if (Notification.permission === "granted") {
+        new Notification(title, {
+          body,
+          icon: data.icon || "https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png",
+          tag
+        })
+      }
+    })
+  }
 
   // ===== SMART REMINDERS BUILDER (TASKS & EXAMS) =====
   const draftReminders = {
@@ -3007,8 +3026,10 @@
   document.querySelectorAll(".filter-tab").forEach(btn => {
     btn.addEventListener("click", () => {
       activeTaskFilter = btn.dataset.filter
-      document.querySelectorAll(".filter-tab").forEach(b => {
-        b.classList.toggle("active", b.dataset.filter === activeTaskFilter)
+      document.querySelectorAll(".filter-tabs").forEach(group => {
+        group.querySelectorAll(".filter-tab").forEach(b => {
+          b.classList.toggle("active", b.dataset.filter === activeTaskFilter)
+        })
       })
       renderTasksAndExams()
     })
@@ -3081,19 +3102,29 @@
         calendarNotes: val.calendarNotes || {},
         moods: val.moods || {},
         daily: val.daily || {},
-        tasks: val.tasks || [],
-        exams: val.exams || [],
+        tasks: Array.isArray(val.tasks) ? val.tasks : [],
+        exams: Array.isArray(val.exams) ? val.exams : [],
         fcmTokens: val.fcmTokens || {}
       }
+      applyCloudState()
+    } else {
       applyCloudState()
     }
     setSyncStatus("☁️ Sincronizado", "#a8e0b8")
   }, (error) => {
-    console.error(error)
+    console.error("Error de lectura en Firebase:", error)
     setSyncStatus("⚠️ Sin conexión", "#ff8a8a")
   })
 
   // ===== GLOBAL LISTENERS =====
+  document.addEventListener("keydown", e => {
+    const el = e.target
+    if (e.key === "Enter" && el && el.dataset && el.dataset.singleline === "true") {
+      e.preventDefault()
+      el.blur()
+    }
+  })
+
   document.addEventListener("input", e => {
     const el = e.target
     if (el.dataset && el.dataset.key) {
@@ -3290,15 +3321,16 @@
 
   let pomoSeconds = 25 * 60
   let pomoInterval = null
-  function renderPomo() {
+  function renderPomo(finishedLabel = "") {
     const m = Math.floor(pomoSeconds / 60).toString().padStart(2, "0")
     const s = (pomoSeconds % 60).toString().padStart(2, "0")
     const disp = document.getElementById("pomoDisplay")
-    if (disp) disp.textContent = `${m}:${s}`
+    if (disp) disp.textContent = finishedLabel ? `${m}:${s} · ${finishedLabel}` : `${m}:${s}`
   }
 
   document.getElementById("pomoStartBtn").addEventListener("click", () => {
     if (pomoInterval) return
+    renderPomo()
     pomoInterval = setInterval(() => {
       if (pomoSeconds > 0) {
         pomoSeconds--
@@ -3306,7 +3338,7 @@
       } else {
         clearInterval(pomoInterval)
         pomoInterval = null
-        alert("🖤 Tiempo completado.")
+        renderPomo("🖤 Listo")
       }
     }, 1000)
   })
@@ -3424,7 +3456,7 @@
       return "De nada, Zoe 🖤"
     }
 
-    return `Dime si quieres revisar tus pendientes, armar un bloque de estudio o repasar algún tema de Física, Matemáticas, Sistemas o EPUS.`
+    return "Dime si quieres revisar tus pendientes, armar un bloque de estudio o repasar algún tema de Física, Matemáticas, Sistemas o EPUS."
   }
 
   function sendBotMessage(customText) {

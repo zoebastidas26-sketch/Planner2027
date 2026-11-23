@@ -6,7 +6,7 @@
 <title>Agenda — Zoe Valentina Bastidas Enríquez</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400,700,900&family=Cormorant+Garamond:ital,wght@0,400,500,600,700,1,400,1,500&family=Quicksand:wght@300,400,500,600,700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-deep: #06030a;
@@ -806,11 +806,13 @@
   .schedule-table table { min-width: 780px; }
   .schedule-table th { text-align: center; min-width: 95px; }
   .schedule-table td {
-    height: 60px;
+    height: 62px;
     vertical-align: top;
     font-size: 0.82rem;
     border: 1px solid rgba(157, 78, 221, 0.22);
     background: rgba(18, 10, 28, 0.55);
+    position: relative;
+    padding: 0.35rem 0.45rem;
   }
   .schedule-table td:hover {
     background: rgba(255, 42, 157, 0.12);
@@ -821,6 +823,62 @@
     color: var(--pink-soft);
     font-weight: 700;
     background: rgba(45, 18, 72, 0.65);
+    vertical-align: middle;
+  }
+  .sched-slot-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+  .sched-arrow-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    background: rgba(75, 24, 117, 0.75);
+    border: 1px solid rgba(255, 42, 157, 0.55);
+    color: var(--pink-soft);
+    font-size: 0.72rem;
+    flex-shrink: 0;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .sched-arrow-wrap:hover {
+    background: rgba(255, 30, 156, 0.35);
+    color: var(--white-soft);
+  }
+  .sched-mini-select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    font-size: 0.8rem;
+  }
+  .sched-subject-label {
+    flex: 1;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--lilac-soft);
+    word-break: break-word;
+    padding-top: 1px;
+  }
+  .sched-subject-label.clickable-subj {
+    color: var(--pink-soft);
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 42, 157, 0.45);
+    text-underline-offset: 3px;
+  }
+  .sched-subject-label.clickable-subj:hover {
+    color: var(--white-soft);
+    text-shadow: 0 0 10px rgba(255, 30, 156, 0.65);
   }
 
   /* ===== CALENDARIO MENSUAL ===== */
@@ -1265,32 +1323,32 @@
           <div class="dash-date" id="currentDate">—</div>
         </div>
         <div class="quick-nav">
-          <a href="#" onclick="showSection('materias');return false;">Materias</a>
-          <a href="#" onclick="showSection('tareas');return false;">Tareas</a>
-          <a href="#" onclick="showSection('examenes');return false;">Exámenes</a>
-          <a href="#" onclick="showSection('diario');return false;">Diario</a>
-          <a href="#" onclick="showSection('widgets');return false;">Widgets & IA Bot</a>
+          <a href="#" onclick="showSection('materias');return false">Materias</a>
+          <a href="#" onclick="showSection('tareas');return false">Tareas</a>
+          <a href="#" onclick="showSection('examenes');return false">Exámenes</a>
+          <a href="#" onclick="showSection('diario');return false">Diario</a>
+          <a href="#" onclick="showSection('widgets');return false">Widgets & IA Bot</a>
         </div>
       </div>
 
       <div class="grid-2 mb-2">
         <div class="card">
           <div class="card-title">⚡ Prioridades del día</div>
-          <ul class="priority-list" id="dashPriorities">
-            <li><div class="check-circle" data-check="prio-1"></div><span contenteditable="true" data-key="prio-text-1"></span></li>
-            <li><div class="check-circle" data-check="prio-2"></div><span contenteditable="true" data-key="prio-text-2"></span></li>
-            <li><div class="check-circle" data-check="prio-3"></div><span contenteditable="true" data-key="prio-text-3"></span></li>
-            <li><div class="check-circle" data-check="prio-4"></div><span contenteditable="true" data-key="prio-text-4"></span></li>
+          <ul class="priority-list" id="dashPrioritiesList">
+            <li><div class="check-circle" data-check="prio-1"></div><span contenteditable="true" data-key="prio-text-1" data-placeholder="Escribe una prioridad..."></span></li>
           </ul>
+          <div style="margin-top:0.85rem;">
+            <button type="button" class="btn btn-ghost btn-sm" id="addPrioBtn">+ Agregar opción</button>
+          </div>
         </div>
         <div class="card">
           <div class="card-title">🎯 Objetivos semanales</div>
-          <ul class="priority-list">
-            <li><div class="check-circle" data-check="obj-1"></div><span contenteditable="true" data-key="obj-text-1"></span></li>
-            <li><div class="check-circle" data-check="obj-2"></div><span contenteditable="true" data-key="obj-text-2"></span></li>
-            <li><div class="check-circle" data-check="obj-3"></div><span contenteditable="true" data-key="obj-text-3"></span></li>
-            <li><div class="check-circle" data-check="obj-4"></div><span contenteditable="true" data-key="obj-text-4"></span></li>
+          <ul class="priority-list" id="dashWeeklyGoalsList">
+            <li><div class="check-circle" data-check="obj-1"></div><span contenteditable="true" data-key="obj-text-1" data-placeholder="Escribe un objetivo semanal..."></span></li>
           </ul>
+          <div style="margin-top:0.85rem;">
+            <button type="button" class="btn btn-ghost btn-sm" id="addObjBtn">+ Agregar opción</button>
+          </div>
         </div>
       </div>
 
@@ -2045,25 +2103,15 @@
         <h2>🛍️ Deseos</h2>
       </div>
       <div class="card">
-        <div class="list-item">
-          <input type="checkbox" data-wish-check="0"> <span contenteditable="true" data-key="wish-text-0" style="flex:1;"></span>
-          <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-0" data-placeholder="Prioridad"></span>
+        <div id="wishlistItemsContainer">
+          <div class="list-item">
+            <input type="checkbox" data-wish-check="0">
+            <span contenteditable="true" data-key="wish-text-0" data-placeholder="Escribe un deseo..." style="flex:1;"></span>
+            <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-0" data-placeholder="Prioridad"></span>
+          </div>
         </div>
-        <div class="list-item">
-          <input type="checkbox" data-wish-check="1"> <span contenteditable="true" data-key="wish-text-1" style="flex:1;"></span>
-          <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-1" data-placeholder="Prioridad"></span>
-        </div>
-        <div class="list-item">
-          <input type="checkbox" data-wish-check="2"> <span contenteditable="true" data-key="wish-text-2" style="flex:1;"></span>
-          <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-2" data-placeholder="Prioridad"></span>
-        </div>
-        <div class="list-item">
-          <input type="checkbox" data-wish-check="3"> <span contenteditable="true" data-key="wish-text-3" style="flex:1;"></span>
-          <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-3" data-placeholder="Prioridad"></span>
-        </div>
-        <div class="list-item">
-          <input type="checkbox" data-wish-check="4"> <span contenteditable="true" data-key="wish-text-4" style="flex:1;"></span>
-          <span class="text-sm text-muted" contenteditable="true" data-key="wish-prio-4" data-placeholder="Prioridad"></span>
+        <div style="margin-top:0.9rem;">
+          <button type="button" class="btn btn-ghost btn-sm" id="addWishBtn">+ Agregar más opciones</button>
         </div>
       </div>
     </section>
@@ -2072,10 +2120,10 @@
 </div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-analytics.js";
-  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-database.js";
-  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-messaging.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js"
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-analytics.js"
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-database.js"
+  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-messaging.js"
 
   const firebaseConfig = {
     apiKey: "AIzaSyDmfx8Nhi-Kkx6voN9vt4QIIUsSd3cRxuA",
@@ -2086,15 +2134,15 @@
     messagingSenderId: "849353479073",
     appId: "1:849353479073:web:b4a33b750ed7c500eff1e0",
     measurementId: "G-R9VCRLFVMB"
-  };
+  }
 
-  const VAPID_KEY = "BEAqPLhEIO6hktBu9XWp9Fub2fiLbcVtk9PNHhIg5uyXRauo_YkJcO7b6jNe4qoMvYk_gMHG4LFD3VRQPsx722E";
+  const VAPID_KEY = "BEAqPLhEIO6hktBu9XWp9Fub2fiLbcVtk9PNHhIg5uyXRauo_YkJcO7b6jNe4qoMvYk_gMHG4LFD3VRQPsx722E"
 
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const db = getDatabase(app);
-  const messaging = getMessaging(app);
-  const plannerRef = ref(db, 'zoe_planner_2027');
+  const app = initializeApp(firebaseConfig)
+  const analytics = getAnalytics(app)
+  const db = getDatabase(app)
+  const messaging = getMessaging(app)
+  const plannerRef = ref(db, "zoe_planner_2027")
 
   let cloudState = {
     fields: {},
@@ -2108,309 +2156,519 @@
     tasks: [],
     exams: [],
     fcmTokens: {}
-  };
+  }
 
-  let activeTaskFilter = 'all';
-  const syncBadge = document.getElementById('syncStatus');
-  const pushTokenStatus = document.getElementById('pushTokenStatus');
+  let activeTaskFilter = "all"
+  const syncBadge = document.getElementById("syncStatus")
+  const pushTokenStatus = document.getElementById("pushTokenStatus")
 
-  function setSyncStatus(text, color = 'var(--lilac-soft)') {
+  function setSyncStatus(text, color = "var(--lilac-soft)") {
     if (syncBadge) {
-      syncBadge.textContent = text;
-      syncBadge.style.color = color;
+      syncBadge.textContent = text
+      syncBadge.style.color = color
     }
   }
 
   // ===== NAVIGATION =====
   window.showSection = function(id) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-    const section = document.getElementById(id);
-    if (section) section.classList.add('active');
-    const link = document.querySelector(`.nav-link[data-section="${id}"]`);
-    if (link) link.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"))
+    document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"))
+    const section = document.getElementById(id)
+    if (section) section.classList.add("active")
+    const link = document.querySelector(`.nav-link[data-section="${id}"]`)
+    if (link) link.classList.add("active")
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
 
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      window.showSection(link.dataset.section);
-    });
-  });
+  window.openSubjectTab = function(subjectId) {
+    window.showSection("materias")
+    document.querySelectorAll(".subject-tab").forEach(t => {
+      t.classList.toggle("active", t.dataset.subject === subjectId)
+    })
+    document.querySelectorAll(".subject-panel").forEach(p => {
+      p.classList.toggle("active", p.id === "subj-" + subjectId)
+    })
+  }
+
+  document.querySelectorAll(".nav-link").forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault()
+      window.showSection(link.dataset.section)
+    })
+  })
+
+  // ===== DYNAMIC LISTS: PRIORIDADES, OBJETIVOS & DESEOS =====
+  function createCheckRow(checkKey, textKey, placeholder) {
+    const li = document.createElement("li")
+    const circle = document.createElement("div")
+    circle.className = "check-circle"
+    circle.dataset.check = checkKey
+    const span = document.createElement("span")
+    span.contentEditable = "true"
+    span.dataset.key = textKey
+    span.dataset.placeholder = placeholder
+    li.appendChild(circle)
+    li.appendChild(span)
+    return li
+  }
+
+  function createWishRow(idx) {
+    const div = document.createElement("div")
+    div.className = "list-item"
+    const chk = document.createElement("input")
+    chk.type = "checkbox"
+    chk.dataset.wishCheck = String(idx)
+    const txt = document.createElement("span")
+    txt.contentEditable = "true"
+    txt.dataset.key = `wish-text-${idx}`
+    txt.dataset.placeholder = "Escribe un deseo..."
+    txt.style.flex = "1"
+    const prio = document.createElement("span")
+    prio.className = "text-sm text-muted"
+    prio.contentEditable = "true"
+    prio.dataset.key = `wish-prio-${idx}`
+    prio.dataset.placeholder = "Prioridad"
+    div.appendChild(chk)
+    div.appendChild(txt)
+    div.appendChild(prio)
+    return div
+  }
+
+  function syncDynamicDashboardAndWishRows() {
+    const prioList = document.getElementById("dashPrioritiesList")
+    const objList = document.getElementById("dashWeeklyGoalsList")
+    const wishContainer = document.getElementById("wishlistItemsContainer")
+    const fields = cloudState.fields || {}
+    const checks = cloudState.checks || {}
+    const wishChecks = cloudState.wishChecks || {}
+
+    if (prioList) {
+      let maxPrio = 1
+      Object.keys(fields).forEach(k => {
+        const m = k.match(/^prio-text-(\d+)$/)
+        if (m && fields[k]) maxPrio = Math.max(maxPrio, parseInt(m[1], 10))
+      })
+      Object.keys(checks).forEach(k => {
+        const m = k.match(/^prio-(\d+)$/)
+        if (m && checks[k]) maxPrio = Math.max(maxPrio, parseInt(m[1], 10))
+      })
+      const curCount = prioList.querySelectorAll("li").length
+      for (let i = curCount + 1; i <= maxPrio; i++) {
+        prioList.appendChild(createCheckRow(`prio-${i}`, `prio-text-${i}`, "Escribe una prioridad..."))
+      }
+    }
+
+    if (objList) {
+      let maxObj = 1
+      Object.keys(fields).forEach(k => {
+        const m = k.match(/^obj-text-(\d+)$/)
+        if (m && fields[k]) maxObj = Math.max(maxObj, parseInt(m[1], 10))
+      })
+      Object.keys(checks).forEach(k => {
+        const m = k.match(/^obj-(\d+)$/)
+        if (m && checks[k]) maxObj = Math.max(maxObj, parseInt(m[1], 10))
+      })
+      const curCount = objList.querySelectorAll("li").length
+      for (let i = curCount + 1; i <= maxObj; i++) {
+        objList.appendChild(createCheckRow(`obj-${i}`, `obj-text-${i}`, "Escribe un objetivo semanal..."))
+      }
+    }
+
+    if (wishContainer) {
+      let maxWish = 0
+      Object.keys(fields).forEach(k => {
+        let m = k.match(/^wish-text-(\d+)$/)
+        if (m && fields[k]) maxWish = Math.max(maxWish, parseInt(m[1], 10))
+        m = k.match(/^wish-prio-(\d+)$/)
+        if (m && fields[k]) maxWish = Math.max(maxWish, parseInt(m[1], 10))
+      })
+      Object.keys(wishChecks).forEach(k => {
+        if (wishChecks[k]) maxWish = Math.max(maxWish, parseInt(k, 10))
+      })
+      const curCount = wishContainer.querySelectorAll(".list-item").length
+      for (let i = curCount; i <= maxWish; i++) {
+        wishContainer.appendChild(createWishRow(i))
+      }
+    }
+  }
+
+  document.getElementById("addPrioBtn")?.addEventListener("click", () => {
+    const prioList = document.getElementById("dashPrioritiesList")
+    if (!prioList) return
+    const nextIdx = prioList.querySelectorAll("li").length + 1
+    const row = createCheckRow(`prio-${nextIdx}`, `prio-text-${nextIdx}`, "Escribe una prioridad...")
+    prioList.appendChild(row)
+    row.querySelector("span").focus()
+  })
+
+  document.getElementById("addObjBtn")?.addEventListener("click", () => {
+    const objList = document.getElementById("dashWeeklyGoalsList")
+    if (!objList) return
+    const nextIdx = objList.querySelectorAll("li").length + 1
+    const row = createCheckRow(`obj-${nextIdx}`, `obj-text-${nextIdx}`, "Escribe un objetivo semanal...")
+    objList.appendChild(row)
+    row.querySelector("span").focus()
+  })
+
+  document.getElementById("addWishBtn")?.addEventListener("click", () => {
+    const wishContainer = document.getElementById("wishlistItemsContainer")
+    if (!wishContainer) return
+    const nextIdx = wishContainer.querySelectorAll(".list-item").length
+    const row = createWishRow(nextIdx)
+    wishContainer.appendChild(row)
+    row.querySelector("span").focus()
+  })
 
   // ===== SUBJECT TABS & DATE NAVIGATION =====
   function getTodayISO() {
-    const now = new Date();
-    const offset = now.getTimezoneOffset() * 60000;
-    return new Date(now - offset).toISOString().split('T')[0];
+    const now = new Date()
+    const offset = now.getTimezoneOffset() * 60000
+    return new Date(now - offset).toISOString().split("T")[0]
   }
 
   function addDaysToISO(isoStr, deltaDays) {
-    if (!isoStr) return '';
-    const [y, m, d] = isoStr.split('-').map(Number);
-    const dt = new Date(y, m - 1, d + deltaDays);
-    const yyyy = dt.getFullYear();
-    const mm = String(dt.getMonth() + 1).padStart(2, '0');
-    const dd = String(dt.getDate()).padStart(2, '0');
-    return `${yyyy}-${mm}-${dd}`;
+    if (!isoStr) return ""
+    const [y, m, d] = isoStr.split("-").map(Number)
+    const dt = new Date(y, m - 1, d + deltaDays)
+    const yyyy = dt.getFullYear()
+    const mm = String(dt.getMonth() + 1).padStart(2, "0")
+    const dd = String(dt.getDate()).padStart(2, "0")
+    return `${yyyy}-${mm}-${dd}`
   }
 
   function diffDaysFromToday(isoStr) {
-    if (!isoStr) return null;
-    const todayParts = getTodayISO().split('-').map(Number);
-    const targetParts = isoStr.split('-').map(Number);
-    const t0 = Date.UTC(todayParts[0], todayParts[1] - 1, todayParts[2]);
-    const t1 = Date.UTC(targetParts[0], targetParts[1] - 1, targetParts[2]);
-    return Math.round((t1 - t0) / 86400000);
+    if (!isoStr) return null
+    const todayParts = getTodayISO().split("-").map(Number)
+    const targetParts = isoStr.split("-").map(Number)
+    const t0 = Date.UTC(todayParts[0], todayParts[1] - 1, todayParts[2])
+    const t1 = Date.UTC(targetParts[0], targetParts[1] - 1, targetParts[2])
+    return Math.round((t1 - t0) / 86400000)
   }
 
   function formatDateDisplay(isoStr) {
-    if (!isoStr) return 'Sin fecha';
-    const [y, m, d] = isoStr.split('-');
-    return `${d}/${m}/${y}`;
+    if (!isoStr) return "Sin fecha"
+    const [y, m, d] = isoStr.split("-")
+    return `${d}/${m}/${y}`
   }
 
   function updateClassLinkButtons() {
-    document.querySelectorAll('[data-link-for]').forEach(anchor => {
-      const key = anchor.dataset.linkFor;
-      const val = (cloudState.fields && cloudState.fields[key]) ? String(cloudState.fields[key]).trim() : '';
+    document.querySelectorAll("[data-link-for]").forEach(anchor => {
+      const key = anchor.dataset.linkFor
+      const val = (cloudState.fields && cloudState.fields[key]) ? String(cloudState.fields[key]).trim() : ""
       if (val) {
-        const href = /^https?:\/\//i.test(val) ? val : `https://${val}`;
-        anchor.href = href;
-        anchor.style.opacity = '1';
+        const href = /^https?:\/\//i.test(val) ? val : `https://${val}`
+        anchor.href = href
+        anchor.style.opacity = "1"
       } else {
-        anchor.href = '#materias';
-        anchor.style.opacity = '0.45';
+        anchor.href = "#materias"
+        anchor.style.opacity = "0.45"
       }
-    });
+    })
   }
 
-  const subjDatePicker = document.getElementById('subjectDatePicker');
-  if (subjDatePicker) subjDatePicker.value = getTodayISO();
+  const subjDatePicker = document.getElementById("subjectDatePicker")
+  if (subjDatePicker) subjDatePicker.value = getTodayISO()
 
   function renderSubjectDatedFields() {
-    const dateVal = subjDatePicker?.value || getTodayISO();
-    document.querySelectorAll('.subj-date-badge').forEach(badge => {
-      badge.textContent = formatDateDisplay(dateVal);
-    });
+    const dateVal = subjDatePicker?.value || getTodayISO()
+    document.querySelectorAll(".subj-date-badge").forEach(badge => {
+      badge.textContent = formatDateDisplay(dateVal)
+    })
 
-    document.querySelectorAll('[data-subj-dated]').forEach(el => {
-      if (document.activeElement === el) return;
-      const baseKey = el.dataset.subjDated;
-      const fullKey = `${baseKey}__${dateVal}`;
-      el.innerHTML = (cloudState.subjectDated && cloudState.subjectDated[fullKey]) || '';
-    });
+    document.querySelectorAll("[data-subj-dated]").forEach(el => {
+      if (document.activeElement === el) return
+      const baseKey = el.dataset.subjDated
+      const fullKey = `${baseKey}__${dateVal}`
+      el.innerHTML = (cloudState.subjectDated && cloudState.subjectDated[fullKey]) || ""
+    })
   }
 
   function shiftSubjectDate(days) {
-    const cur = subjDatePicker.value || getTodayISO();
-    subjDatePicker.value = addDaysToISO(cur, days);
-    renderSubjectDatedFields();
+    const cur = subjDatePicker.value || getTodayISO()
+    subjDatePicker.value = addDaysToISO(cur, days)
+    renderSubjectDatedFields()
   }
 
-  document.getElementById('subjPrevDayBtn').addEventListener('click', () => shiftSubjectDate(-1));
-  document.getElementById('subjNextDayBtn').addEventListener('click', () => shiftSubjectDate(1));
-  document.getElementById('subjTodayBtn').addEventListener('click', () => {
-    subjDatePicker.value = getTodayISO();
-    renderSubjectDatedFields();
-  });
-  subjDatePicker.addEventListener('change', renderSubjectDatedFields);
+  document.getElementById("subjPrevDayBtn").addEventListener("click", () => shiftSubjectDate(-1))
+  document.getElementById("subjNextDayBtn").addEventListener("click", () => shiftSubjectDate(1))
+  document.getElementById("subjTodayBtn").addEventListener("click", () => {
+    subjDatePicker.value = getTodayISO()
+    renderSubjectDatedFields()
+  })
+  subjDatePicker.addEventListener("change", renderSubjectDatedFields)
 
   window.stampDateInGeneral = function(fieldKey) {
-    const el = document.querySelector(`[data-key="${fieldKey}"]`);
-    if (!el) return;
-    const stamp = `<div><strong>[${formatDateDisplay(getTodayISO())}]</strong> </div>`;
-    el.innerHTML = (el.innerHTML || '') + stamp;
-    cloudState.fields[fieldKey] = el.innerHTML;
-    pushToFirebase();
-    el.focus();
-  };
+    const el = document.querySelector(`[data-key="${fieldKey}"]`)
+    if (!el) return
+    const stamp = `<div><strong>[${formatDateDisplay(getTodayISO())}]</strong> </div>`
+    el.innerHTML = (el.innerHTML || "") + stamp
+    cloudState.fields[fieldKey] = el.innerHTML
+    pushToFirebase()
+    el.focus()
+  }
 
-  document.querySelectorAll('.subject-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.subject-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.subject-panel').forEach(p => p.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById('subj-' + tab.dataset.subject).classList.add('active');
-    });
-  });
+  document.querySelectorAll(".subject-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      window.openSubjectTab(tab.dataset.subject)
+    })
+  })
 
   // ===== DATE & AUTOMATIC WEEK RANGE =====
   function updateDates() {
-    const now = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById('currentDate').textContent = now.toLocaleDateString('es-ES', options);
+    const now = new Date()
+    const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" }
+    document.getElementById("currentDate").textContent = now.toLocaleDateString("es-ES", options)
 
-    const dayOfWeek = now.getDay();
-    const diffToMon = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
-    const monday = new Date(now);
-    monday.setDate(now.getDate() + diffToMon);
-    const sunday = new Date(monday);
-    sunday.setDate(monday.getDate() + 6);
+    const dayOfWeek = now.getDay()
+    const diffToMon = dayOfWeek === 0 ? -6 : 1 - dayOfWeek
+    const monday = new Date(now)
+    monday.setDate(now.getDate() + diffToMon)
+    const sunday = new Date(monday)
+    sunday.setDate(monday.getDate() + 6)
 
-    const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-    const weekLabel = document.getElementById('weekRangeAuto');
+    const months = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"]
+    const weekLabel = document.getElementById("weekRangeAuto")
     if (weekLabel) {
       if (monday.getMonth() === sunday.getMonth()) {
-        weekLabel.textContent = `${monday.getDate()} al ${sunday.getDate()} de ${months[sunday.getMonth()]} de ${sunday.getFullYear()}`;
+        weekLabel.textContent = `${monday.getDate()} al ${sunday.getDate()} de ${months[sunday.getMonth()]} de ${sunday.getFullYear()}`
       } else {
-        weekLabel.textContent = `${monday.getDate()} de ${months[monday.getMonth()]} al ${sunday.getDate()} de ${months[sunday.getMonth()]} de ${sunday.getFullYear()}`;
+        weekLabel.textContent = `${monday.getDate()} de ${months[monday.getMonth()]} al ${sunday.getDate()} de ${months[sunday.getMonth()]} de ${sunday.getFullYear()}`
       }
     }
   }
-  updateDates();
+  updateDates()
 
-  // ===== BUILD SCHEDULE ROWS =====
+  // ===== SCHEDULE WITH TOP-LEFT SUBJECT SELECTOR & SUBJECT NAVIGATION =====
+  const SCHEDULE_SUBJECT_OPTIONS = [
+    { value: "", label: "— Vacío —" },
+    { value: "FÍSICA", label: "FÍSICA" },
+    { value: "MATEMÁTICAS", label: "MATEMÁTICAS" },
+    { value: "INTRO. SISTEMAS", label: "INTRO. SISTEMAS" },
+    { value: "EPUS", label: "EPUS" }
+  ]
+
+  function resolveSubjectTabId(rawText) {
+    const norm = String(rawText || "").toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()
+    if (norm.includes("FISICA")) return "fisica"
+    if (norm.includes("MATE")) return "mates"
+    if (norm.includes("SISTEMA")) return "sistemas"
+    if (norm.includes("EPUS") || norm.includes("ETICA")) return "etica"
+    return null
+  }
+
+  function renderScheduleSlotContent(td, rawText) {
+    const cleanText = String(rawText || "").replace(/<[^>]*>/g, "").trim().toUpperCase()
+    const key = td.dataset.schedKey
+    const matchedTab = resolveSubjectTabId(cleanText)
+
+    const topRow = document.createElement("div")
+    topRow.className = "sched-slot-top"
+
+    const arrowWrap = document.createElement("div")
+    arrowWrap.className = "sched-arrow-wrap"
+    arrowWrap.title = "Seleccionar materia"
+    arrowWrap.textContent = "▾"
+
+    const sel = document.createElement("select")
+    sel.className = "sched-mini-select"
+    sel.setAttribute("aria-label", "Seleccionar materia")
+
+    SCHEDULE_SUBJECT_OPTIONS.forEach(opt => {
+      const o = document.createElement("option")
+      o.value = opt.value
+      o.textContent = opt.label
+      if (cleanText === opt.value) o.selected = true
+      sel.appendChild(o)
+    })
+
+    sel.addEventListener("click", e => e.stopPropagation())
+    sel.addEventListener("change", e => {
+      e.stopPropagation()
+      const chosen = e.target.value
+      cloudState.fields[key] = chosen
+      renderScheduleSlotContent(td, chosen)
+      scheduleSave()
+    })
+
+    arrowWrap.appendChild(sel)
+
+    const labelEl = document.createElement("div")
+    labelEl.className = "sched-subject-label" + (matchedTab ? " clickable-subj" : "")
+    labelEl.textContent = cleanText
+
+    if (matchedTab) {
+      labelEl.title = `Abrir ${cleanText} en Materias`
+      labelEl.addEventListener("click", e => {
+        e.stopPropagation()
+        window.openSubjectTab(matchedTab)
+      })
+    }
+
+    topRow.appendChild(arrowWrap)
+    topRow.appendChild(labelEl)
+
+    td.innerHTML = ""
+    td.appendChild(topRow)
+  }
+
   function buildSchedule() {
-    const tbody = document.getElementById('scheduleBody');
-    if (!tbody) return;
-    tbody.innerHTML = '';
+    const tbody = document.getElementById("scheduleBody")
+    if (!tbody) return
+    tbody.innerHTML = ""
 
     const scheduleData = {
-      '7-3': 'EPUS',
-      '8-3': 'EPUS',
-      '9-2': 'EPUS',
-      '15-0': 'Matemáticas',
-      '15-1': 'Física',
-      '15-2': 'Matemáticas',
-      '15-3': 'Física',
-      '15-4': 'Física',
-      '16-0': 'Matemáticas',
-      '16-1': 'Física',
-      '16-2': 'Matemáticas',
-      '16-3': 'Física',
-      '16-4': 'Física',
-      '17-0': 'Intro. Sistemas',
-      '17-1': 'Matemáticas',
-      '17-2': 'Intro. Sistemas',
-      '17-3': 'Matemáticas',
-      '17-4': 'Intro. Sistemas',
-      '18-0': 'Intro. Sistemas',
-      '18-1': 'Matemáticas',
-      '18-2': 'Intro. Sistemas',
-      '18-3': 'Matemáticas',
-      '18-4': 'Intro. Sistemas'
-    };
+      "7-3": "EPUS",
+      "8-3": "EPUS",
+      "9-2": "EPUS",
+      "15-0": "MATEMÁTICAS",
+      "15-1": "FÍSICA",
+      "15-2": "MATEMÁTICAS",
+      "15-3": "FÍSICA",
+      "15-4": "FÍSICA",
+      "16-0": "MATEMÁTICAS",
+      "16-1": "FÍSICA",
+      "16-2": "MATEMÁTICAS",
+      "16-3": "FÍSICA",
+      "16-4": "FÍSICA",
+      "17-0": "INTRO. SISTEMAS",
+      "17-1": "MATEMÁTICAS",
+      "17-2": "INTRO. SISTEMAS",
+      "17-3": "MATEMÁTICAS",
+      "17-4": "INTRO. SISTEMAS",
+      "18-0": "INTRO. SISTEMAS",
+      "18-1": "MATEMÁTICAS",
+      "18-2": "INTRO. SISTEMAS",
+      "18-3": "MATEMÁTICAS",
+      "18-4": "INTRO. SISTEMAS"
+    }
 
     for (let h = 7; h <= 20; h++) {
-      const hourStr = (h < 10 ? '0' : '') + h + ':00';
-      const tr = document.createElement('tr');
-      let cells = `<td class="time-col">${hourStr}</td>`;
+      const hourStr = (h < 10 ? "0" : "") + h + ":00"
+      const tr = document.createElement("tr")
+      const timeTd = document.createElement("td")
+      timeTd.className = "time-col"
+      timeTd.textContent = hourStr
+      tr.appendChild(timeTd)
+
       for (let d = 0; d < 7; d++) {
-        const key = `${h}-${d}`;
-        const content = scheduleData[key] || '';
-        cells += `<td contenteditable="true" data-key="sched-${h}-${d}">${content}</td>`;
+        const slotKey = `${h}-${d}`
+        const fieldKey = `sched-${h}-${d}`
+        const td = document.createElement("td")
+        td.dataset.schedKey = fieldKey
+        const savedVal = (cloudState.fields && cloudState.fields[fieldKey] !== undefined)
+          ? cloudState.fields[fieldKey]
+          : (scheduleData[slotKey] || "")
+        renderScheduleSlotContent(td, savedVal)
+        tr.appendChild(td)
       }
-      tr.innerHTML = cells;
-      tbody.appendChild(tr);
+      tbody.appendChild(tr)
     }
   }
-  buildSchedule();
+  buildSchedule()
 
   // ===== FIREBASE SYNC =====
   function pushToFirebase() {
-    setSyncStatus('⏳ Guardando...', 'var(--pink-soft)');
+    setSyncStatus("⏳ Guardando...", "var(--pink-soft)")
     set(plannerRef, cloudState)
-      .then(() => setSyncStatus('☁️ Sincronizado', '#a8e0b8'))
+      .then(() => setSyncStatus("☁️ Sincronizado", "#a8e0b8"))
       .catch(err => {
-        console.error(err);
-        setSyncStatus('⚠️ Error de red', '#ff8a8a');
-      });
+        console.error(err)
+        setSyncStatus("⚠️ Error de red", "#ff8a8a")
+      })
   }
 
   function scheduleSave() {
-    clearTimeout(window._fbTimer);
-    window._fbTimer = setTimeout(pushToFirebase, 650);
+    clearTimeout(window._fbTimer)
+    window._fbTimer = setTimeout(pushToFirebase, 650)
   }
 
   // ===== PUSH NOTIFICATIONS (FCM) =====
   async function activarNotificacionesPush() {
     try {
       if (!("Notification" in window) || !("serviceWorker" in navigator)) {
-        if (pushTokenStatus) pushTokenStatus.textContent = "No compatible.";
-        return;
+        if (pushTokenStatus) pushTokenStatus.textContent = "No compatible."
+        return
       }
 
-      const permission = await Notification.requestPermission();
+      const permission = await Notification.requestPermission()
       if (permission !== "granted") {
-        if (pushTokenStatus) pushTokenStatus.textContent = "Permiso denegado.";
-        return;
+        if (pushTokenStatus) pushTokenStatus.textContent = "Permiso denegado."
+        return
       }
 
-      const swReg = await navigator.serviceWorker.register("./firebase-messaging-sw.js");
-      await swReg.update();
+      const swReg = await navigator.serviceWorker.register("./firebase-messaging-sw.js")
+      await swReg.update()
       const token = await getToken(messaging, {
         vapidKey: VAPID_KEY,
         serviceWorkerRegistration: swReg
-      });
+      })
 
       if (token) {
-        const safeKey = token.slice(-18).replace(/[^a-zA-Z0-9_-]/g, "_");
-        cloudState.fcmTokens = cloudState.fcmTokens || {};
+        const safeKey = token.slice(-18).replace(/[^a-zA-Z0-9_-]/g, "_")
+        cloudState.fcmTokens = cloudState.fcmTokens || {}
         cloudState.fcmTokens[safeKey] = {
           token,
           updatedAt: new Date().toISOString(),
           platform: navigator.userAgent.slice(0, 80)
-        };
-        pushToFirebase();
-        if (pushTokenStatus) pushTokenStatus.textContent = "✅ Alertas activas";
+        }
+        pushToFirebase()
+        if (pushTokenStatus) pushTokenStatus.textContent = "✅ Alertas activas"
       } else {
-        if (pushTokenStatus) pushTokenStatus.textContent = "Error de token.";
+        if (pushTokenStatus) pushTokenStatus.textContent = "Error de token."
       }
     } catch (err) {
-      console.error(err);
-      if (pushTokenStatus) pushTokenStatus.textContent = "Error al activar.";
+      console.error(err)
+      if (pushTokenStatus) pushTokenStatus.textContent = "Error al activar."
     }
   }
 
-  document.getElementById("enablePushBtn")?.addEventListener("click", activarNotificacionesPush);
+  document.getElementById("enablePushBtn")?.addEventListener("click", activarNotificacionesPush)
 
   onMessage(messaging, (payload) => {
-    const data = payload.data || {};
-    const title = data.title || payload.notification?.title || "🖤 Kuromi Planner";
-    const body = data.body || payload.notification?.body || "";
-    const tag = data.tag || `kuromi-${Date.now()}`;
+    const data = payload.data || {}
+    const title = data.title || payload.notification?.title || "🖤 Kuromi Planner"
+    const body = data.body || payload.notification?.body || ""
+    const tag = data.tag || `kuromi-${Date.now()}`
     if (Notification.permission === "granted") {
       new Notification(title, {
         body,
         icon: data.icon || "https://upload.wikimedia.org/wikipedia/en/0/04/Kuromi_render.png",
         tag
-      });
+      })
     }
-  });
+  })
 
   // ===== SMART REMINDERS BUILDER (TASKS & EXAMS) =====
   const draftReminders = {
     task: [],
     exam: []
-  };
+  }
   let lastGeneratedSignature = {
-    task: '',
-    exam: ''
-  };
+    task: "",
+    exam: ""
+  }
 
   function buildSuggestedReminders(targetDateISO, defaultTime, kind) {
-    if (!targetDateISO) return [];
-    const daysLeft = diffDaysFromToday(targetDateISO);
-    if (daysLeft === null || daysLeft <= 0) return [];
+    if (!targetDateISO) return []
+    const daysLeft = diffDaysFromToday(targetDateISO)
+    if (daysLeft === null || daysLeft <= 0) return []
 
-    const baseHour = defaultTime || (kind === 'exam' ? '08:00' : '09:00');
-    let offsets = [];
+    const baseHour = defaultTime || (kind === "exam" ? "08:00" : "09:00")
+    let offsets = []
     if (daysLeft === 1) {
-      offsets = [];
+      offsets = []
     } else if (daysLeft <= 4) {
-      offsets = [Math.min(2, daysLeft - 1), 1];
+      offsets = [Math.min(2, daysLeft - 1), 1]
     } else if (daysLeft <= 10) {
-      offsets = [5, 2, 1];
+      offsets = [5, 2, 1]
     } else {
-      offsets = [7, 3, 1];
+      offsets = [7, 3, 1]
     }
 
-    const uniqueOffsets = [...new Set(offsets)].filter(d => d >= 1 && d < daysLeft).sort((a, b) => b - a);
+    const uniqueOffsets = [...new Set(offsets)].filter(d => d >= 1 && d < daysLeft).sort((a, b) => b - a)
     return uniqueOffsets.map(offset => {
-      const remDate = addDaysToISO(targetDateISO, -offset);
-      const label = offset === 1 ? '1 día antes' : `${offset} días antes`;
+      const remDate = addDaysToISO(targetDateISO, -offset)
+      const label = offset === 1 ? "1 día antes" : `${offset} días antes`
       return {
         id: `sug_${kind}_${offset}_${remDate}`,
         label,
@@ -2418,101 +2676,101 @@
         time: baseHour,
         enabled: true,
         sent: false
-      };
-    });
+      }
+    })
   }
 
   function syncDraftRemindersWithDate(kind, forceRebuild = false) {
-    const dateInput = document.getElementById(kind === 'task' ? 'newTaskDate' : 'newExamDate');
-    const timeInput = document.getElementById(kind === 'task' ? 'newTaskTime' : 'newExamTime');
-    const badge = document.getElementById(kind === 'task' ? 'taskDaysMarginBadge' : 'examDaysMarginBadge');
-    const targetDate = dateInput?.value || '';
-    const defaultTime = timeInput?.value || (kind === 'exam' ? '08:00' : '09:00');
+    const dateInput = document.getElementById(kind === "task" ? "newTaskDate" : "newExamDate")
+    const timeInput = document.getElementById(kind === "task" ? "newTaskTime" : "newExamTime")
+    const badge = document.getElementById(kind === "task" ? "taskDaysMarginBadge" : "examDaysMarginBadge")
+    const targetDate = dateInput?.value || ""
+    const defaultTime = timeInput?.value || (kind === "exam" ? "08:00" : "09:00")
 
     if (!targetDate) {
-      if (badge) badge.textContent = 'Elige una fecha para ver los días disponibles';
-      if (forceRebuild) draftReminders[kind] = [];
-      lastGeneratedSignature[kind] = '';
-      renderSmartRemindersUI(kind);
-      return;
+      if (badge) badge.textContent = "Elige una fecha para ver los días disponibles"
+      if (forceRebuild) draftReminders[kind] = []
+      lastGeneratedSignature[kind] = ""
+      renderSmartRemindersUI(kind)
+      return
     }
 
-    const daysLeft = diffDaysFromToday(targetDate);
+    const daysLeft = diffDaysFromToday(targetDate)
     if (badge) {
       if (daysLeft < 0) {
-        badge.textContent = `Fecha pasada (${Math.abs(daysLeft)} día(s) atrás)`;
+        badge.textContent = `Fecha pasada (${Math.abs(daysLeft)} día(s) atrás)`
       } else if (daysLeft === 0) {
-        badge.textContent = 'Es para hoy (0 días de margen previo)';
+        badge.textContent = "Es para hoy (0 días de margen previo)"
       } else if (daysLeft === 1) {
-        badge.textContent = 'Falta 1 día de margen';
+        badge.textContent = "Falta 1 día de margen"
       } else {
-        badge.textContent = `Tienes ${daysLeft} días de margen`;
+        badge.textContent = `Tienes ${daysLeft} días de margen`
       }
     }
 
-    const sig = `${targetDate}__${daysLeft}`;
+    const sig = `${targetDate}__${daysLeft}`
     if (forceRebuild || lastGeneratedSignature[kind] !== sig) {
-      const customOnes = draftReminders[kind].filter(r => !r.id.startsWith(`sug_${kind}_`) && r.date < targetDate);
-      const suggested = buildSuggestedReminders(targetDate, defaultTime, kind);
-      draftReminders[kind] = [...suggested, ...customOnes];
-      lastGeneratedSignature[kind] = sig;
+      const customOnes = draftReminders[kind].filter(r => !r.id.startsWith(`sug_${kind}_`) && r.date < targetDate)
+      const suggested = buildSuggestedReminders(targetDate, defaultTime, kind)
+      draftReminders[kind] = [...suggested, ...customOnes]
+      lastGeneratedSignature[kind] = sig
     }
 
-    renderSmartRemindersUI(kind);
+    renderSmartRemindersUI(kind)
   }
 
   function renderSmartRemindersUI(kind) {
-    const listEl = document.getElementById(kind === 'task' ? 'taskSmartRemindersList' : 'examSmartRemindersList');
-    if (!listEl) return;
-    const items = draftReminders[kind] || [];
+    const listEl = document.getElementById(kind === "task" ? "taskSmartRemindersList" : "examSmartRemindersList")
+    if (!listEl) return
+    const items = draftReminders[kind] || []
 
     if (!items.length) {
-      listEl.innerHTML = `<div class="text-sm text-muted">No hay avisos previos activos para esta fecha. Puedes añadir uno abajo si quieres.</div>`;
-      return;
+      listEl.innerHTML = `<div class="text-sm text-muted">No hay avisos previos activos para esta fecha. Puedes añadir uno abajo si quieres.</div>`
+      return
     }
 
     listEl.innerHTML = items.map((rem, idx) => `
       <div class="reminder-item-row">
-        <input type="checkbox" ${rem.enabled ? 'checked' : ''} onchange="window.toggleDraftReminder('${kind}', ${idx}, this.checked)">
-        <span style="color:${rem.enabled ? 'var(--lilac-soft)' : 'var(--text-muted)'};font-weight:600;">${rem.label || 'Aviso extra'}</span>
-        <input type="date" value="${rem.date || ''}" onchange="window.updateDraftReminder('${kind}', ${idx}, 'date', this.value)">
-        <input type="time" value="${rem.time || '16:00'}" onchange="window.updateDraftReminder('${kind}', ${idx}, 'time', this.value)">
+        <input type="checkbox" ${rem.enabled ? "checked" : ""} onchange="window.toggleDraftReminder('${kind}', ${idx}, this.checked)">
+        <span style="color:${rem.enabled ? "var(--lilac-soft)" : "var(--text-muted)"};font-weight:600;">${rem.label || "Aviso extra"}</span>
+        <input type="date" value="${rem.date || ""}" onchange="window.updateDraftReminder('${kind}', ${idx}, 'date', this.value)">
+        <input type="time" value="${rem.time || "16:00"}" onchange="window.updateDraftReminder('${kind}', ${idx}, 'time', this.value)">
         <button type="button" class="btn btn-danger" onclick="window.removeDraftReminder('${kind}', ${idx})">✕</button>
       </div>
-    `).join('');
+    `).join("")
   }
 
   window.toggleDraftReminder = function(kind, idx, checked) {
     if (draftReminders[kind][idx]) {
-      draftReminders[kind][idx].enabled = checked;
-      renderSmartRemindersUI(kind);
+      draftReminders[kind][idx].enabled = checked
+      renderSmartRemindersUI(kind)
     }
-  };
+  }
 
   window.updateDraftReminder = function(kind, idx, field, val) {
     if (draftReminders[kind][idx]) {
-      draftReminders[kind][idx][field] = val;
-      draftReminders[kind][idx].sent = false;
+      draftReminders[kind][idx][field] = val
+      draftReminders[kind][idx].sent = false
     }
-  };
+  }
 
   window.removeDraftReminder = function(kind, idx) {
-    draftReminders[kind].splice(idx, 1);
-    renderSmartRemindersUI(kind);
-  };
+    draftReminders[kind].splice(idx, 1)
+    renderSmartRemindersUI(kind)
+  }
 
   function addExtraDraftReminder(kind) {
-    const dateEl = document.getElementById(kind === 'task' ? 'taskExtraRemDate' : 'examExtraRemDate');
-    const timeEl = document.getElementById(kind === 'task' ? 'taskExtraRemTime' : 'examExtraRemTime');
-    const targetEl = document.getElementById(kind === 'task' ? 'newTaskDate' : 'newExamDate');
-    const remDate = dateEl?.value || '';
-    const remTime = timeEl?.value || '16:00';
-    if (!remDate) return;
+    const dateEl = document.getElementById(kind === "task" ? "taskExtraRemDate" : "examExtraRemDate")
+    const timeEl = document.getElementById(kind === "task" ? "taskExtraRemTime" : "examExtraRemTime")
+    const targetEl = document.getElementById(kind === "task" ? "newTaskDate" : "newExamDate")
+    const remDate = dateEl?.value || ""
+    const remTime = timeEl?.value || "16:00"
+    if (!remDate) return
 
-    const daysBefore = targetEl?.value ? diffDaysFromToday(targetEl.value) - diffDaysFromToday(remDate) : null;
+    const daysBefore = targetEl?.value ? diffDaysFromToday(targetEl.value) - diffDaysFromToday(remDate) : null
     const label = daysBefore && daysBefore > 0
-      ? (daysBefore === 1 ? '1 día antes (personalizado)' : `${daysBefore} días antes (personalizado)`)
-      : 'Recordatorio personalizado';
+      ? (daysBefore === 1 ? "1 día antes (personalizado)" : `${daysBefore} días antes (personalizado)`)
+      : "Recordatorio personalizado"
 
     draftReminders[kind].push({
       id: `custom_${kind}_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
@@ -2521,282 +2779,291 @@
       time: remTime,
       enabled: true,
       sent: false
-    });
-    renderSmartRemindersUI(kind);
+    })
+    renderSmartRemindersUI(kind)
   }
 
-  document.getElementById('newTaskDate')?.addEventListener('change', () => syncDraftRemindersWithDate('task', true));
-  document.getElementById('newExamDate')?.addEventListener('change', () => syncDraftRemindersWithDate('exam', true));
-  document.getElementById('addTaskExtraRemBtn')?.addEventListener('click', () => addExtraDraftReminder('task'));
-  document.getElementById('addExamExtraRemBtn')?.addEventListener('click', () => addExtraDraftReminder('exam'));
+  document.getElementById("newTaskDate")?.addEventListener("change", () => syncDraftRemindersWithDate("task", true))
+  document.getElementById("newExamDate")?.addEventListener("change", () => syncDraftRemindersWithDate("exam", true))
+  document.getElementById("addTaskExtraRemBtn")?.addEventListener("click", () => addExtraDraftReminder("task"))
+  document.getElementById("addExamExtraRemBtn")?.addEventListener("click", () => addExtraDraftReminder("exam"))
 
   // ===== TASKS & EXAMS RENDERING =====
   function getPriorityBadge(prio) {
-    if (prio === 'Alta') return '<span class="pill pill-high">Alta</span>';
-    if (prio === 'Baja') return '<span class="pill pill-low">Baja</span>';
-    return '<span class="pill pill-mid">Media</span>';
+    if (prio === "Alta") return '<span class="pill pill-high">Alta</span>'
+    if (prio === "Baja") return '<span class="pill pill-low">Baja</span>'
+    return '<span class="pill pill-mid">Media</span>'
   }
 
   function filterTasksByTab(tasks, filter) {
-    const today = getTodayISO();
-    if (filter === 'today') return tasks.filter(t => t.date === today);
-    if (filter === 'upcoming') return tasks.filter(t => t.date && t.date > today);
-    if (filter === 'nodate') return tasks.filter(t => !t.date);
-    return tasks;
+    const today = getTodayISO()
+    if (filter === "today") return tasks.filter(t => t.date === today)
+    if (filter === "upcoming") return tasks.filter(t => t.date && t.date > today)
+    if (filter === "nodate") return tasks.filter(t => !t.date)
+    return tasks
   }
 
   function renderTasksAndExams() {
-    const tasks = Array.isArray(cloudState.tasks) ? cloudState.tasks : [];
-    const exams = Array.isArray(cloudState.exams) ? cloudState.exams : [];
+    const tasks = Array.isArray(cloudState.tasks) ? cloudState.tasks : []
+    const exams = Array.isArray(cloudState.exams) ? cloudState.exams : []
 
-    const tasksBody = document.getElementById('tasksTableBody');
+    const tasksBody = document.getElementById("tasksTableBody")
     if (tasksBody) {
-      const filtered = filterTasksByTab(tasks, activeTaskFilter);
+      const filtered = filterTasksByTab(tasks, activeTaskFilter)
       tasksBody.innerHTML = filtered.length === 0
         ? `<tr><td colspan="7" class="text-muted text-sm" style="text-align:center;padding:1.2rem;">Sin tareas.</td></tr>`
         : filtered.map(t => {
-          const activeRems = Array.isArray(t.reminders) ? t.reminders.filter(r => r && r.enabled !== false) : [];
+          const activeRems = Array.isArray(t.reminders) ? t.reminders.filter(r => r && r.enabled !== false) : []
           const remBadge = activeRems.length > 0
-            ? `<div class="text-sm text-muted" style="font-size:0.74rem;margin-top:0.2rem;">🔔 ${activeRems.map(r => `${formatDateDisplay(r.date)} ${r.time || ''}`).join(' · ')}</div>`
-            : '';
+            ? `<div class="text-sm text-muted" style="font-size:0.74rem;margin-top:0.2rem;">🔔 ${activeRems.map(r => `${formatDateDisplay(r.date)} ${r.time || ""}`).join(" · ")}</div>`
+            : ""
           return `
           <tr>
-            <td><input type="checkbox" ${t.done ? 'checked' : ''} onchange="window.toggleTaskDone('${t.id}')"></td>
-            <td style="${t.done ? 'text-decoration:line-through;opacity:0.55;' : ''}">${t.title}${remBadge}</td>
+            <td><input type="checkbox" ${t.done ? "checked" : ""} onchange="window.toggleTaskDone('${t.id}')"></td>
+            <td style="${t.done ? "text-decoration:line-through;opacity:0.55;" : ""}">${t.title}${remBadge}</td>
             <td><span class="pill pill-mid">${t.subject}</span></td>
-            <td><input type="date" value="${t.date || ''}" onchange="window.updateTaskField('${t.id}', 'date', this.value)" style="max-width:140px;"></td>
-            <td><input type="time" value="${t.time || ''}" onchange="window.updateTaskField('${t.id}', 'time', this.value)" style="max-width:110px;"></td>
+            <td><input type="date" value="${t.date || ""}" onchange="window.updateTaskField('${t.id}', 'date', this.value)" style="max-width:140px;"></td>
+            <td><input type="time" value="${t.time || ""}" onchange="window.updateTaskField('${t.id}', 'time', this.value)" style="max-width:110px;"></td>
             <td>
               <select onchange="window.updateTaskField('${t.id}', 'priority', this.value)" style="max-width:110px;">
-                <option value="Alta" ${t.priority === 'Alta' ? 'selected' : ''}>Alta</option>
-                <option value="Media" ${t.priority === 'Media' ? 'selected' : ''}>Media</option>
-                <option value="Baja" ${t.priority === 'Baja' ? 'selected' : ''}>Baja</option>
+                <option value="Alta" ${t.priority === "Alta" ? "selected" : ""}>Alta</option>
+                <option value="Media" ${t.priority === "Media" ? "selected" : ""}>Media</option>
+                <option value="Baja" ${t.priority === "Baja" ? "selected" : ""}>Baja</option>
               </select>
             </td>
             <td><button class="btn btn-danger" onclick="window.deleteTask('${t.id}')">🗑️</button></td>
           </tr>
-        `;
-        }).join('');
+        `
+        }).join("")
     }
 
-    const dashTaskList = document.getElementById('dashTaskList');
+    const dashTaskList = document.getElementById("dashTaskList")
     if (dashTaskList) {
-      const filteredDash = filterTasksByTab(tasks, activeTaskFilter);
+      const filteredDash = filterTasksByTab(tasks, activeTaskFilter)
       dashTaskList.innerHTML = filteredDash.length === 0
         ? `<p class="text-sm text-muted" style="padding:0.6rem 0;">Sin tareas.</p>`
         : filteredDash.map(t => `
           <div class="list-item">
-            <input type="checkbox" ${t.done ? 'checked' : ''} onchange="window.toggleTaskDone('${t.id}')">
-            <span style="flex:1;${t.done ? 'text-decoration:line-through;opacity:0.55;' : ''}">${t.title}</span>
+            <input type="checkbox" ${t.done ? "checked" : ""} onchange="window.toggleTaskDone('${t.id}')">
+            <span style="flex:1;${t.done ? "text-decoration:line-through;opacity:0.55;" : ""}">${t.title}</span>
             <span class="pill pill-mid">${t.subject}</span>
-            <span class="text-sm text-muted">${formatDateDisplay(t.date)}${t.time ? ' · ' + t.time : ''}</span>
+            <span class="text-sm text-muted">${formatDateDisplay(t.date)}${t.time ? " · " + t.time : ""}</span>
             ${getPriorityBadge(t.priority)}
           </div>
-        `).join('');
+        `).join("")
     }
 
-    const examsBody = document.getElementById('examsTableBody');
+    const examsBody = document.getElementById("examsTableBody")
     if (examsBody) {
       examsBody.innerHTML = exams.length === 0
         ? `<tr><td colspan="7" class="text-muted text-sm" style="text-align:center;padding:1.2rem;">Sin exámenes.</td></tr>`
         : exams.map(ex => {
-          const activeRems = Array.isArray(ex.reminders) ? ex.reminders.filter(r => r && r.enabled !== false) : [];
+          const activeRems = Array.isArray(ex.reminders) ? ex.reminders.filter(r => r && r.enabled !== false) : []
           const remBadge = activeRems.length > 0
-            ? `<div class="text-sm text-muted" style="font-size:0.74rem;margin-top:0.2rem;">🔔 ${activeRems.map(r => `${formatDateDisplay(r.date)} ${r.time || ''}`).join(' · ')}</div>`
-            : '';
+            ? `<div class="text-sm text-muted" style="font-size:0.74rem;margin-top:0.2rem;">🔔 ${activeRems.map(r => `${formatDateDisplay(r.date)} ${r.time || ""}`).join(" · ")}</div>`
+            : ""
           return `
           <tr>
             <td>
               <select onchange="window.updateExamField('${ex.id}', 'subject', this.value)" style="max-width:130px;">
-                <option value="Física" ${ex.subject === 'Física' ? 'selected' : ''}>Física</option>
-                <option value="Matemáticas" ${ex.subject === 'Matemáticas' ? 'selected' : ''}>Matemáticas</option>
-                <option value="Sistemas" ${ex.subject === 'Sistemas' ? 'selected' : ''}>Sistemas</option>
-                <option value="EPUS" ${ex.subject === 'EPUS' ? 'selected' : ''}>EPUS</option>
+                <option value="Física" ${ex.subject === "Física" ? "selected" : ""}>Física</option>
+                <option value="Matemáticas" ${ex.subject === "Matemáticas" ? "selected" : ""}>Matemáticas</option>
+                <option value="Sistemas" ${ex.subject === "Sistemas" ? "selected" : ""}>Sistemas</option>
+                <option value="EPUS" ${ex.subject === "EPUS" ? "selected" : ""}>EPUS</option>
               </select>
             </td>
             <td>${ex.topic}${remBadge}</td>
-            <td><input type="date" value="${ex.date || ''}" onchange="window.updateExamField('${ex.id}', 'date', this.value)" style="max-width:140px;"></td>
-            <td><input type="time" value="${ex.time || ''}" onchange="window.updateExamField('${ex.id}', 'time', this.value)" style="max-width:110px;"></td>
+            <td><input type="date" value="${ex.date || ""}" onchange="window.updateExamField('${ex.id}', 'date', this.value)" style="max-width:140px;"></td>
+            <td><input type="time" value="${ex.time || ""}" onchange="window.updateExamField('${ex.id}', 'time', this.value)" style="max-width:110px;"></td>
             <td>
               <select onchange="window.updateExamField('${ex.id}', 'priority', this.value)" style="max-width:110px;">
-                <option value="Alta" ${ex.priority === 'Alta' ? 'selected' : ''}>Alta</option>
-                <option value="Media" ${ex.priority === 'Media' ? 'selected' : ''}>Media</option>
-                <option value="Baja" ${ex.priority === 'Baja' ? 'selected' : ''}>Baja</option>
+                <option value="Alta" ${ex.priority === "Alta" ? "selected" : ""}>Alta</option>
+                <option value="Media" ${ex.priority === "Media" ? "selected" : ""}>Media</option>
+                <option value="Baja" ${ex.priority === "Baja" ? "selected" : ""}>Baja</option>
               </select>
             </td>
-            <td contenteditable="true" onblur="window.updateExamField('${ex.id}', 'notes', this.innerText)">${ex.notes || ''}</td>
+            <td contenteditable="true" onblur="window.updateExamField('${ex.id}', 'notes', this.innerText)">${ex.notes || ""}</td>
             <td><button class="btn btn-danger" onclick="window.deleteExam('${ex.id}')">🗑️</button></td>
           </tr>
-        `;
-        }).join('');
+        `
+        }).join("")
     }
 
-    const dashExams = document.getElementById('dashExamsPreview');
+    const dashExams = document.getElementById("dashExamsPreview")
     if (dashExams) {
       dashExams.innerHTML = exams.length === 0
         ? `<p class="text-muted">Sin exámenes.</p>`
         : exams.slice(0, 4).map(ex => `
           <div style="padding:0.35rem 0;border-bottom:1px solid rgba(80,35,120,0.15);display:flex;justify-content:space-between;align-items:center;">
             <span><strong>${ex.subject}:</strong> ${ex.topic}</span>
-            <span>${formatDateDisplay(ex.date)}${ex.time ? ' · ' + ex.time : ''} ${getPriorityBadge(ex.priority)}</span>
+            <span>${formatDateDisplay(ex.date)}${ex.time ? " · " + ex.time : ""} ${getPriorityBadge(ex.priority)}</span>
           </div>
-        `).join('');
+        `).join("")
     }
   }
 
-  document.getElementById('addTaskBtn').addEventListener('click', () => {
-    const title = document.getElementById('newTaskTitle').value.trim();
-    if (!title) return;
+  document.getElementById("addTaskBtn").addEventListener("click", () => {
+    const title = document.getElementById("newTaskTitle").value.trim()
+    if (!title) return
     const reminders = draftReminders.task
       .filter(r => r.enabled && r.date)
-      .map(r => ({ date: r.date, time: r.time || '09:00', sent: false }));
+      .map(r => ({ date: r.date, time: r.time || "09:00", sent: false }))
 
     cloudState.tasks.push({
-      id: 't_' + Date.now(),
+      id: "t_" + Date.now(),
       title,
-      subject: document.getElementById('newTaskSubject').value,
-      date: document.getElementById('newTaskDate').value,
-      time: document.getElementById('newTaskTime')?.value || '',
-      priority: document.getElementById('newTaskPriority').value,
+      subject: document.getElementById("newTaskSubject").value,
+      date: document.getElementById("newTaskDate").value,
+      time: document.getElementById("newTaskTime")?.value || "",
+      priority: document.getElementById("newTaskPriority").value,
       reminders,
       done: false
-    });
-    document.getElementById('newTaskTitle').value = '';
-    draftReminders.task = [];
-    lastGeneratedSignature.task = '';
-    renderSmartRemindersUI('task');
-    renderTasksAndExams();
-    pushToFirebase();
-  });
+    })
+    document.getElementById("newTaskTitle").value = ""
+    draftReminders.task = []
+    lastGeneratedSignature.task = ""
+    renderSmartRemindersUI("task")
+    renderTasksAndExams()
+    pushToFirebase()
+  })
 
   window.toggleTaskDone = function(id) {
-    const t = cloudState.tasks.find(x => x.id === id);
+    const t = cloudState.tasks.find(x => x.id === id)
     if (t) {
-      t.done = !t.done;
-      renderTasksAndExams();
-      pushToFirebase();
+      t.done = !t.done
+      renderTasksAndExams()
+      pushToFirebase()
     }
-  };
+  }
 
   window.updateTaskField = function(id, field, val) {
-    const t = cloudState.tasks.find(x => x.id === id);
+    const t = cloudState.tasks.find(x => x.id === id)
     if (t) {
-      t[field] = val;
-      if (field === 'date' || field === 'time') {
-        t.notified = false;
+      t[field] = val
+      if (field === "date" || field === "time") {
+        t.notified = false
       }
-      renderTasksAndExams();
-      pushToFirebase();
+      renderTasksAndExams()
+      pushToFirebase()
     }
-  };
+  }
 
   window.deleteTask = function(id) {
-    cloudState.tasks = cloudState.tasks.filter(x => x.id !== id);
-    renderTasksAndExams();
-    pushToFirebase();
-  };
+    cloudState.tasks = cloudState.tasks.filter(x => x.id !== id)
+    renderTasksAndExams()
+    pushToFirebase()
+  }
 
-  document.getElementById('addExamBtn').addEventListener('click', () => {
-    const topic = document.getElementById('newExamTopic').value.trim();
-    if (!topic) return;
+  document.getElementById("addExamBtn").addEventListener("click", () => {
+    const topic = document.getElementById("newExamTopic").value.trim()
+    if (!topic) return
     const reminders = draftReminders.exam
       .filter(r => r.enabled && r.date)
-      .map(r => ({ date: r.date, time: r.time || '08:00', sent: false }));
+      .map(r => ({ date: r.date, time: r.time || "08:00", sent: false }))
 
     cloudState.exams.push({
-      id: 'e_' + Date.now(),
+      id: "e_" + Date.now(),
       topic,
-      subject: document.getElementById('newExamSubject').value,
-      date: document.getElementById('newExamDate').value,
-      time: document.getElementById('newExamTime')?.value || '',
-      priority: document.getElementById('newExamPriority').value,
+      subject: document.getElementById("newExamSubject").value,
+      date: document.getElementById("newExamDate").value,
+      time: document.getElementById("newExamTime")?.value || "",
+      priority: document.getElementById("newExamPriority").value,
       reminders,
-      notes: ''
-    });
-    document.getElementById('newExamTopic').value = '';
-    draftReminders.exam = [];
-    lastGeneratedSignature.exam = '';
-    renderSmartRemindersUI('exam');
-    renderTasksAndExams();
-    pushToFirebase();
-  });
+      notes: ""
+    })
+    document.getElementById("newExamTopic").value = ""
+    draftReminders.exam = []
+    lastGeneratedSignature.exam = ""
+    renderSmartRemindersUI("exam")
+    renderTasksAndExams()
+    pushToFirebase()
+  })
 
   window.updateExamField = function(id, field, val) {
-    const ex = cloudState.exams.find(x => x.id === id);
+    const ex = cloudState.exams.find(x => x.id === id)
     if (ex) {
-      ex[field] = val;
-      if (field === 'date' || field === 'time') {
-        ex.notified = false;
+      ex[field] = val
+      if (field === "date" || field === "time") {
+        ex.notified = false
       }
-      renderTasksAndExams();
-      pushToFirebase();
+      renderTasksAndExams()
+      pushToFirebase()
     }
-  };
+  }
 
   window.deleteExam = function(id) {
-    cloudState.exams = cloudState.exams.filter(x => x.id !== id);
-    renderTasksAndExams();
-    pushToFirebase();
-  };
+    cloudState.exams = cloudState.exams.filter(x => x.id !== id)
+    renderTasksAndExams()
+    pushToFirebase()
+  }
 
-  document.querySelectorAll('.filter-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      activeTaskFilter = btn.dataset.filter;
-      document.querySelectorAll('.filter-tab').forEach(b => {
-        b.classList.toggle('active', b.dataset.filter === activeTaskFilter);
-      });
-      renderTasksAndExams();
-    });
-  });
+  document.querySelectorAll(".filter-tab").forEach(btn => {
+    btn.addEventListener("click", () => {
+      activeTaskFilter = btn.dataset.filter
+      document.querySelectorAll(".filter-tab").forEach(b => {
+        b.classList.toggle("active", b.dataset.filter === activeTaskFilter)
+      })
+      renderTasksAndExams()
+    })
+  })
 
   // ===== APPLY CLOUD STATE =====
   function applyCloudState() {
-    document.querySelectorAll('[data-key]').forEach(el => {
-      const key = el.dataset.key;
+    syncDynamicDashboardAndWishRows()
+
+    document.querySelectorAll("[data-key]").forEach(el => {
+      const key = el.dataset.key
       if (cloudState.fields && cloudState.fields[key] !== undefined) {
-        if (document.activeElement === el) return;
-        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-          el.value = cloudState.fields[key];
+        if (document.activeElement === el) return
+        if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+          el.value = cloudState.fields[key]
         } else {
-          el.innerHTML = cloudState.fields[key];
+          el.innerHTML = cloudState.fields[key]
         }
       }
-    });
+    })
 
-    updateClassLinkButtons();
+    document.querySelectorAll("td[data-sched-key]").forEach(td => {
+      const k = td.dataset.schedKey
+      if (cloudState.fields && cloudState.fields[k] !== undefined) {
+        renderScheduleSlotContent(td, cloudState.fields[k])
+      }
+    })
 
-    document.querySelectorAll('.habit-check').forEach(el => {
-      const id = el.dataset.habit;
-      const isDone = Boolean(cloudState.habits && cloudState.habits[id]);
-      el.classList.toggle('done', isDone);
-      el.textContent = isDone ? '✓' : '';
-    });
+    updateClassLinkButtons()
 
-    document.querySelectorAll('.check-circle').forEach(el => {
-      const id = el.dataset.check;
-      const isDone = Boolean(cloudState.checks && cloudState.checks[id]);
-      el.classList.toggle('done', isDone);
-    });
+    document.querySelectorAll(".habit-check").forEach(el => {
+      const id = el.dataset.habit
+      const isDone = Boolean(cloudState.habits && cloudState.habits[id])
+      el.classList.toggle("done", isDone)
+      el.textContent = isDone ? "✓" : ""
+    })
 
-    document.querySelectorAll('[data-wish-check]').forEach(el => {
-      const id = el.dataset.wishCheck;
-      el.checked = Boolean(cloudState.wishChecks && cloudState.wishChecks[id]);
-    });
+    document.querySelectorAll(".check-circle").forEach(el => {
+      const id = el.dataset.check
+      const isDone = Boolean(cloudState.checks && cloudState.checks[id])
+      el.classList.toggle("done", isDone)
+    })
+
+    document.querySelectorAll("[data-wish-check]").forEach(el => {
+      const id = el.dataset.wishCheck
+      el.checked = Boolean(cloudState.wishChecks && cloudState.wishChecks[id])
+    })
 
     if (pushTokenStatus && cloudState.fcmTokens && Object.keys(cloudState.fcmTokens).length > 0) {
-      pushTokenStatus.textContent = "✅ Alertas activas";
+      pushTokenStatus.textContent = "✅ Alertas activas"
     }
 
-    renderSubjectDatedFields();
-    renderTasksAndExams();
-    renderCalendar();
-    renderMoodCalendar();
-    renderDailyFields();
-    updateSaveProgress();
+    renderSubjectDatedFields()
+    renderTasksAndExams()
+    renderCalendar()
+    renderMoodCalendar()
+    renderDailyFields()
+    updateSaveProgress()
   }
 
   onValue(plannerRef, (snapshot) => {
-    const val = snapshot.val();
+    const val = snapshot.val()
     if (val) {
       cloudState = {
         fields: val.fields || {},
@@ -2810,386 +3077,386 @@
         tasks: val.tasks || [],
         exams: val.exams || [],
         fcmTokens: val.fcmTokens || {}
-      };
-      applyCloudState();
+      }
+      applyCloudState()
     }
-    setSyncStatus('☁️ Sincronizado', '#a8e0b8');
+    setSyncStatus("☁️ Sincronizado", "#a8e0b8")
   }, (error) => {
-    console.error(error);
-    setSyncStatus('⚠️ Sin conexión', '#ff8a8a');
-  });
+    console.error(error)
+    setSyncStatus("⚠️ Sin conexión", "#ff8a8a")
+  })
 
   // ===== GLOBAL LISTENERS =====
-  document.addEventListener('input', e => {
-    const el = e.target;
+  document.addEventListener("input", e => {
+    const el = e.target
     if (el.dataset && el.dataset.key) {
-      cloudState.fields[el.dataset.key] = (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') ? el.value : el.innerHTML;
-      if (el.dataset.linkInput) updateClassLinkButtons();
-      if (el.id === 'saveTarget' || el.id === 'saveCurrent') updateSaveProgress();
-      scheduleSave();
+      cloudState.fields[el.dataset.key] = (el.tagName === "INPUT" || el.tagName === "TEXTAREA") ? el.value : el.innerHTML
+      if (el.dataset.linkInput) updateClassLinkButtons()
+      if (el.id === "saveTarget" || el.id === "saveCurrent") updateSaveProgress()
+      scheduleSave()
     }
     if (el.dataset && el.dataset.subjDated) {
-      const dateVal = subjDatePicker?.value || getTodayISO();
-      const fullKey = `${el.dataset.subjDated}__${dateVal}`;
-      cloudState.subjectDated[fullKey] = el.innerHTML;
-      scheduleSave();
+      const dateVal = subjDatePicker?.value || getTodayISO()
+      const fullKey = `${el.dataset.subjDated}__${dateVal}`
+      cloudState.subjectDated[fullKey] = el.innerHTML
+      scheduleSave()
     }
-    if (el.classList && el.classList.contains('cal-note')) {
-      cloudState.calendarNotes[el.dataset.calDate] = el.innerHTML;
-      scheduleSave();
+    if (el.classList && el.classList.contains("cal-note")) {
+      cloudState.calendarNotes[el.dataset.calDate] = el.innerHTML
+      scheduleSave()
     }
-    if (['dailyTasks', 'dailyPriorities', 'dailyNotes', 'dailyWins'].includes(el.id)) {
-      const dateVal = document.getElementById('dailyDate').value || getTodayISO();
-      if (!cloudState.daily[dateVal]) cloudState.daily[dateVal] = {};
-      cloudState.daily[dateVal][el.id] = el.innerHTML;
-      scheduleSave();
+    if (["dailyTasks", "dailyPriorities", "dailyNotes", "dailyWins"].includes(el.id)) {
+      const dateVal = document.getElementById("dailyDate").value || getTodayISO()
+      if (!cloudState.daily[dateVal]) cloudState.daily[dateVal] = {}
+      cloudState.daily[dateVal][el.id] = el.innerHTML
+      scheduleSave()
     }
-  });
+  })
 
-  document.addEventListener('change', e => {
-    const el = e.target;
+  document.addEventListener("change", e => {
+    const el = e.target
     if (el.dataset && el.dataset.wishCheck !== undefined) {
-      cloudState.wishChecks[el.dataset.wishCheck] = el.checked;
-      pushToFirebase();
+      cloudState.wishChecks[el.dataset.wishCheck] = el.checked
+      pushToFirebase()
     }
-    if (el.id === 'dailyDate') renderDailyFields();
-  });
+    if (el.id === "dailyDate") renderDailyFields()
+  })
 
-  document.addEventListener('click', e => {
-    const el = e.target;
-    if (el.classList.contains('habit-check')) {
-      const id = el.dataset.habit;
-      const next = !el.classList.contains('done');
-      el.classList.toggle('done', next);
-      el.textContent = next ? '✓' : '';
-      cloudState.habits[id] = next;
-      pushToFirebase();
+  document.addEventListener("click", e => {
+    const el = e.target
+    if (el.classList.contains("habit-check")) {
+      const id = el.dataset.habit
+      const next = !el.classList.contains("done")
+      el.classList.toggle("done", next)
+      el.textContent = next ? "✓" : ""
+      cloudState.habits[id] = next
+      pushToFirebase()
     }
-    if (el.classList.contains('check-circle')) {
-      const id = el.dataset.check;
-      const next = !el.classList.contains('done');
-      el.classList.toggle('done', next);
-      cloudState.checks[id] = next;
-      pushToFirebase();
+    if (el.classList.contains("check-circle")) {
+      const id = el.dataset.check
+      const next = !el.classList.contains("done")
+      el.classList.toggle("done", next)
+      cloudState.checks[id] = next
+      pushToFirebase()
     }
-  });
+  })
 
   // ===== SAVE PROGRESS =====
   function updateSaveProgress() {
-    const target = parseFloat(document.getElementById('saveTarget')?.value) || 0;
-    const current = parseFloat(document.getElementById('saveCurrent')?.value) || 0;
-    const pct = target > 0 ? Math.min(100, Math.round((current / target) * 100)) : 0;
-    const bar = document.getElementById('saveProgress');
-    const label = document.getElementById('savePercent');
-    if (bar) bar.style.width = pct + '%';
-    if (label) label.textContent = pct;
+    const target = parseFloat(document.getElementById("saveTarget")?.value) || 0
+    const current = parseFloat(document.getElementById("saveCurrent")?.value) || 0
+    const pct = target > 0 ? Math.min(100, Math.round((current / target) * 100)) : 0
+    const bar = document.getElementById("saveProgress")
+    const label = document.getElementById("savePercent")
+    if (bar) bar.style.width = pct + "%"
+    if (label) label.textContent = pct
   }
 
   // ===== CALENDAR =====
-  let calYear = new Date().getFullYear();
-  let calMonth = new Date().getMonth();
+  let calYear = new Date().getFullYear()
+  let calMonth = new Date().getMonth()
 
   function renderCalendar() {
-    const grid = document.getElementById('calendarGrid');
-    if (!grid) return;
-    const title = document.getElementById('monthTitle');
-    const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-    title.textContent = monthNames[calMonth] + ' ' + calYear;
+    const grid = document.getElementById("calendarGrid")
+    if (!grid) return
+    const title = document.getElementById("monthTitle")
+    const monthNames = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
+    title.textContent = monthNames[calMonth] + " " + calYear
 
-    grid.innerHTML = '';
-    ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].forEach(d => {
-      const el = document.createElement('div');
-      el.className = 'cal-day-name';
-      el.textContent = d;
-      grid.appendChild(el);
-    });
+    grid.innerHTML = ""
+    ["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"].forEach(d => {
+      const el = document.createElement("div")
+      el.className = "cal-day-name"
+      el.textContent = d
+      grid.appendChild(el)
+    })
 
-    const first = new Date(calYear, calMonth, 1);
-    let startDay = first.getDay();
-    startDay = startDay === 0 ? 6 : startDay - 1;
-    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-    const today = new Date();
+    const first = new Date(calYear, calMonth, 1)
+    let startDay = first.getDay()
+    startDay = startDay === 0 ? 6 : startDay - 1
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate()
+    const today = new Date()
 
     for (let i = 0; i < startDay; i++) {
-      const cell = document.createElement('div');
-      cell.className = 'cal-cell other';
-      grid.appendChild(cell);
+      const cell = document.createElement("div")
+      cell.className = "cal-cell other"
+      grid.appendChild(cell)
     }
     for (let d = 1; d <= daysInMonth; d++) {
-      const cell = document.createElement('div');
-      cell.className = 'cal-cell';
+      const cell = document.createElement("div")
+      cell.className = "cal-cell"
       if (d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear()) {
-        cell.classList.add('today');
+        cell.classList.add("today")
       }
-      const dateKey = `${calYear}-${calMonth + 1}-${d}`;
-      const savedNote = (cloudState.calendarNotes && cloudState.calendarNotes[dateKey]) || '';
-      cell.innerHTML = `<span class="cal-num">${d}</span><div class="cal-note" contenteditable="true" data-cal-date="${dateKey}">${savedNote}</div>`;
-      grid.appendChild(cell);
+      const dateKey = `${calYear}-${calMonth + 1}-${d}`
+      const savedNote = (cloudState.calendarNotes && cloudState.calendarNotes[dateKey]) || ""
+      cell.innerHTML = `<span class="cal-num">${d}</span><div class="cal-note" contenteditable="true" data-cal-date="${dateKey}">${savedNote}</div>`
+      grid.appendChild(cell)
     }
   }
 
-  document.getElementById('prevMonthBtn').addEventListener('click', () => {
-    calMonth--;
-    if (calMonth < 0) { calMonth = 11; calYear--; }
-    renderCalendar();
-    renderMoodCalendar();
-  });
+  document.getElementById("prevMonthBtn").addEventListener("click", () => {
+    calMonth--
+    if (calMonth < 0) { calMonth = 11; calYear-- }
+    renderCalendar()
+    renderMoodCalendar()
+  })
 
-  document.getElementById('nextMonthBtn').addEventListener('click', () => {
-    calMonth++;
-    if (calMonth > 11) { calMonth = 0; calYear++; }
-    renderCalendar();
-    renderMoodCalendar();
-  });
+  document.getElementById("nextMonthBtn").addEventListener("click", () => {
+    calMonth++
+    if (calMonth > 11) { calMonth = 0; calYear++ }
+    renderCalendar()
+    renderMoodCalendar()
+  })
 
   // ===== MOOD =====
-  let selectedMood = null;
+  let selectedMood = null
   const moodEmojis = {
-    excelente: '🖤', feliz: '💜', bien: '⭐', normal: '🌙', cansada: '☁️', descansar: '🌧️'
-  };
+    excelente: "🖤", feliz: "💜", bien: "⭐", normal: "🌙", cansada: "☁️", descansar: "🌧️"
+  }
 
-  document.querySelectorAll('.mood-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      selectedMood = btn.dataset.mood;
-    });
-  });
+  document.querySelectorAll(".mood-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".mood-btn").forEach(b => b.classList.remove("selected"))
+      btn.classList.add("selected")
+      selectedMood = btn.dataset.mood
+    })
+  })
 
   function renderMoodCalendar() {
-    const cal = document.getElementById('moodCalendar');
-    if (!cal) return;
-    cal.innerHTML = '';
-    const days = new Date(calYear, calMonth + 1, 0).getDate();
+    const cal = document.getElementById("moodCalendar")
+    if (!cal) return
+    cal.innerHTML = ""
+    const days = new Date(calYear, calMonth + 1, 0).getDate()
     for (let d = 1; d <= days; d++) {
-      const moodKey = `${calYear}-${calMonth + 1}-${d}`;
-      const savedMood = (cloudState.moods && cloudState.moods[moodKey]) || '';
-      const cell = document.createElement('div');
-      cell.className = 'mood-day';
-      cell.innerHTML = `<span class="num">${d}</span><span class="emoji">${savedMood}</span>`;
-      cell.addEventListener('click', () => {
+      const moodKey = `${calYear}-${calMonth + 1}-${d}`
+      const savedMood = (cloudState.moods && cloudState.moods[moodKey]) || ""
+      const cell = document.createElement("div")
+      cell.className = "mood-day"
+      cell.innerHTML = `<span class="num">${d}</span><span class="emoji">${savedMood}</span>`
+      cell.addEventListener("click", () => {
         if (selectedMood) {
-          const emoji = moodEmojis[selectedMood];
-          cell.querySelector('.emoji').textContent = emoji;
-          cloudState.moods[moodKey] = emoji;
-          pushToFirebase();
+          const emoji = moodEmojis[selectedMood]
+          cell.querySelector(".emoji").textContent = emoji
+          cloudState.moods[moodKey] = emoji
+          pushToFirebase()
         }
-      });
-      cal.appendChild(cell);
+      })
+      cal.appendChild(cell)
     }
   }
 
   // ===== DAILY =====
   function renderDailyFields() {
-    const dateInput = document.getElementById('dailyDate');
-    if (!dateInput) return;
-    if (!dateInput.value) dateInput.value = getTodayISO();
-    const dateVal = dateInput.value;
-    const dayData = (cloudState.daily && cloudState.daily[dateVal]) || {};
+    const dateInput = document.getElementById("dailyDate")
+    if (!dateInput) return
+    if (!dateInput.value) dateInput.value = getTodayISO()
+    const dateVal = dateInput.value
+    const dayData = (cloudState.daily && cloudState.daily[dateVal]) || {}
 
-    ['dailyTasks', 'dailyPriorities', 'dailyNotes', 'dailyWins'].forEach(id => {
-      const el = document.getElementById(id);
+    ["dailyTasks", "dailyPriorities", "dailyNotes", "dailyWins"].forEach(id => {
+      const el = document.getElementById(id)
       if (el && document.activeElement !== el) {
-        el.innerHTML = dayData[id] !== undefined ? dayData[id] : '';
+        el.innerHTML = dayData[id] !== undefined ? dayData[id] : ""
       }
-    });
+    })
   }
 
   // ===== WIDGETS: LIVE CLOCK & POMODORO =====
   function updateLiveClock() {
-    const now = new Date();
-    const clockEl = document.getElementById('liveClock');
-    const dateEl = document.getElementById('liveClockDate');
+    const now = new Date()
+    const clockEl = document.getElementById("liveClock")
+    const dateEl = document.getElementById("liveClockDate")
     if (clockEl) {
-      clockEl.textContent = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      clockEl.textContent = now.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
     }
     if (dateEl) {
-      dateEl.textContent = now.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+      dateEl.textContent = now.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long", year: "numeric" })
     }
   }
-  setInterval(updateLiveClock, 1000);
-  updateLiveClock();
+  setInterval(updateLiveClock, 1000)
+  updateLiveClock()
 
-  let pomoSeconds = 25 * 60;
-  let pomoInterval = null;
+  let pomoSeconds = 25 * 60
+  let pomoInterval = null
   function renderPomo() {
-    const m = Math.floor(pomoSeconds / 60).toString().padStart(2, '0');
-    const s = (pomoSeconds % 60).toString().padStart(2, '0');
-    const disp = document.getElementById('pomoDisplay');
-    if (disp) disp.textContent = `${m}:${s}`;
+    const m = Math.floor(pomoSeconds / 60).toString().padStart(2, "0")
+    const s = (pomoSeconds % 60).toString().padStart(2, "0")
+    const disp = document.getElementById("pomoDisplay")
+    if (disp) disp.textContent = `${m}:${s}`
   }
 
-  document.getElementById('pomoStartBtn').addEventListener('click', () => {
-    if (pomoInterval) return;
+  document.getElementById("pomoStartBtn").addEventListener("click", () => {
+    if (pomoInterval) return
     pomoInterval = setInterval(() => {
       if (pomoSeconds > 0) {
-        pomoSeconds--;
-        renderPomo();
+        pomoSeconds--
+        renderPomo()
       } else {
-        clearInterval(pomoInterval);
-        pomoInterval = null;
-        alert('🖤 Tiempo completado.');
+        clearInterval(pomoInterval)
+        pomoInterval = null
+        alert("🖤 Tiempo completado.")
       }
-    }, 1000);
-  });
+    }, 1000)
+  })
 
-  document.getElementById('pomoPauseBtn').addEventListener('click', () => {
-    clearInterval(pomoInterval);
-    pomoInterval = null;
-  });
+  document.getElementById("pomoPauseBtn").addEventListener("click", () => {
+    clearInterval(pomoInterval)
+    pomoInterval = null
+  })
 
-  document.getElementById('pomoResetBtn').addEventListener('click', () => {
-    clearInterval(pomoInterval);
-    pomoInterval = null;
-    pomoSeconds = 25 * 60;
-    renderPomo();
-  });
+  document.getElementById("pomoResetBtn").addEventListener("click", () => {
+    clearInterval(pomoInterval)
+    pomoInterval = null
+    pomoSeconds = 25 * 60
+    renderPomo()
+  })
 
-  document.getElementById('pomoBreakBtn').addEventListener('click', () => {
-    clearInterval(pomoInterval);
-    pomoInterval = null;
-    pomoSeconds = 5 * 60;
-    renderPomo();
-  });
+  document.getElementById("pomoBreakBtn").addEventListener("click", () => {
+    clearInterval(pomoInterval)
+    pomoInterval = null
+    pomoSeconds = 5 * 60
+    renderPomo()
+  })
 
   // ===== KUROMI IA BOT =====
-  const botMessages = document.getElementById('botMessages');
-  const botInput = document.getElementById('botInput');
-  const botTyping = document.getElementById('botTyping');
-  let chatHistory = [];
+  const botMessages = document.getElementById("botMessages")
+  const botInput = document.getElementById("botInput")
+  const botTyping = document.getElementById("botTyping")
+  let chatHistory = []
 
   function generateSmartKuromiResponse(rawInput) {
-    const q = rawInput.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    const tasks = (cloudState.tasks || []).filter(t => !t.done);
-    const exams = cloudState.exams || [];
-    const today = getTodayISO();
-    const highTasks = tasks.filter(t => t.priority === 'Alta');
-    const todayTasks = tasks.filter(t => t.date === today);
+    const q = rawInput.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    const tasks = (cloudState.tasks || []).filter(t => !t.done)
+    const exams = cloudState.exams || []
+    const today = getTodayISO()
+    const highTasks = tasks.filter(t => t.priority === "Alta")
+    const todayTasks = tasks.filter(t => t.date === today)
 
     if (q.includes("agenda") || q.includes("tarea") || q.includes("pendiente") || q.includes("priorizar") || q.includes("que tengo") || q.includes("que debo hacer") || q.includes("que hay")) {
       if (tasks.length === 0 && exams.length === 0) {
-        return "No tienes tareas pendientes ni exámenes registrados ahora mismo.";
+        return "No tienes tareas pendientes ni exámenes registrados ahora mismo."
       }
-      let resp = "";
+      let resp = ""
       if (tasks.length > 0) {
-        resp += `Tareas pendientes (${tasks.length}):\n`;
+        resp += `Tareas pendientes (${tasks.length}):\n`
         if (todayTasks.length > 0) {
-          resp += `• Hoy (${todayTasks.length}): ${todayTasks.map(t => `${t.title} (${t.subject})`).join(", ")}.\n`;
+          resp += `• Hoy (${todayTasks.length}): ${todayTasks.map(t => `${t.title} (${t.subject})`).join(", ")}.\n`
         }
         if (highTasks.length > 0) {
-          resp += `• Prioridad alta: ${highTasks.map(t => `${t.title} [${t.subject}]`).join(", ")}.\n`;
+          resp += `• Prioridad alta: ${highTasks.map(t => `${t.title} [${t.subject}]`).join(", ")}.\n`
         } else {
-          resp += `• Siguiente: ${tasks[0].title} (${tasks[0].subject}).\n`;
+          resp += `• Siguiente: ${tasks[0].title} (${tasks[0].subject}).\n`
         }
       }
       if (exams.length > 0) {
-        resp += `\nExámenes (${exams.length}):\n`;
+        resp += `\nExámenes (${exams.length}):\n`
         exams.slice(0, 4).forEach(ex => {
-          resp += `• ${ex.subject}: ${ex.topic} — ${formatDateDisplay(ex.date)} [${ex.priority}]\n`;
-        });
+          resp += `• ${ex.subject}: ${ex.topic} — ${formatDateDisplay(ex.date)} [${ex.priority}]\n`
+        })
       }
-      return resp.trim();
+      return resp.trim()
     }
 
     if (q.includes("plan de estudio") || q.includes("estudiar") || q.includes("examen") || q.includes("parcial") || q.includes("repasar")) {
-      let targetSubj = "tus materias";
-      if (q.includes("fisica")) targetSubj = "Física";
-      else if (q.includes("mate")) targetSubj = "Matemáticas";
-      else if (q.includes("sistema")) targetSubj = "Introducción a Sistemas";
-      else if (q.includes("etica") || q.includes("epus")) targetSubj = "EPUS";
-      else if (exams.length > 0) targetSubj = `${exams[0].subject} (${exams[0].topic})`;
+      let targetSubj = "tus materias"
+      if (q.includes("fisica")) targetSubj = "Física"
+      else if (q.includes("mate")) targetSubj = "Matemáticas"
+      else if (q.includes("sistema")) targetSubj = "Introducción a Sistemas"
+      else if (q.includes("etica") || q.includes("epus")) targetSubj = "EPUS"
+      else if (exams.length > 0) targetSubj = `${exams[0].subject} (${exams[0].topic})`
 
-      return `Plan para ${targetSubj}:\n\n1. 25 min: revisa apuntes y extrae fórmulas o conceptos clave.\n2. 5 min: descanso sin pantalla.\n3. 25 min: resuelve ejercicios sin ver la solución.\n4. 10 min: anota dudas pendientes para clase.`;
+      return `Plan para ${targetSubj}:\n\n1. 25 min: revisa apuntes y extrae fórmulas o conceptos clave.\n2. 5 min: descanso sin pantalla.\n3. 25 min: resuelve ejercicios sin ver la solución.\n4. 10 min: anota dudas pendientes para clase.`
     }
 
     if (q.includes("derivad") || q.includes("cinematic") || q.includes("vector") || q.includes("sistema") || q.includes("etica") || q.includes("epus") || q.includes("explica") || q.includes("que es") || q.includes("como funciona")) {
       if (q.includes("derivad")) {
-        return "Derivadas:\nMiden la tasa de cambio instantánea de una función (pendiente de la recta tangente).\n\n• Potencia: si f(x) = xⁿ → f'(x) = n·xⁿ⁻¹\n• Constante: 0\n• Suma/resta: (f+g)' = f' + g'\n• Producto: (f·g)' = f'g + fg'";
+        return "Derivadas:\nMiden la tasa de cambio instantánea de una función (pendiente de la recta tangente).\n\n• Potencia: si f(x) = xⁿ → f'(x) = n·xⁿ⁻¹\n• Constante: 0\n• Suma/resta: (f+g)' = f' + g'\n• Producto: (f·g)' = f'g + fg'"
       }
       if (q.includes("cinematic") || q.includes("vector") || q.includes("velocidad") || q.includes("aceleracion")) {
-        return "Cinemática y Vectores:\n• MRUV: v = v₀ + a·t | x = x₀ + v₀·t + ½·a·t²\n• Vectores: descompón en X (coseno) y Y (seno) antes de sumar.\n• Velocidad es vector, rapidez es escalar.";
+        return "Cinemática y Vectores:\n• MRUV: v = v₀ + a·t | x = x₀ + v₀·t + ½·a·t²\n• Vectores: descompón en X (coseno) y Y (seno) antes de sumar.\n• Velocidad es vector, rapidez es escalar."
       }
       if (q.includes("sistema") || q.includes("informacion")) {
-        return "Sistemas de la Información:\nConjunto de datos, hardware, software, personas y procesos que recolectan, procesan, almacenan y distribuyen información.\n\nFlujo: entrada → procesamiento → salida → retroalimentación.";
+        return "Sistemas de la Información:\nConjunto de datos, hardware, software, personas y procesos que recolectan, procesan, almacenan y distribuyen información.\n\nFlujo: entrada → procesamiento → salida → retroalimentación."
       }
       if (q.includes("etica") || q.includes("epus") || q.includes("moral")) {
-        return "EPUS:\n• Moral: normas de una sociedad.\n• Ética: reflexión sobre por qué algo es correcto o incorrecto.\n• Corrientes: Deontología (Kant), Utilitarismo (Mill), Ética de la virtud (Aristóteles).";
+        return "EPUS:\n• Moral: normas de una sociedad.\n• Ética: reflexión sobre por qué algo es correcto o incorrecto.\n• Corrientes: Deontología (Kant), Utilitarismo (Mill), Ética de la virtud (Aristóteles)."
       }
-      return "Indica qué tema de Física, Matemáticas, Sistemas o EPUS necesitas repasar.";
+      return "Indica qué tema de Física, Matemáticas, Sistemas o EPUS necesitas repasar."
     }
 
     if (q.includes("estres") || q.includes("cansad") || q.includes("triste") || q.includes("agobi") || q.includes("animo") || q.includes("mal") || q.includes("ansiedad") || q.includes("saturad") || q.includes("no puedo")) {
-      return "Respira un momento, Zoe 🖤\n\nNo tienes que resolver todo el semestre hoy. Toma agua, elige una sola tarea pequeña y deja el resto para mañana. Descansar también cuenta.";
+      return "Respira un momento, Zoe 🖤\n\nNo tienes que resolver todo el semestre hoy. Toma agua, elige una sola tarea pequeña y deja el resto para mañana. Descansar también cuenta."
     }
 
     if (q.includes("organizar") || q.includes("semana") || q.includes("tiempo") || q.includes("productiv") || q.includes("procrastin") || q.includes("enfocar")) {
-      return "Organización semanal:\n\n1. Ataca primero exámenes y tareas de prioridad alta.\n2. Haz 2 o 3 bloques Pomodoro al día.\n3. Deja 30 min libres entre clases.\n4. Elige máximo 3 prioridades diarias.";
+      return "Organización semanal:\n\n1. Ataca primero exámenes y tareas de prioridad alta.\n2. Haz 2 o 3 bloques Pomodoro al día.\n3. Deja 30 min libres entre clases.\n4. Elige máximo 3 prioridades diarias."
     }
 
     if (q.includes("ahorro") || q.includes("dinero") || q.includes("plata") || q.includes("meta financiera")) {
-      const goal = cloudState.fields['save-goal'] || 'tu meta';
-      const target = parseFloat(cloudState.fields['save-target']) || 0;
-      const current = parseFloat(cloudState.fields['save-current']) || 0;
+      const goal = cloudState.fields["save-goal"] || "tu meta"
+      const target = parseFloat(cloudState.fields["save-target"]) || 0
+      const current = parseFloat(cloudState.fields["save-current"]) || 0
       if (target > 0) {
-        const pct = Math.round((current / target) * 100);
-        const falta = target - current;
-        return `${goal}: $${current} de $${target} (${pct}%). Faltan $${falta > 0 ? falta : 0}.`;
+        const pct = Math.round((current / target) * 100)
+        const falta = target - current
+        return `${goal}: $${current} de $${target} (${pct}%). Faltan $${falta > 0 ? falta : 0}.`
       }
-      return "No hay un monto objetivo registrado en Ahorro todavía.";
+      return "No hay un monto objetivo registrado en Ahorro todavía."
     }
 
     if (q.includes("hola") || q.includes("hey") || q.includes("buenos") || q.includes("buenas") || q.includes("como estas") || q.includes("que tal")) {
-      return `Hola Zoe 🖤 Tienes ${tasks.length} tarea(s) pendiente(s) y ${exams.length} examen(es) registrados.`;
+      return `Hola Zoe 🖤 Tienes ${tasks.length} tarea(s) pendiente(s) y ${exams.length} examen(es) registrados.`
     }
 
     if (q.includes("gracias") || q.includes("genial") || q.includes("perfecto")) {
-      return "De nada, Zoe 🖤";
+      return "De nada, Zoe 🖤"
     }
 
-    return `Dime si quieres revisar tus pendientes, armar un bloque de estudio o repasar algún tema de Física, Matemáticas, Sistemas o EPUS.`;
+    return `Dime si quieres revisar tus pendientes, armar un bloque de estudio o repasar algún tema de Física, Matemáticas, Sistemas o EPUS.`
   }
 
   function sendBotMessage(customText) {
-    const text = (customText || botInput.value).trim();
-    if (!text) return;
+    const text = (customText || botInput.value).trim()
+    if (!text) return
 
-    chatHistory.push({ role: 'user', text });
-    const userDiv = document.createElement('div');
-    userDiv.className = 'bot-msg user';
-    userDiv.textContent = text;
-    botMessages.appendChild(userDiv);
-    if (!customText) botInput.value = '';
-    botMessages.scrollTop = botMessages.scrollHeight;
+    chatHistory.push({ role: "user", text })
+    const userDiv = document.createElement("div")
+    userDiv.className = "bot-msg user"
+    userDiv.textContent = text
+    botMessages.appendChild(userDiv)
+    if (!customText) botInput.value = ""
+    botMessages.scrollTop = botMessages.scrollHeight
 
-    botTyping.style.display = 'block';
+    botTyping.style.display = "block"
     setTimeout(() => {
-      botTyping.style.display = 'none';
-      const replyText = generateSmartKuromiResponse(text);
-      chatHistory.push({ role: 'assistant', text: replyText });
-      const replyDiv = document.createElement('div');
-      replyDiv.className = 'bot-msg kuromi';
-      replyDiv.textContent = replyText;
-      botMessages.appendChild(replyDiv);
-      botMessages.scrollTop = botMessages.scrollHeight;
-    }, 350);
+      botTyping.style.display = "none"
+      const replyText = generateSmartKuromiResponse(text)
+      chatHistory.push({ role: "assistant", text: replyText })
+      const replyDiv = document.createElement("div")
+      replyDiv.className = "bot-msg kuromi"
+      replyDiv.textContent = replyText
+      botMessages.appendChild(replyDiv)
+      botMessages.scrollTop = botMessages.scrollHeight
+    }, 350)
   }
 
-  document.getElementById('botSendBtn').addEventListener('click', () => sendBotMessage());
-  botInput.addEventListener('keypress', e => {
-    if (e.key === 'Enter') sendBotMessage();
-  });
-  document.querySelectorAll('.bot-chip').forEach(chip => {
-    chip.addEventListener('click', () => sendBotMessage(chip.dataset.prompt));
-  });
+  document.getElementById("botSendBtn").addEventListener("click", () => sendBotMessage())
+  botInput.addEventListener("keypress", e => {
+    if (e.key === "Enter") sendBotMessage()
+  })
+  document.querySelectorAll(".bot-chip").forEach(chip => {
+    chip.addEventListener("click", () => sendBotMessage(chip.dataset.prompt))
+  })
 
   // INIT
-  renderSubjectDatedFields();
-  renderTasksAndExams();
-  renderCalendar();
-  renderMoodCalendar();
-  renderDailyFields();
-  syncDraftRemindersWithDate('task', false);
-  syncDraftRemindersWithDate('exam', false);
+  renderSubjectDatedFields()
+  renderTasksAndExams()
+  renderCalendar()
+  renderMoodCalendar()
+  renderDailyFields()
+  syncDraftRemindersWithDate("task", false)
+  syncDraftRemindersWithDate("exam", false)
 </script>
 </body>
 </html>

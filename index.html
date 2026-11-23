@@ -1591,7 +1591,7 @@
           </div>
           <div class="sub-section">
             <h4>🧪 Exámenes & Proyectos</h4>
-            <div class="notecontenteditable="true" data-key="mates-examenes"></div>
+            <div class="note-area" contenteditable="true" data-key="mates-examenes"></div>
           </div>
         </div>
       </div>
@@ -1875,7 +1875,7 @@
           <thead>
             <tr>
               <th>Hábito</th>
-              <th>L</th><th>M</th><th>X</th><th>J</th><th>V</th><th>S</th><th>D</
+              <th>L</th><th>M</th><th>X</th><th>J</th><th>V</th><th>S</th><th>D</th>
               <th>Meta</th>
             </tr>
           </thead>
@@ -1900,7 +1900,7 @@
               <td><div class="habit-check" data-habit="1-4"></div></td>
               <td><div class="habit-check" data-habit="1-5"></div></td>
               <td><div class="habit-check" data-habit="1-6"></div></td>
-              <td contenteditable="true" data-singleline="true" data-key="hab-goal-1">7/7</td>
+              <td contenteditable="true" data-singleline="true" data-key="hab-goal-1" style="width:50px;">7/7</td>
             </tr>
             <tr>
               <td contenteditable="true" data-singleline="true" data-key="hab-name-2">📖 Estudiar</td>
@@ -1911,7 +1911,7 @@
               <td><div class="habit-check" data-habit="2-4"></div></td>
               <td><div class="habit-check" data-habit="2-5"></div></td>
               <td><div class="habit-check" data-habit="2-6"></div></td>
-              <td contenteditable="true" data-singleline="true" data-key="hab-goal-2">5/7</td>
+              <td contenteditable="true" data-singleline="true" data-key="hab-goal-2" style="width:50px;">5/7</td>
             </tr>
           </tbody>
         </table>
@@ -2200,7 +2200,6 @@
     }
   }
 
-  // Timeout para no quedarse eternamente en "Conectando..."
   setTimeout(() => {
     if (syncBadge && syncBadge.textContent.includes("Conectando")) {
       setSyncStatus("⚠️ Conexión lenta", "#ff8a8a")
@@ -2295,7 +2294,7 @@
       })
       const curCount = prioList.querySelectorAll("li").length
       for (let i = curCount + 1; i <= maxPrio; i++) {
-        prioList.appendChild(createCheckRow(`prio-\( {i}`, `prio-text- \){i}`, "Escribe una prioridad..."))
+        prioList.appendChild(createCheckRow(`prio-${i}`, `prio-text-${i}`, "Escribe una prioridad..."))
       }
     }
 
@@ -2311,7 +2310,7 @@
       })
       const curCount = objList.querySelectorAll("li").length
       for (let i = curCount + 1; i <= maxObj; i++) {
-        objList.appendChild(createCheckRow(`obj-\( {i}`, `obj-text- \){i}`, "Escribe un objetivo semanal..."))
+        objList.appendChild(createCheckRow(`obj-${i}`, `obj-text-${i}`, "Escribe un objetivo semanal..."))
       }
     }
 
@@ -2337,7 +2336,7 @@
     const prioList = document.getElementById("dashPrioritiesList")
     if (!prioList) return
     const nextIdx = prioList.querySelectorAll("li").length + 1
-    const row = createCheckRow(`prio-\( {nextIdx}`, `prio-text- \){nextIdx}`, "Escribe una prioridad...")
+    const row = createCheckRow(`prio-${nextIdx}`, `prio-text-${nextIdx}`, "Escribe una prioridad...")
     prioList.appendChild(row)
     row.querySelector("span").focus()
   })
@@ -2346,7 +2345,7 @@
     const objList = document.getElementById("dashWeeklyGoalsList")
     if (!objList) return
     const nextIdx = objList.querySelectorAll("li").length + 1
-    const row = createCheckRow(`obj-\( {nextIdx}`, `obj-text- \){nextIdx}`, "Escribe un objetivo semanal...")
+    const row = createCheckRow(`obj-${nextIdx}`, `obj-text-${nextIdx}`, "Escribe un objetivo semanal...")
     objList.appendChild(row)
     row.querySelector("span").focus()
   })
@@ -2374,7 +2373,7 @@
     const yyyy = dt.getFullYear()
     const mm = String(dt.getMonth() + 1).padStart(2, "0")
     const dd = String(dt.getDate()).padStart(2, "0")
-    return `\( {yyyy}- \){mm}-${dd}`
+    return `${yyyy}-${mm}-${dd}`
   }
 
   function diffDaysFromToday(isoStr) {
@@ -2389,12 +2388,11 @@
   function formatDateDisplay(isoStr) {
     if (!isoStr) return "Sin fecha"
     const [y, m, d] = isoStr.split("-")
-    return `\( {d}/ \){m}/${y}`
+    return `${d}/${m}/${y}`
   }
 
-  // Helper para claves de fecha consistentes (YYYY-MM-DD)
   function makeDateKey(year, month, day) {
-    return `\( {year}- \){String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
+    return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
   }
 
   function updateClassLinkButtons() {
@@ -2424,7 +2422,7 @@
     document.querySelectorAll("[data-subj-dated]").forEach(el => {
       if (document.activeElement === el) return
       const baseKey = el.dataset.subjDated
-      const fullKey = `\( {baseKey}__ \){dateVal}`
+      const fullKey = `${baseKey}__${dateVal}`
       el.innerHTML = (cloudState.subjectDated && cloudState.subjectDated[fullKey]) || ""
     })
   }
@@ -2597,8 +2595,8 @@
       tr.appendChild(timeTd)
 
       for (let d = 0; d < 7; d++) {
-        const slotKey = `\( {h}- \){d}`
-        const fieldKey = `sched-\( {h}- \){d}`
+        const slotKey = `${h}-${d}`
+        const fieldKey = `sched-${h}-${d}`
         const td = document.createElement("td")
         td.dataset.schedKey = fieldKey
         const savedVal = (cloudState.fields && cloudState.fields[fieldKey] !== undefined)
@@ -2625,7 +2623,7 @@
 
   function scheduleSave() {
     clearTimeout(window._fbTimer)
-    window._fbTimer = setTimeout(pushToFirebase, 1200) // un poco más de tiempo para no saturar
+    window._fbTimer = setTimeout(pushToFirebase, 1200)
   }
 
   // ===== PUSH NOTIFICATIONS (FCM) =====
@@ -2718,7 +2716,7 @@
       const remDate = addDaysToISO(targetDateISO, -offset)
       const label = offset === 1 ? "1 día antes" : `${offset} días antes`
       return {
-        id: `sug_\( {kind}_ \){offset}_${remDate}`,
+        id: `sug_${kind}_${offset}_${remDate}`,
         label,
         date: remDate,
         time: baseHour,
@@ -2756,7 +2754,7 @@
       }
     }
 
-    const sig = `\( {targetDate}__ \){daysLeft}`
+    const sig = `${targetDate}__${daysLeft}`
     if (forceRebuild || lastGeneratedSignature[kind] !== sig) {
       const customOnes = draftReminders[kind].filter(r => !r.id.startsWith(`sug_${kind}_`) && r.date < targetDate)
       const suggested = buildSuggestedReminders(targetDate, defaultTime, kind)
@@ -2779,10 +2777,10 @@
 
     listEl.innerHTML = items.map((rem, idx) => `
       <div class="reminder-item-row">
-        <input type="checkbox" \( {rem.enabled ? "checked" : ""} onchange="window.toggleDraftReminder(' \){kind}', ${idx}, this.checked)">
-        <span style="color:\( {rem.enabled ? "var(--lilac-soft)" : "var(--text-muted)"};font-weight:600;"> \){rem.label || "Aviso extra"}</span>
-        <input type="date" value="\( {rem.date || ""}" onchange="window.updateDraftReminder(' \){kind}', ${idx}, 'date', this.value)">
-        <input type="time" value="\( {rem.time || "16:00"}" onchange="window.updateDraftReminder(' \){kind}', ${idx}, 'time', this.value)">
+        <input type="checkbox" ${rem.enabled ? "checked" : ""} onchange="window.toggleDraftReminder('${kind}', ${idx}, this.checked)">
+        <span style="color:${rem.enabled ? "var(--lilac-soft)" : "var(--text-muted)"};font-weight:600;">${rem.label || "Aviso extra"}</span>
+        <input type="date" value="${rem.date || ""}" onchange="window.updateDraftReminder('${kind}', ${idx}, 'date', this.value)">
+        <input type="time" value="${rem.time || "16:00"}" onchange="window.updateDraftReminder('${kind}', ${idx}, 'time', this.value)">
         <button type="button" class="btn btn-danger" onclick="window.removeDraftReminder('${kind}', ${idx})">✕</button>
       </div>
     `).join("")
@@ -2821,7 +2819,7 @@
       : "Recordatorio personalizado"
 
     draftReminders[kind].push({
-      id: `custom_\( {kind}_ \){Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      id: `custom_${kind}_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
       label,
       date: remDate,
       time: remTime,
@@ -2863,15 +2861,15 @@
         : filtered.map(t => {
           const activeRems = Array.isArray(t.reminders) ? t.reminders.filter(r => r && r.enabled !== false) : []
           const remBadge = activeRems.length > 0
-            ? `<div class="text-sm text-muted" style="font-size:0.74rem;margin-top:0.2rem;">🔔 \( {activeRems.map(r => ` \){formatDateDisplay(r.date)} ${r.time || ""}`).join(" · ")}</div>`
+            ? `<div class="text-sm text-muted" style="font-size:0.74rem;margin-top:0.2rem;">🔔 ${activeRems.map(r => `${formatDateDisplay(r.date)} ${r.time || ""}`).join(" · ")}</div>`
             : ""
           return `
           <tr>
-            <td><input type="checkbox" \( {t.done ? "checked" : ""} onchange="window.toggleTaskDone(' \){t.id}')"></td>
-            <td style="\( {t.done ? "text-decoration:line-through;opacity:0.55;" : ""}"> \){t.title}${remBadge}</td>
+            <td><input type="checkbox" ${t.done ? "checked" : ""} onchange="window.toggleTaskDone('${t.id}')"></td>
+            <td style="${t.done ? "text-decoration:line-through;opacity:0.55;" : ""}">${t.title}${remBadge}</td>
             <td><span class="pill pill-mid">${t.subject}</span></td>
-            <td><input type="date" value="\( {t.date || ""}" onchange="window.updateTaskField(' \){t.id}', 'date', this.value)" style="max-width:140px;"></td>
-            <td><input type="time" value="\( {t.time || ""}" onchange="window.updateTaskField(' \){t.id}', 'time', this.value)" style="max-width:110px;"></td>
+            <td><input type="date" value="${t.date || ""}" onchange="window.updateTaskField('${t.id}', 'date', this.value)" style="max-width:140px;"></td>
+            <td><input type="time" value="${t.time || ""}" onchange="window.updateTaskField('${t.id}', 'time', this.value)" style="max-width:110px;"></td>
             <td>
               <select onchange="window.updateTaskField('${t.id}', 'priority', this.value)" style="max-width:110px;">
                 <option value="Alta" ${t.priority === "Alta" ? "selected" : ""}>Alta</option>
@@ -2892,10 +2890,10 @@
         ? `<p class="text-sm text-muted" style="padding:0.6rem 0;">Sin tareas.</p>`
         : filteredDash.map(t => `
           <div class="list-item">
-            <input type="checkbox" \( {t.done ? "checked" : ""} onchange="window.toggleTaskDone(' \){t.id}')">
-            <span style="flex:1;\( {t.done ? "text-decoration:line-through;opacity:0.55;" : ""}"> \){t.title}</span>
+            <input type="checkbox" ${t.done ? "checked" : ""} onchange="window.toggleTaskDone('${t.id}')">
+            <span style="flex:1;${t.done ? "text-decoration:line-through;opacity:0.55;" : ""}">${t.title}</span>
             <span class="pill pill-mid">${t.subject}</span>
-            <span class="text-sm text-muted">\( {formatDateDisplay(t.date)} \){t.time ? " · " + t.time : ""}</span>
+            <span class="text-sm text-muted">${formatDateDisplay(t.date)}${t.time ? " · " + t.time : ""}</span>
             ${getPriorityBadge(t.priority)}
           </div>
         `).join("")
@@ -2908,7 +2906,7 @@
         : exams.map(ex => {
           const activeRems = Array.isArray(ex.reminders) ? ex.reminders.filter(r => r && r.enabled !== false) : []
           const remBadge = activeRems.length > 0
-            ? `<div class="text-sm text-muted" style="font-size:0.74rem;margin-top:0.2rem;">🔔 \( {activeRems.map(r => ` \){formatDateDisplay(r.date)} ${r.time || ""}`).join(" · ")}</div>`
+            ? `<div class="text-sm text-muted" style="font-size:0.74rem;margin-top:0.2rem;">🔔 ${activeRems.map(r => `${formatDateDisplay(r.date)} ${r.time || ""}`).join(" · ")}</div>`
             : ""
           return `
           <tr>
@@ -2920,9 +2918,9 @@
                 <option value="EPUS" ${ex.subject === "EPUS" ? "selected" : ""}>EPUS</option>
               </select>
             </td>
-            <td>\( {ex.topic} \){remBadge}</td>
-            <td><input type="date" value="\( {ex.date || ""}" onchange="window.updateExamField(' \){ex.id}', 'date', this.value)" style="max-width:140px;"></td>
-            <td><input type="time" value="\( {ex.time || ""}" onchange="window.updateExamField(' \){ex.id}', 'time', this.value)" style="max-width:110px;"></td>
+            <td>${ex.topic}${remBadge}</td>
+            <td><input type="date" value="${ex.date || ""}" onchange="window.updateExamField('${ex.id}', 'date', this.value)" style="max-width:140px;"></td>
+            <td><input type="time" value="${ex.time || ""}" onchange="window.updateExamField('${ex.id}', 'time', this.value)" style="max-width:110px;"></td>
             <td>
               <select onchange="window.updateExamField('${ex.id}', 'priority', this.value)" style="max-width:110px;">
                 <option value="Alta" ${ex.priority === "Alta" ? "selected" : ""}>Alta</option>
@@ -2930,7 +2928,7 @@
                 <option value="Baja" ${ex.priority === "Baja" ? "selected" : ""}>Baja</option>
               </select>
             </td>
-            <td contenteditable="true" onblur="window.updateExamField('\( {ex.id}', 'notes', this.innerText)"> \){ex.notes || ""}</td>
+            <td contenteditable="true" onblur="window.updateExamField('${ex.id}', 'notes', this.innerText)">${ex.notes || ""}</td>
             <td><button class="btn btn-danger" onclick="window.deleteExam('${ex.id}')">🗑️</button></td>
           </tr>
         `
@@ -2944,7 +2942,7 @@
         : exams.slice(0, 4).map(ex => `
           <div style="padding:0.35rem 0;border-bottom:1px solid rgba(80,35,120,0.15);display:flex;justify-content:space-between;align-items:center;">
             <span><strong>${ex.subject}:</strong> ${ex.topic}</span>
-            <span>\( {formatDateDisplay(ex.date)} \){ex.time ? " · " + ex.time : ""} ${getPriorityBadge(ex.priority)}</span>
+            <span>${formatDateDisplay(ex.date)}${ex.time ? " · " + ex.time : ""} ${getPriorityBadge(ex.priority)}</span>
           </div>
         `).join("")
     }
@@ -3157,7 +3155,7 @@
     }
     if (el.dataset && el.dataset.subjDated) {
       const dateVal = subjDatePicker?.value || getTodayISO()
-      const fullKey = `\( {el.dataset.subjDated}__ \){dateVal}`
+      const fullKey = `${el.dataset.subjDated}__${dateVal}`
       cloudState.subjectDated[fullKey] = el.innerHTML
       scheduleSave()
     }
@@ -3250,7 +3248,7 @@
       }
       const dateKey = makeDateKey(calYear, calMonth, d)
       const savedNote = (cloudState.calendarNotes && cloudState.calendarNotes[dateKey]) || ""
-      cell.innerHTML = `<span class="cal-num">\( {d}</span><div class="cal-note" contenteditable="true" data-cal-date=" \){dateKey}">${savedNote}</div>`
+      cell.innerHTML = `<span class="cal-num">${d}</span><div class="cal-note" contenteditable="true" data-cal-date="${dateKey}">${savedNote}</div>`
       grid.appendChild(cell)
     }
   }
@@ -3292,7 +3290,6 @@
     if (!cal) return
     cal.innerHTML = ""
 
-    // Nombres de los días
     ["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"].forEach(d => {
       const el = document.createElement("div")
       el.className = "cal-day-name"
@@ -3306,7 +3303,6 @@
     const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate()
     const today = new Date()
 
-    // Celdas vacías al inicio
     for (let i = 0; i < startDay; i++) {
       const cell = document.createElement("div")
       cell.className = "mood-day other"
@@ -3321,7 +3317,7 @@
       if (d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear()) {
         cell.classList.add("today")
       }
-      cell.innerHTML = `<span class="num">\( {d}</span><span class="emoji"> \){savedMood}</span>`
+      cell.innerHTML = `<span class="num">${d}</span><span class="emoji">${savedMood}</span>`
       cell.addEventListener("click", () => {
         if (selectedMood) {
           const emoji = moodEmojis[selectedMood]
@@ -3371,7 +3367,7 @@
     const m = Math.floor(pomoSeconds / 60).toString().padStart(2, "0")
     const s = (pomoSeconds % 60).toString().padStart(2, "0")
     const disp = document.getElementById("pomoDisplay")
-    if (disp) disp.textContent = finishedLabel ? `\( {m}: \){s} · \( {finishedLabel}` : ` \){m}:${s}`
+    if (disp) disp.textContent = finishedLabel ? `${m}:${s} · ${finishedLabel}` : `${m}:${s}`
   }
 
   document.getElementById("pomoStartBtn").addEventListener("click", () => {
@@ -3430,18 +3426,18 @@
       if (tasks.length > 0) {
         resp += `Tareas pendientes (${tasks.length}):\n`
         if (todayTasks.length > 0) {
-          resp += `• Hoy (${todayTasks.length}): \( {todayTasks.map(t => ` \){t.title} (${t.subject})`).join(", ")}.\n`
+          resp += `• Hoy (${todayTasks.length}): ${todayTasks.map(t => `${t.title} (${t.subject})`).join(", ")}.\n`
         }
         if (highTasks.length > 0) {
-          resp += `• Prioridad alta: \( {highTasks.map(t => ` \){t.title} [${t.subject}]`).join(", ")}.\n`
+          resp += `• Prioridad alta: ${highTasks.map(t => `${t.title} [${t.subject}]`).join(", ")}.\n`
         } else {
-          resp += `• Siguiente: \( {tasks[0].title} ( \){tasks[0].subject}).\n`
+          resp += `• Siguiente: ${tasks[0].title} (${tasks[0].subject}).\n`
         }
       }
       if (exams.length > 0) {
         resp += `\nExámenes (${exams.length}):\n`
         exams.slice(0, 4).forEach(ex => {
-          resp += `• ${ex.subject}: ${ex.topic} — \( {formatDateDisplay(ex.date)} [ \){ex.priority}]\n`
+          resp += `• ${ex.subject}: ${ex.topic} — ${formatDateDisplay(ex.date)} [${ex.priority}]\n`
         })
       }
       return resp.trim()
@@ -3453,7 +3449,7 @@
       else if (q.includes("mate")) targetSubj = "Matemáticas"
       else if (q.includes("sistema")) targetSubj = "Introducción a Sistemas"
       else if (q.includes("etica") || q.includes("epus")) targetSubj = "EPUS"
-      else if (exams.length > 0) targetSubj = `\( {exams[0].subject} ( \){exams[0].topic})`
+      else if (exams.length > 0) targetSubj = `${exams[0].subject} (${exams[0].topic})`
 
       return `Plan para ${targetSubj}:\n\n1. 25 min: revisa apuntes y extrae fórmulas o conceptos clave.\n2. 5 min: descanso sin pantalla.\n3. 25 min: resuelve ejercicios sin ver la solución.\n4. 10 min: anota dudas pendientes para clase.`
     }
@@ -3489,7 +3485,7 @@
       if (target > 0) {
         const pct = Math.round((current / target) * 100)
         const falta = target - current
-        return `\( {goal}: \[ {current} de \]{target} ( \){pct}%). Faltan $${falta > 0 ? falta : 0}.`
+        return `${goal}: $${current} de $${target} (${pct}%). Faltan $${falta > 0 ? falta : 0}.`
       }
       return "No hay un monto objetivo registrado en Ahorro todavía."
     }
@@ -3548,4 +3544,4 @@
   syncDraftRemindersWithDate("exam", false)
 </script>
 </body>
-  </html>
+</html>

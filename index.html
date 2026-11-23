@@ -113,7 +113,7 @@
     font-weight: 900;
     letter-spacing: 0.08em;
     color: var(--fuchsia-neon);
-    text-shadow: 0 0 14px rgba(255, 30, 156, 0.65), 0 0 28px rgba(157, 78, 221, 0.45);
+    text-shadow: 0 0 14px rgba(255, 30, 156, 0.65), 0 0 28px rgba(123, 44, 191, 0.45);
     margin: 0;
   }
   .sidebar-logo .name {
@@ -981,6 +981,12 @@
     background: rgba(255, 42, 157, 0.22);
     border-color: var(--fuchsia-neon);
     color: var(--white-soft);
+  }
+  .mood-month-header {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--lilac-soft);
+    margin-bottom: 0.85rem;
   }
   .mood-calendar {
     display: grid;
@@ -1927,6 +1933,7 @@
 
       <div class="card">
         <div class="card-title">Mes actual</div>
+        <div class="mood-month-header" id="moodMonthTitle">Noviembre 2026</div>
         <div class="mood-calendar" id="moodCalendar"></div>
       </div>
       <div class="spacer"></div>
@@ -3152,16 +3159,16 @@
     if (label) label.textContent = pct
   }
 
-  // ===== CALENDAR =====
+  // ===== CALENDAR & MOOD MONTH NAMES =====
   let calYear = new Date().getFullYear()
   let calMonth = new Date().getMonth()
+  const MONTH_NAMES_ES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
 
   function renderCalendar() {
     const grid = document.getElementById("calendarGrid")
     if (!grid) return
     const title = document.getElementById("monthTitle")
-    const monthNames = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
-    title.textContent = monthNames[calMonth] + " " + calYear
+    if (title) title.textContent = MONTH_NAMES_ES[calMonth] + " " + calYear
 
     grid.innerHTML = ""
     ["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"].forEach(d => {
@@ -3224,6 +3231,10 @@
   })
 
   function renderMoodCalendar() {
+    const moodTitle = document.getElementById("moodMonthTitle")
+    if (moodTitle) {
+      moodTitle.textContent = MONTH_NAMES_ES[calMonth] + " " + calYear
+    }
     const cal = document.getElementById("moodCalendar")
     if (!cal) return
     cal.innerHTML = ""

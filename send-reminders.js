@@ -11,6 +11,7 @@ admin.initializeApp({
 const db = admin.database()
 const MONTHLY_REMINDER_TIME = '07:30'
 const DAILY_SCHEDULE_TIME = '07:45'
+const SCHEDULE_WINDOW_MINUTES = 9
 const PLANNER_URL = 'https://zoebastidas26-sketch.github.io/Planner2027/'
 
 const DAY_NAMES_ES = ['DOMINGO', 'LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO']
@@ -51,6 +52,11 @@ function toMinutes(hhmm) {
   const [h, m] = hhmm.split(':').map(Number)
   if (Number.isNaN(h) || Number.isNaN(m)) return null
   return h * 60 + m
+}
+
+function isWithinScheduleWindow(nowMinutes, targetMin, windowMinutes = SCHEDULE_WINDOW_MINUTES) {
+  if (targetMin === null) return false
+  return nowMinutes >= targetMin && nowMinutes <= targetMin + windowMinutes
 }
 
 function cleanNoteText(htmlOrText) {
@@ -324,8 +330,7 @@ async function run() {
 
   if (
     dayNoteText &&
-    monthlyTargetMin !== null &&
-    nowMinutes >= monthlyTargetMin &&
+    isWithinScheduleWindow(nowMinutes, monthlyTargetMin) &&
     monthlyNotified[todayISO] !== dayNoteText
   ) {
     await sendEmailAlert(
@@ -344,8 +349,7 @@ async function run() {
   const dailyScheduleTargetMin = toMinutes(DAILY_SCHEDULE_TIME)
 
   if (
-    dailyScheduleTargetMin !== null &&
-    nowMinutes >= dailyScheduleTargetMin &&
+    isWithinScheduleWindow(nowMinutes, dailyScheduleTargetMin) &&
     !dailyScheduleNotified[todayISO]
   ) {
     const digest = buildDailyScheduleDigest(data, nowQuito, tasks, exams)
